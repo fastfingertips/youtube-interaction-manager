@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Auto Like System</title>
+    <!-- Modular CSS Structure -->
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/lists.css">
+    <style>
+        /* Dropdown için özel stil (CSS dosyasına da taşınabilir ama şimdilik burada) */
+        select {
+            width: 100%;
+            padding: 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-size: 12px;
+            outline: none;
+            cursor: pointer;
+            margin-top: 4px;
+        }
+
+        select:hover {
+            border-color: var(--sub-text-color);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header-container">
+        <h2>Auto Like</h2>
+        <!-- MASTER SWITCH -->
+        <label class="switch" title="Master Enable/Disable">
+            <input type="checkbox" id="masterSwitch">
+            <span class="slider round"></span>
+        </label>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" id="btn-settings">SETTINGS</button>
+        <button class="tab-btn" id="btn-whitelist">WHITELIST</button>
+        <button class="tab-btn" id="btn-blacklist">BLACKLIST</button>
+        <button class="tab-btn" id="btn-activity">ACTIVITY</button>
+    </div>
+
+    <div id="statusMsg"></div>
+
+    <!-- SETTINGS TAB -->
+    <div id="content-settings" class="tab-content active">
+
+        <!-- BACKUP SECTION -->
+        <div class="backup-container" style="margin-top: 0; padding-top: 0; border-top: none; margin-bottom: 15px;">
+            <div class="section-title" style="margin-top:0;">DATA MANAGEMENT</div>
+            <div class="backup-controls">
+                <button id="btnExport" class="btn-secondary">Export Data</button>
+                <button id="btnImport" class="btn-secondary">Import Data</button>
+                <input type="file" id="fileInput" style="display: none;" accept=".json">
+            </div>
+        </div>
+
+        <div class="section-title">BEHAVIOR PREFERENCES</div>
+
+        <!-- 1. WHITELIST ACTION -->
+        <div class="option-row">
+            <input type="checkbox" id="checkLikeWhitelist">
+            <label for="checkLikeWhitelist"><strong>Whitelist:</strong> Like videos</label>
+        </div>
+
+        <!-- 2. BLACKLIST ACTION -->
+        <div class="option-row">
+            <input type="checkbox" id="checkDislikeBlacklist">
+            <label for="checkDislikeBlacklist"><strong>Blacklist:</strong> Dislike videos</label>
+        </div>
+
+        <!-- 3. UNLISTED ACTION (Dropdown) -->
+        <div class="option-row" style="flex-direction: column; align-items: flex-start; margin-top: 10px;">
+            <label for="selectUnlisted" style="font-size: 12px; color: var(--sub-text-color);">
+                <strong>Unlisted Channels</strong> (Not in any list):
+            </label>
+            <select id="selectUnlisted">
+                <option value="none">Do Nothing (Neutral)</option>
+                <option value="like">Like Everything</option>
+                <option value="dislike">Dislike Everything</option>
+            </select>
+        </div>
+
+        <div class="section-title">TIMING</div>
+
+        <div class="option-row">
+            <input type="radio" name="trigger" id="radioInstant" value="instant">
+            <label for="radioInstant">Instant (Start)</label>
+        </div>
+
+        <div class="option-row">
+            <input type="radio" name="trigger" id="radioPercent" value="percent">
+            <label for="radioPercent">At Percentage:</label>
+            <input type="number" id="triggerPercent" min="1" max="99" value="50"
+                style="width:45px; margin-left: auto; margin-right: 5px;">
+            <span style="font-size: 12px; color: var(--sub-text-color);">%</span>
+        </div>
+
+        <div class="option-row">
+            <input type="radio" name="trigger" id="radioTime" value="time">
+            <label for="radioTime">Specific Second:</label>
+            <input type="number" id="triggerSeconds" min="1" style="width:45px; margin-left: auto; margin-right: 5px;">
+            <span style="font-size: 12px; color: var(--sub-text-color);">s</span>
+        </div>
+
+        <div class="option-row sub-option">
+            <input type="checkbox" id="checkHumanize">
+            <label for="checkHumanize" title="Adds random delays">Humanize (Random Delay)</label>
+        </div>
+
+        <!-- DEVELOPER SECTION -->
+        <div class="section-title" style="margin-top: 15px;">DEVELOPER</div>
+        <div class="option-row">
+            <input type="checkbox" id="checkDebug">
+            <label for="checkDebug" title="Logs detailed info to console (F12)">Debug Mode (Console Logs)</label>
+        </div>
+    </div>
+
+    <!-- WHITELIST TAB -->
+    <div id="content-whitelist" class="tab-content">
+        <button id="addWhitelistBtn" class="add-btn">+ Add Current Channel</button>
+        <div class="list-container">
+            <ul id="whitelistUl"></ul>
+        </div>
+    </div>
+
+    <!-- BLACKLIST TAB -->
+    <div id="content-blacklist" class="tab-content">
+        <div class="info-text">Channels here will be handled according to settings.</div>
+        <button id="addBlacklistBtn" class="add-btn danger-btn">+ Add to Blacklist</button>
+        <div class="list-container">
+            <ul id="blacklistUl"></ul>
+        </div>
+    </div>
+
+    <!-- ACTIVITY TAB -->
+    <div id="content-activity" class="tab-content">
+        <div class="logs-container" style="border-top: none; margin-top: 0; padding-top: 0;">
+            <ul id="activityLogs" class="logs-list" style="max-height: 300px;">
+                <li style="font-style:italic;">No activity yet...</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,126 @@
+/* LISTS (WHITELIST/BLACKLIST) */
+.list-container {
+    margin-top: 5px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 260px;
+    overflow-y: auto;
+}
+
+ul::-webkit-scrollbar {
+    width: 6px;
+}
+
+ul::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 3px;
+}
+
+li {
+    padding: 8px 4px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+}
+
+li:last-child {
+    border-bottom: none;
+}
+
+li:hover {
+    background-color: var(--list-hover-bg);
+    /* Değişken kullanıldı */
+}
+
+.channel-info {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 10px;
+}
+
+.channel-link {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.channel-link:hover {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+.del-btn {
+    cursor: pointer;
+    color: var(--sub-text-color);
+    padding: 4px 8px;
+    font-size: 16px;
+    line-height: 1;
+    border-radius: 4px;
+    transition: color 0.2s;
+}
+
+.del-btn:hover {
+    color: var(--danger-color);
+    background-color: var(--danger-bg-light);
+    /* Değişken kullanıldı */
+}
+
+/* LOGS */
+.logs-container {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+}
+
+.logs-header {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--sub-text-color);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.logs-list {
+    border: none;
+    max-height: 100px;
+}
+
+.logs-list li {
+    padding: 4px 0;
+    border: none;
+    font-size: 11px;
+    color: var(--sub-text-color);
+}
+
+/* LOG ACTION ICON BOX */
+.log-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    margin-right: 8px;
+    color: var(--badge-text);
+    /* Değişken kullanıldı */
+    flex-shrink: 0;
+}
+
+.log-action svg {
+    display: block;
+}
+
+.log-action.LIKE {
+    background-color: var(--success-color);
+}
+
+.log-action.DISLIKE {
+    background-color: var(--danger-color);
+}

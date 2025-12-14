@@ -1,0 +1,143 @@
+/* TOGGLE SWITCH */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+    flex: 0 0 auto;
+    margin: 0;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--switch-bg);
+    transition: .3s;
+    border-radius: 20px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: var(--switch-knob);
+    /* Değişken kullanıldı */
+    transition: .3s;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px var(--shadow-color);
+    /* Değişken kullanıldı */
+}
+
+input:checked+.slider {
+    background-color: var(--success-color);
+}
+
+input:checked+.slider:before {
+    transform: translateX(16px);
+}
+
+/* SETTINGS CONTROLS (Inputs, Checkboxes) */
+.option-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 6px 0;
+}
+
+.option-row.sub-option {
+    margin-left: 24px;
+    margin-top: -4px;
+    opacity: 0.9;
+}
+
+label {
+    flex: 1;
+    cursor: pointer;
+    user-select: none;
+    font-size: 13px;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    margin-right: 12px;
+    cursor: pointer;
+    accent-color: var(--btn-bg);
+}
+
+input[type="number"] {
+    background: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 4px;
+    outline: none;
+    text-align: center;
+    font-size: 12px;
+}
+
+/* BUTTONS */
+button {
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 12px;
+    border-radius: 4px;
+    transition: opacity 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    font-size: 11px;
+    padding: 6px;
+}
+
+.btn-secondary:hover {
+    background-color: var(--hover-bg);
+}
+
+.add-btn {
+    background-color: var(--hover-bg);
+    color: var(--text-color);
+    border: 1px solid transparent;
+    margin-bottom: 12px;
+}
+
+.add-btn:hover {
+    border-color: var(--border-color);
+    background-color: var(--border-color);
+}
+
+.danger-btn {
+    color: var(--danger-color);
+    background-color: var(--danger-bg-light);
+    /* Değişken kullanıldı */
+}
+
+.danger-btn:hover {
+    background-color: var(--danger-bg-hover);
+    /* Değişken kullanıldı */
+}

@@ -1,0 +1,22 @@
+# OS Files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+
+# Chrome Extension Build
+*.zip
+*.crx
+*.pem
+
+# Misc
+*.bak
+*.tmp
