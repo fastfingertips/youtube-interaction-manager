@@ -277,9 +277,10 @@ function renderList(list, listKey) {
         if (url) {
             const a = document.createElement('a');
             a.href = url;
-            a.textContent = name;
+            a.innerHTML = `${name} <span style="font-size:10px; color:var(--link-color); opacity:0.8; margin-left:3px;">🔗</span>`;
             a.target = "_blank";
             a.className = 'channel-link';
+            a.title = `Open channel: ${url}`;
             contentDiv.appendChild(a);
         } else {
             const span = document.createElement('span');
@@ -290,6 +291,7 @@ function renderList(list, listKey) {
         const btn = document.createElement('span');
         btn.className = 'del-btn';
         btn.innerHTML = '&times;';
+        btn.title = 'Remove';
         btn.onclick = () => removeChannel(name, listKey);
 
         li.appendChild(contentDiv);

@@ -5,7 +5,8 @@ const SELECTORS = {
         '.ytd-channel-name a',
         '#upload-info #channel-name a',
         'ytd-video-owner-renderer #channel-name a',
-        '#text.ytd-channel-name'
+        '#text.ytd-channel-name',
+        'ytd-channel-name a'
     ],
     videoTitle: [
         '#title > h1 > yt-formatted-string',
@@ -326,10 +327,13 @@ function updateIconState() {
 
 function getVideoData() {
     let channelName = null;
+    let channelUrl = null;
+
     for (let sel of SELECTORS.channelName) {
         const el = document.querySelector(sel);
         if (el) {
             channelName = el.textContent.trim();
+            channelUrl = el.href || el.closest('a')?.href || null;
             break;
         }
     }
@@ -343,7 +347,7 @@ function getVideoData() {
         }
     }
 
-    return { channelName, videoTitle };
+    return { channelName, videoTitle, url: channelUrl };
 }
 
 function checkIsListed(list, name) {
