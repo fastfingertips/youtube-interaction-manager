@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "YouTube Auto Like",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "Automatic like and channel management assistant for YouTube.",
     "icons": {
         "16": "icons/icon16.png",

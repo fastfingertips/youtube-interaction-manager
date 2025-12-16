@@ -5,6 +5,7 @@ let UI = {};
 function initApp() {
     UI = {
         masterSwitch: document.getElementById('masterSwitch'),
+        versionBadge: document.getElementById('appVersion'),
         tabs: {
             settings: document.getElementById('btn-settings'),
             whitelist: document.getElementById('btn-whitelist'),
@@ -46,6 +47,11 @@ function initApp() {
         },
         status: document.getElementById('statusMsg')
     };
+
+    if (UI.versionBadge && chrome.runtime.getManifest) {
+        const manifest = chrome.runtime.getManifest();
+        UI.versionBadge.textContent = `v${manifest.version}`;
+    }
 
     setupEventListeners();
 
