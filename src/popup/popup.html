@@ -9,32 +9,12 @@
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/lists.css">
-    <style>
-        /* Dropdown için özel stil */
-        select {
-            width: 100%;
-            padding: 6px;
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
-            background: var(--bg-color);
-            color: var(--text-color);
-            font-size: 12px;
-            outline: none;
-            cursor: pointer;
-            margin-top: 4px;
-        }
-
-        select:hover {
-            border-color: var(--sub-text-color);
-        }
-    </style>
 </head>
 
 <body>
 
     <div class="header-container">
         <h2>Auto Like</h2>
-        <!-- MASTER SWITCH -->
         <label class="switch" title="Master Enable/Disable">
             <input type="checkbox" id="masterSwitch">
             <span class="slider round"></span>
@@ -54,28 +34,21 @@
     <!-- SETTINGS TAB -->
     <div id="content-settings" class="tab-content active">
 
-        <!-- BACKUP SECTION -->
-        <div class="backup-container" style="margin-top: 0; padding-top: 0; border-top: none; margin-bottom: 15px;">
-            <div class="section-title" style="margin-top:0;">DATA MANAGEMENT</div>
-            <div class="backup-controls">
-                <button id="btnExport" class="btn-secondary">Export Data</button>
-                <button id="btnImport" class="btn-secondary">Import Data</button>
-                <input type="file" id="fileInput" style="display: none;" accept=".json">
-            </div>
-        </div>
+        <!-- BEHAVIOR PREFERENCES - Most used -->
+        <div class="section-title" style="margin-top: 0;">BEHAVIOR PREFERENCES</div>
 
-        <div class="section-title">BEHAVIOR PREFERENCES</div>
-
-        <!-- 1. WHITELIST ACTION -->
-        <div class="option-row">
-            <input type="checkbox" id="checkLikeWhitelist">
-            <label for="checkLikeWhitelist"><strong>Whitelist:</strong> Like videos</label>
-        </div>
-
-        <!-- 2. BLACKLIST ACTION -->
-        <div class="option-row">
-            <input type="checkbox" id="checkDislikeBlacklist">
-            <label for="checkDislikeBlacklist"><strong>Blacklist:</strong> Dislike videos</label>
+        <!-- WHITELIST & BLACKLIST - Compact row with counts -->
+        <div class="list-actions-row">
+            <label class="list-action-item">
+                <input type="checkbox" id="checkLikeWhitelist">
+                <span class="list-action-label">Whitelist → Like</span>
+                <span class="list-count" id="whitelistCount">0</span>
+            </label>
+            <label class="list-action-item">
+                <input type="checkbox" id="checkDislikeBlacklist">
+                <span class="list-action-label">Blacklist → Dislike</span>
+                <span class="list-count" id="blacklistCount">0</span>
+            </label>
         </div>
 
         <!-- 3. UNLISTED ACTION (Dropdown) -->
@@ -90,6 +63,7 @@
             </select>
         </div>
 
+        <!-- TIMING -->
         <div class="section-title">TIMING</div>
 
         <div class="option-row">
@@ -117,24 +91,76 @@
             <label for="checkHumanize" title="Adds random delays">Humanize (Random Delay)</label>
         </div>
 
-        <!-- VISUAL / DEVELOPER SECTION -->
-        <div class="section-title" style="margin-top: 15px;">APPEARANCE & ADVANCED</div>
+        <!-- DATA & ADVANCED - Least used -->
+        <div class="section-title">DATA & ADVANCED</div>
 
-        <div class="option-row">
-            <input type="checkbox" id="checkShowNeutral">
-            <label for="checkShowNeutral" title="Show a neutral badge (...) when no action is taken">Show Neutral
-                Badge</label>
+        <!-- QUICK SETTINGS TOOLBAR -->
+        <div class="quick-settings-row">
+            <div class="btn-group">
+                <button id="btnExport" class="btn-sm" title="Export settings and data">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    Export
+                </button>
+                <button id="btnImport" class="btn-sm" title="Import settings and data">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="17 8 12 3 7 8" />
+                        <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                    Import
+                </button>
+            </div>
+            <input type="file" id="fileInput" style="display: none;" accept=".json">
+            <div class="btn-group-toggle">
+                <label class="btn-toggle" title="Show neutral badge for unlisted channels">
+                    <input type="checkbox" id="checkShowNeutral">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="8" y1="12" x2="16" y2="12" />
+                    </svg>
+                    Neutral
+                </label>
+                <label class="btn-toggle" title="Enable console logs (F12)">
+                    <input type="checkbox" id="checkDebug">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="4 17 10 11 4 5" />
+                        <line x1="12" y1="19" x2="20" y2="19" />
+                    </svg>
+                    Debug
+                </label>
+            </div>
         </div>
 
-        <div class="option-row">
-            <input type="checkbox" id="checkDebug">
-            <label for="checkDebug" title="Logs detailed info to console (F12)">Debug Mode (Console Logs)</label>
-        </div>
     </div>
 
     <!-- WHITELIST TAB -->
     <div id="content-whitelist" class="tab-content">
-        <button id="addWhitelistBtn" class="add-btn">+ Add Current Channel</button>
+        <div id="whitelistDisabledBanner" class="status-banner status-warning" style="display: none;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            <span>Auto-like is <strong>disabled</strong> for whitelist in Settings</span>
+        </div>
+        <div class="tab-info-bar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--success-color)" stroke-width="2">
+                <path
+                    d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
+            </svg>
+            <span>Channels here will be <strong>liked</strong> automatically</span>
+        </div>
+        <button id="addWhitelistBtn" class="btn-add-full">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Add Current Channel
+        </button>
         <div class="list-container">
             <ul id="whitelistUl"></ul>
         </div>
@@ -142,8 +168,28 @@
 
     <!-- BLACKLIST TAB -->
     <div id="content-blacklist" class="tab-content">
-        <div class="info-text">Channels here will be handled according to settings.</div>
-        <button id="addBlacklistBtn" class="add-btn danger-btn">+ Add to Blacklist</button>
+        <div id="blacklistDisabledBanner" class="status-banner status-warning" style="display: none;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            <span>Auto-dislike is <strong>disabled</strong> for blacklist in Settings</span>
+        </div>
+        <div class="tab-info-bar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--danger-color)" stroke-width="2">
+                <path
+                    d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17" />
+            </svg>
+            <span>Channels here will be <strong>disliked</strong> automatically</span>
+        </div>
+        <button id="addBlacklistBtn" class="btn-add-full">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Add Current Channel
+        </button>
         <div class="list-container">
             <ul id="blacklistUl"></ul>
         </div>
@@ -151,9 +197,17 @@
 
     <!-- ACTIVITY TAB -->
     <div id="content-activity" class="tab-content">
-        <div class="logs-container" style="border-top: none; margin-top: 0; padding-top: 0;">
-            <ul id="activityLogs" class="logs-list" style="max-height: 300px;">
-                <li style="font-style:italic;">No activity yet...</li>
+        <div class="tab-header">
+            <div class="tab-header-info">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                </svg>
+                <span>Recent auto-like activity</span>
+            </div>
+        </div>
+        <div class="list-container">
+            <ul id="activityLogs" class="logs-list">
+                <li style="font-style:italic; justify-content:center; opacity:0.5;">No activity yet...</li>
             </ul>
         </div>
     </div>

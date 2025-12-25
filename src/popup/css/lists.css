@@ -1,6 +1,12 @@
-/* LISTS (WHITELIST/BLACKLIST) */
+/* ============================================
+   LISTS - Modern Style
+   ============================================ */
+
 .list-container {
     margin-top: 5px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
 }
 
 ul {
@@ -20,13 +26,19 @@ ul::-webkit-scrollbar-thumb {
     border-radius: 3px;
 }
 
+ul::-webkit-scrollbar-thumb:hover {
+    background-color: var(--sub-text-color);
+}
+
 li {
-    padding: 8px 4px;
+    padding: 10px 12px;
     border-bottom: 1px solid var(--border-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 13px;
+    background: var(--bg-color);
+    transition: background 0.1s;
 }
 
 li:last-child {
@@ -34,8 +46,7 @@ li:last-child {
 }
 
 li:hover {
-    background-color: var(--list-hover-bg);
-    /* Değişken kullanıldı */
+    background-color: var(--hover-bg);
 }
 
 .channel-info {
@@ -49,78 +60,169 @@ li:hover {
 .channel-link {
     color: var(--text-color);
     text-decoration: none;
+    font-weight: 500;
 }
 
 .channel-link:hover {
     color: var(--link-color);
-    text-decoration: none;
+    text-decoration: underline;
 }
 
+/* Delete Button - Modern Style */
 .del-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
     cursor: pointer;
     color: var(--sub-text-color);
-    padding: 4px 8px;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1;
-    border-radius: 4px;
-    transition: color 0.2s;
+    border-radius: 6px;
+    transition: all 0.15s;
+    background: transparent;
+    border: none;
+    padding: 0;
 }
 
 .del-btn:hover {
     color: var(--danger-color);
     background-color: var(--danger-bg-light);
-    /* Değişken kullanıldı */
 }
 
-/* LOGS */
+/* ============================================
+   ACTIVITY LOGS - Modern Style
+   ============================================ */
+
 .logs-container {
-    margin-top: 15px;
-    padding-top: 10px;
-    border-top: 1px solid var(--border-color);
-}
-
-.logs-header {
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--sub-text-color);
-    margin-bottom: 5px;
-    text-transform: uppercase;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
 }
 
 .logs-list {
-    border: none;
-    max-height: 100px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    max-height: 320px;
+    overflow-y: auto;
 }
 
 .logs-list li {
-    padding: 4px 0;
+    padding: 0;
     border: none;
-    font-size: 11px;
-    color: var(--sub-text-color);
+    border-bottom: 1px solid var(--border-color);
 }
 
-/* LOG ACTION ICON BOX */
+.logs-list li:last-child {
+    border-bottom: none;
+}
+
+/* Empty State */
+.log-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 30px 20px !important;
+    color: var(--sub-text-color);
+    font-size: 12px;
+}
+
+.log-empty svg {
+    opacity: 0.4;
+}
+
+/* Log Item */
+.log-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px !important;
+    transition: background 0.1s;
+}
+
+.log-item:hover {
+    background: var(--hover-bg);
+}
+
+/* Action Icon */
 .log-action {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 20px;
     height: 20px;
-    border-radius: 4px;
-    margin-right: 8px;
-    color: var(--badge-text);
-    /* Değişken kullanıldı */
     flex-shrink: 0;
+    margin-top: 2px;
 }
 
 .log-action svg {
-    display: block;
+    width: 16px;
+    height: 16px;
 }
 
 .log-action.LIKE {
-    background-color: var(--success-color);
+    color: var(--success-color);
 }
 
 .log-action.DISLIKE {
-    background-color: var(--danger-color);
+    color: var(--danger-color);
+}
+
+.log-action.NEUTRAL {
+    color: var(--sub-text-color);
+}
+
+/* Log Content */
+.log-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.log-main {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-color);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.log-link {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.log-link:hover {
+    color: var(--link-color);
+    text-decoration: underline;
+}
+
+.log-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--sub-text-color);
+}
+
+.log-channel {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.log-time {
+    flex-shrink: 0;
+}
+
+.log-time::before {
+    content: '•';
+    margin-right: 6px;
+    opacity: 0.5;
 }

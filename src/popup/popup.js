@@ -38,6 +38,10 @@ function initApp() {
             addBlacklistBtn: document.getElementById('addBlacklistBtn'),
             whitelistUl: document.getElementById('whitelistUl'),
             blacklistUl: document.getElementById('blacklistUl'),
+            whitelistCount: document.getElementById('whitelistCount'),
+            blacklistCount: document.getElementById('blacklistCount'),
+            whitelistDisabledBanner: document.getElementById('whitelistDisabledBanner'),
+            blacklistDisabledBanner: document.getElementById('blacklistDisabledBanner'),
             btnExport: document.getElementById('btnExport'),
             btnImport: document.getElementById('btnImport'),
             fileInput: document.getElementById('fileInput')
@@ -90,6 +94,20 @@ function setupEventListeners() {
         if (el) el.addEventListener('change', saveSettings);
     });
 
+    // Update humanize state when trigger type changes
+    const triggerRadios = [UI.settings.radioInstant, UI.settings.radioPercent, UI.settings.radioTime];
+    triggerRadios.forEach(radio => {
+        if (radio) radio.addEventListener('change', updateHumanizeState);
+    });
+
+    // Update status banners when whitelist/blacklist settings change
+    if (UI.settings.checkLikeWhitelist) {
+        UI.settings.checkLikeWhitelist.addEventListener('change', updateStatusBanners);
+    }
+    if (UI.settings.checkDislikeBlacklist) {
+        UI.settings.checkDislikeBlacklist.addEventListener('change', updateStatusBanners);
+    }
+
     if (UI.settings.inputSeconds) UI.settings.inputSeconds.addEventListener('input', saveSettings);
     if (UI.settings.inputPercent) UI.settings.inputPercent.addEventListener('input', saveSettings);
 
@@ -99,6 +117,41 @@ function setupEventListeners() {
     if (UI.lists.btnExport) UI.lists.btnExport.addEventListener('click', handleExport);
     if (UI.lists.btnImport) UI.lists.btnImport.addEventListener('click', () => UI.lists.fileInput.click());
     if (UI.lists.fileInput) UI.lists.fileInput.addEventListener('change', handleImportFile);
+}
+
+// Enable humanize option only when Specific Second trigger is selected
+function updateHumanizeState() {
+    const humanizeRow = UI.settings.checkHumanize?.closest('.option-row');
+    if (!humanizeRow || !UI.settings.checkHumanize) return;
+
+    const isTimeMode = UI.settings.radioTime?.checked;
+
+    if (isTimeMode) {
+        UI.settings.checkHumanize.disabled = false;
+        humanizeRow.style.opacity = '1';
+        humanizeRow.style.pointerEvents = 'auto';
+        humanizeRow.title = 'Adds random delays to make actions appear more natural';
+    } else {
+        UI.settings.checkHumanize.disabled = true;
+        UI.settings.checkHumanize.checked = false;
+        humanizeRow.style.opacity = '0.5';
+        humanizeRow.style.pointerEvents = 'none';
+        humanizeRow.title = 'Humanize requires Specific Second trigger mode';
+    }
+}
+
+// Update status banners in whitelist/blacklist tabs
+function updateStatusBanners() {
+    const whitelistEnabled = UI.settings.checkLikeWhitelist?.checked;
+    const blacklistEnabled = UI.settings.checkDislikeBlacklist?.checked;
+
+    if (UI.lists.whitelistDisabledBanner) {
+        UI.lists.whitelistDisabledBanner.style.display = whitelistEnabled ? 'none' : 'flex';
+    }
+
+    if (UI.lists.blacklistDisabledBanner) {
+        UI.lists.blacklistDisabledBanner.style.display = blacklistEnabled ? 'none' : 'flex';
+    }
 }
 
 function switchTab(tabName) {
@@ -163,6 +216,11 @@ function loadAllData() {
         renderList(res.whitelist || [], 'whitelist');
         renderList(res.blacklist || [], 'blacklist');
         renderLogs(res.activityLogs || []);
+
+        // Update humanize state on initial load
+        updateHumanizeState();
+        // Update status banners
+        updateStatusBanners();
     });
 }
 
@@ -267,6 +325,13 @@ function removeChannel(nameToDelete, listKey) {
 
 function renderList(list, listKey) {
     const ul = listKey === 'whitelist' ? UI.lists.whitelistUl : UI.lists.blacklistUl;
+    const countEl = listKey === 'whitelist' ? UI.lists.whitelistCount : UI.lists.blacklistCount;
+
+    // Update count badge
+    if (countEl) {
+        countEl.textContent = list?.length || 0;
+    }
+
     if (!ul) return;
 
     ul.innerHTML = '';
@@ -314,36 +379,49 @@ function renderLogs(logs) {
     UI.logs.ul.innerHTML = '';
 
     if (!logs || logs.length === 0) {
-        UI.logs.ul.innerHTML = '<li style="color:#888; font-style:italic; justify-content:center;">No activity yet...</li>';
+        UI.logs.ul.innerHTML = `
+            <li class="log-empty">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                </svg>
+                <span>No activity recorded yet</span>
+            </li>`;
         return;
     }
 
     const ICONS = {
-        LIKE: `<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-1.91l-.01-.01L23 10z"/></svg>`,
-        DISLIKE: `<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v1.91l.01.01L1 14c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/></svg>`
+        LIKE: `<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>`,
+        DISLIKE: `<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>`
     };
 
-    logs.forEach(log => {
+    logs.slice(0, 20).forEach(log => {
         const li = document.createElement('li');
-        const reasonText = log.reason ? `Reason: ${log.reason}` : "Auto Action";
-        li.setAttribute('title', reasonText);
-        li.style.cursor = "help";
+        li.className = 'log-item';
 
-        const displayText = log.title || log.channel || "Unknown";
+        const actionIcon = ICONS[log.action] || '?';
+        const displayText = log.title || log.channel || 'Unknown';
+        const channelName = log.channel || '';
 
-        const actionIcon = ICONS[log.action] || "?";
-
-        const logContent = log.videoId
-            ? `<a href="https://www.youtube.com/watch?v=${log.videoId}" target="_blank" title="${log.channel || 'View Channel'}" style="color:inherit; text-decoration:none; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; display:flex; align-items:center; gap:4px;">${displayText} <span style="font-size:10px;">🔗</span></a>`
-            : `<span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1;">${displayText}</span>`;
+        // Build the log entry
+        const videoLink = log.videoId
+            ? `<a href="https://www.youtube.com/watch?v=${log.videoId}" target="_blank" class="log-link" title="Watch: ${displayText}">${displayText}</a>`
+            : `<span class="log-title">${displayText}</span>`;
 
         li.innerHTML = `
-            <div style="display:flex; align-items:center; width:100%;">
-                <span style="opacity:0.5; margin-right:8px; font-size:9px; min-width:30px;">${log.time}</span>
-                <span class="log-action ${log.action}">${actionIcon}</span>
-                ${logContent}
+            <span class="log-action ${log.action}">${actionIcon}</span>
+            <div class="log-content">
+                <div class="log-main">${videoLink}</div>
+                <div class="log-meta">
+                    <span class="log-channel">${channelName}</span>
+                    <span class="log-time">${log.time || ''}</span>
+                </div>
             </div>
         `;
+
+        if (log.reason) {
+            li.title = `Reason: ${log.reason}`;
+        }
+
         UI.logs.ul.appendChild(li);
     });
 }

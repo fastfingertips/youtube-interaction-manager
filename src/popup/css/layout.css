@@ -15,35 +15,133 @@ h2 {
     color: var(--text-color);
 }
 
-/* TABS */
+/* QUICK SETTINGS TOOLBAR - Modern Style */
+.quick-settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.btn-group {
+    display: inline-flex;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.btn-group .btn-sm {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    background: var(--bg-color);
+    border: none;
+    border-right: 1px solid var(--border-color);
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-color);
+    transition: background 0.15s;
+    width: auto;
+}
+
+.btn-group .btn-sm:last-child {
+    border-right: none;
+}
+
+.btn-group .btn-sm:hover {
+    background: var(--hover-bg);
+}
+
+.btn-group .btn-sm svg {
+    stroke: var(--sub-text-color);
+    flex-shrink: 0;
+}
+
+.btn-group .btn-sm:hover svg {
+    stroke: var(--text-color);
+}
+
+/* Toggle Button Group */
+.btn-group-toggle {
+    display: inline-flex;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.btn-group-toggle .btn-toggle {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    background: var(--bg-color);
+    border: none;
+    border-right: 1px solid var(--border-color);
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--sub-text-color);
+    transition: all 0.15s;
+}
+
+.btn-group-toggle .btn-toggle:last-child {
+    border-right: none;
+}
+
+.btn-group-toggle .btn-toggle input {
+    display: none;
+}
+
+.btn-group-toggle .btn-toggle svg {
+    stroke: currentColor;
+    flex-shrink: 0;
+}
+
+.btn-group-toggle .btn-toggle:hover {
+    background: var(--hover-bg);
+    color: var(--text-color);
+}
+
+.btn-group-toggle .btn-toggle:has(input:checked) {
+    background: var(--btn-bg);
+    color: var(--btn-text);
+}
+
+/* TABS - Modern Style Compact */
 .tabs {
     display: flex;
-    margin-bottom: 16px;
-    background: transparent;
+    margin-bottom: 12px;
     border-bottom: 1px solid var(--border-color);
-    gap: 10px;
+    gap: 0;
 }
 
 .tab-btn {
     flex: 1;
     background: none;
     border: none;
-    padding: 8px 0;
+    padding: 6px 4px;
     cursor: pointer;
     font-weight: 500;
     color: var(--sub-text-color);
-    transition: all 0.2s;
-    font-size: 12px;
+    transition: color 0.15s;
+    font-size: 11px;
     position: relative;
+    border-radius: 4px 4px 0 0;
+    width: auto;
+    white-space: nowrap;
 }
 
 .tab-btn:hover {
     color: var(--text-color);
+    background: var(--hover-bg);
 }
 
 .tab-btn.active {
     color: var(--text-color);
     font-weight: 600;
+    background: transparent;
 }
 
 .tab-btn.active::after {
@@ -53,7 +151,8 @@ h2 {
     left: 0;
     width: 100%;
     height: 2px;
-    background-color: var(--text-color);
+    background-color: var(--btn-bg);
+    border-radius: 2px 2px 0 0;
 }
 
 /* CONTENT AREAS & SECTIONS */

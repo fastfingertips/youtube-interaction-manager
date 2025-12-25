@@ -1,3 +1,7 @@
+/* ============================================
+   MODERN STYLE COMPONENTS
+   ============================================ */
+
 /* TOGGLE SWITCH */
 .switch {
     position: relative;
@@ -22,7 +26,7 @@
     right: 0;
     bottom: 0;
     background-color: var(--switch-bg);
-    transition: .3s;
+    transition: .2s;
     border-radius: 20px;
 }
 
@@ -34,11 +38,9 @@
     left: 3px;
     bottom: 3px;
     background-color: var(--switch-knob);
-    /* Değişken kullanıldı */
-    transition: .3s;
+    transition: .2s;
     border-radius: 50%;
-    box-shadow: 0 1px 3px var(--shadow-color);
-    /* Değişken kullanıldı */
+    box-shadow: 0 1px 2px var(--shadow-color);
 }
 
 input:checked+.slider {
@@ -49,95 +51,413 @@ input:checked+.slider:before {
     transform: translateX(16px);
 }
 
-/* SETTINGS CONTROLS (Inputs, Checkboxes) */
+/* ============================================
+   FORM CONTROLS - Modern Style
+   ============================================ */
+
+/* Option Row Container */
 .option-row {
     display: flex;
     align-items: center;
-    margin-bottom: 8px;
-    padding: 6px 0;
+    padding: 6px 8px;
+    margin: 0 -8px;
+    border-radius: 6px;
+    transition: background 0.1s;
+}
+
+.option-row:hover {
+    background: var(--hover-bg);
 }
 
 .option-row.sub-option {
-    margin-left: 24px;
-    margin-top: -4px;
-    opacity: 0.9;
+    margin-left: 16px;
+    padding-left: 12px;
+    border-left: 2px solid var(--border-color);
+    border-radius: 0;
 }
 
+.option-row.sub-option:hover {
+    background: transparent;
+}
+
+/* Labels */
 label {
     flex: 1;
     cursor: pointer;
     user-select: none;
     font-size: 13px;
+    color: var(--text-color);
 }
 
+label strong {
+    font-weight: 600;
+}
+
+/* Checkbox & Radio - Modern Style */
 input[type="checkbox"],
 input[type="radio"] {
-    margin-right: 12px;
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    margin-right: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    background: var(--bg-color);
     cursor: pointer;
-    accent-color: var(--btn-bg);
+    transition: all 0.15s;
+    position: relative;
+    flex-shrink: 0;
 }
 
+input[type="radio"] {
+    border-radius: 50%;
+}
+
+input[type="checkbox"]:hover,
+input[type="radio"]:hover {
+    border-color: var(--btn-bg);
+}
+
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+    background: var(--btn-bg);
+    border-color: var(--btn-bg);
+}
+
+input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid var(--btn-text);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+input[type="radio"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    width: 6px;
+    height: 6px;
+    background: var(--btn-text);
+    border-radius: 50%;
+}
+
+/* Number Input - Modern Style */
 input[type="number"] {
     background: var(--bg-color);
     color: var(--text-color);
     border: 1px solid var(--border-color);
-    border-radius: 4px;
-    padding: 4px;
+    border-radius: 6px;
+    padding: 4px 8px;
     outline: none;
     text-align: center;
     font-size: 12px;
+    transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-/* BUTTONS */
-button {
-    background: var(--btn-bg);
-    color: var(--btn-text);
-    border: none;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 12px;
-    border-radius: 4px;
-    transition: opacity 0.2s;
+input[type="number"]:focus {
+    border-color: var(--btn-bg);
+    box-shadow: 0 0 0 3px rgba(138, 180, 248, 0.2);
+}
+
+/* Select Dropdown - Modern Style */
+select {
     width: 100%;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-size: 12px;
+    outline: none;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: border-color 0.15s;
+}
+
+select:hover {
+    border-color: var(--sub-text-color);
+}
+
+select:focus {
+    border-color: var(--btn-bg);
+    box-shadow: 0 0 0 3px rgba(138, 180, 248, 0.2);
+}
+
+/* ============================================
+   BUTTONS - Modern Style
+   ============================================ */
+
+/* Base Button */
+button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 20px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-color);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    width: auto;
     box-sizing: border-box;
 }
 
 button:hover {
-    opacity: 0.9;
+    background: var(--hover-bg);
+    border-color: var(--sub-text-color);
 }
 
+/* Primary Button */
+.btn-primary {
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border-color: var(--btn-bg);
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+    border-color: var(--btn-bg);
+}
+
+/* Secondary Button */
 .btn-secondary {
-    background-color: transparent;
+    background: transparent;
     color: var(--text-color);
     border: 1px solid var(--border-color);
-    font-size: 11px;
-    padding: 6px;
 }
 
 .btn-secondary:hover {
-    background-color: var(--hover-bg);
+    background: var(--hover-bg);
 }
 
+/* Add Button (Full Width) */
 .add-btn {
-    background-color: var(--hover-bg);
+    width: 100%;
+    padding: 8px 12px;
+    background: var(--hover-bg);
     color: var(--text-color);
-    border: 1px solid transparent;
-    margin-bottom: 12px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 10px;
+    font-weight: 500;
 }
 
 .add-btn:hover {
-    border-color: var(--border-color);
-    background-color: var(--border-color);
+    background: var(--border-color);
 }
 
+/* Danger Button */
 .danger-btn {
     color: var(--danger-color);
-    background-color: var(--danger-bg-light);
-    /* Değişken kullanıldı */
+    background: var(--danger-bg-light);
+    border-color: transparent;
 }
 
 .danger-btn:hover {
-    background-color: var(--danger-bg-hover);
-    /* Değişken kullanıldı */
+    background: var(--danger-bg-hover);
+    border-color: var(--danger-color);
+}
+
+/* Success Button */
+.btn-success {
+    background: var(--success-color);
+    border-color: var(--success-color);
+    color: #fff;
+}
+
+.btn-success:hover {
+    opacity: 0.9;
+    background: var(--success-color);
+    border-color: var(--success-color);
+}
+
+/* Danger Button Small */
+.btn-danger {
+    background: var(--danger-color);
+    border-color: var(--danger-color);
+    color: #fff;
+}
+
+.btn-danger:hover {
+    opacity: 0.9;
+    background: var(--danger-color);
+    border-color: var(--danger-color);
+}
+
+/* ============================================
+   TAB HEADER
+   ============================================ */
+
+.tab-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background: var(--hover-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.tab-header-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--sub-text-color);
+}
+
+.tab-header-info strong {
+    color: var(--text-color);
+}
+
+/* Tab Info Bar - Compact description */
+.tab-info-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    font-size: 11px;
+    color: var(--sub-text-color);
+    background: var(--hover-bg);
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.tab-info-bar strong {
+    color: var(--text-color);
+}
+
+/* Full Width Add Button */
+.btn-add-full {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-color);
+    background: var(--bg-color);
+    border: 1px dashed var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 10px;
+}
+
+.btn-add-full:hover {
+    background: var(--hover-bg);
+    border-color: var(--sub-text-color);
+    border-style: solid;
+}
+
+/* ============================================
+   STATUS BANNERS - Modern Style
+   ============================================ */
+
+.status-banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.status-banner svg {
+    flex-shrink: 0;
+}
+
+.status-banner strong {
+    font-weight: 600;
+}
+
+/* Warning - Yellow/Orange */
+.status-warning {
+    background: #fff8c5;
+    border: 1px solid #d4a72c;
+    color: #6f4e00;
+}
+
+@media (prefers-color-scheme: dark) {
+    .status-warning {
+        background: rgba(187, 128, 9, 0.15);
+        border: 1px solid rgba(187, 128, 9, 0.4);
+        color: #d49d0a;
+    }
+}
+
+/* ============================================
+   LIST ACTIONS ROW - Compact Whitelist/Blacklist
+   ============================================ */
+
+.list-actions-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.list-action-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 8px;
+    background: var(--hover-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 11px;
+}
+
+.list-action-item:hover {
+    border-color: var(--sub-text-color);
+}
+
+.list-action-item:has(input:checked) {
+    background: var(--btn-bg);
+    border-color: var(--btn-bg);
+    color: var(--btn-text);
+}
+
+.list-action-item input[type="checkbox"] {
+    margin: 0;
+    margin-right: 2px;
+}
+
+.list-action-label {
+    flex: 1;
+    font-weight: 500;
+}
+
+.list-count {
+    background: var(--bg-color);
+    color: var(--sub-text-color);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    text-align: center;
+}
+
+.list-action-item:has(input:checked) .list-count {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--btn-text);
 }
