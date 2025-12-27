@@ -59,7 +59,7 @@ function initApp() {
 
     setupEventListeners();
 
-    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
+    if (globalThis.chrome?.storage?.sync) {
         loadAllData();
     } else {
         console.warn("Chrome Storage API not found.");
@@ -156,7 +156,7 @@ function updateStatusBanners() {
 
 function switchTab(tabName) {
     Object.values(UI.tabs).forEach(el => {
-        if (el && el.classList) el.classList.remove('active');
+        el?.classList?.remove('active');
     });
 
     if (UI.tabs[tabName]) UI.tabs[tabName].classList.add('active');
@@ -167,61 +167,65 @@ function switchTab(tabName) {
 
 function loadAllData() {
     const keys = [
-        'enableExtension',
-        'whitelist', 'blacklist',
-        'enableLike', 'enableDislike', // Legacy keys
-        'actionWhitelist', 'actionBlacklist', 'actionUnlisted',
+        'enableExtension', 'whitelist', 'blacklist',
+        'enableLike', 'enableDislike', 'actionWhitelist', 'actionBlacklist', 'actionUnlisted',
         'triggerType', 'triggerSeconds', 'triggerPercent',
-        'enableHumanize', 'showNeutralBadge', 'enableDebug',
-        'activityLogs'
+        'enableHumanize', 'showNeutralBadge', 'enableDebug', 'activityLogs'
     ];
 
     chrome.storage.sync.get(keys, (res) => {
         if (chrome.runtime.lastError) return;
 
+        // Master switch
         const isEnabled = res.enableExtension ?? true;
         UI.masterSwitch.checked = isEnabled;
         updateMasterUI(isEnabled);
 
-        let valWhitelist = true;
-        if (res.actionWhitelist !== undefined) valWhitelist = res.actionWhitelist;
-        else if (res.enableLike !== undefined) valWhitelist = res.enableLike;
+        // Map settings
+        const settings = mapStorageToSettings(res);
+        applySettingsToUI(settings);
 
-        let valBlacklist = true;
-        if (res.actionBlacklist !== undefined) valBlacklist = res.actionBlacklist;
-
-        let valUnlisted = 'none';
-        if (res.actionUnlisted !== undefined) {
-            valUnlisted = res.actionUnlisted;
-        } else if (res.enableDislike === true) {
-            valUnlisted = 'dislike';
-        }
-
-        if (UI.settings.checkLikeWhitelist) UI.settings.checkLikeWhitelist.checked = valWhitelist;
-        if (UI.settings.checkDislikeBlacklist) UI.settings.checkDislikeBlacklist.checked = valBlacklist;
-        if (UI.settings.selectUnlisted) UI.settings.selectUnlisted.value = valUnlisted;
-
-        if (UI.settings.checkHumanize) UI.settings.checkHumanize.checked = res.enableHumanize ?? false;
-        if (UI.settings.checkShowNeutral) UI.settings.checkShowNeutral.checked = res.showNeutralBadge ?? false;
-        if (UI.settings.checkDebug) UI.settings.checkDebug.checked = res.enableDebug ?? false;
-
-        const type = res.triggerType || 'instant';
-        if (type === 'percent' && UI.settings.radioPercent) UI.settings.radioPercent.checked = true;
-        else if (type === 'time' && UI.settings.radioTime) UI.settings.radioTime.checked = true;
-        else if (UI.settings.radioInstant) UI.settings.radioInstant.checked = true;
-
-        if (UI.settings.inputSeconds) UI.settings.inputSeconds.value = res.triggerSeconds || 10;
-        if (UI.settings.inputPercent) UI.settings.inputPercent.value = res.triggerPercent || 50;
-
+        // Lists and Logs
         renderList(res.whitelist || [], 'whitelist');
         renderList(res.blacklist || [], 'blacklist');
         renderLogs(res.activityLogs || []);
 
-        // Update humanize state on initial load
         updateHumanizeState();
-        // Update status banners
         updateStatusBanners();
     });
+}
+
+function mapStorageToSettings(res) {
+    return {
+        whitelist: res.actionWhitelist ?? res.enableLike ?? true,
+        blacklist: res.actionBlacklist ?? true,
+        unlisted: res.actionUnlisted ?? (res.enableDislike === true ? 'dislike' : 'none'),
+        humanize: res.enableHumanize ?? false,
+        neutral: res.showNeutralBadge ?? false,
+        debug: res.enableDebug ?? false,
+        trigger: {
+            type: res.triggerType || 'instant',
+            seconds: res.triggerSeconds || 10,
+            percent: res.triggerPercent || 50
+        }
+    };
+}
+
+function applySettingsToUI(s) {
+    if (UI.settings.checkLikeWhitelist) UI.settings.checkLikeWhitelist.checked = s.whitelist;
+    if (UI.settings.checkDislikeBlacklist) UI.settings.checkDislikeBlacklist.checked = s.blacklist;
+    if (UI.settings.selectUnlisted) UI.settings.selectUnlisted.value = s.unlisted;
+
+    if (UI.settings.checkHumanize) UI.settings.checkHumanize.checked = s.humanize;
+    if (UI.settings.checkShowNeutral) UI.settings.checkShowNeutral.checked = s.neutral;
+    if (UI.settings.checkDebug) UI.settings.checkDebug.checked = s.debug;
+
+    if (UI.settings.radioPercent) UI.settings.radioPercent.checked = (s.trigger.type === 'percent');
+    if (UI.settings.radioTime) UI.settings.radioTime.checked = (s.trigger.type === 'time');
+    if (UI.settings.radioInstant) UI.settings.radioInstant.checked = (s.trigger.type === 'instant');
+
+    if (UI.settings.inputSeconds) UI.settings.inputSeconds.value = s.trigger.seconds;
+    if (UI.settings.inputPercent) UI.settings.inputPercent.value = s.trigger.percent;
 }
 
 function updateMasterUI(isEnabled) {
@@ -249,8 +253,8 @@ function saveSettings() {
         showNeutralBadge: UI.settings.checkShowNeutral ? UI.settings.checkShowNeutral.checked : false,
         enableDebug: UI.settings.checkDebug ? UI.settings.checkDebug.checked : false,
         triggerType: triggerType,
-        triggerSeconds: UI.settings.inputSeconds ? (parseInt(UI.settings.inputSeconds.value) || 10) : 10,
-        triggerPercent: UI.settings.inputPercent ? (parseInt(UI.settings.inputPercent.value) || 50) : 50
+        triggerSeconds: UI.settings.inputSeconds ? (Number.parseInt(UI.settings.inputSeconds.value, 10) || 10) : 10,
+        triggerPercent: UI.settings.inputPercent ? (Number.parseInt(UI.settings.inputPercent.value, 10) || 50) : 50
     };
 
     chrome.storage.sync.set(settings, () => showStatus("Saved."));
@@ -496,7 +500,7 @@ function handleExport() {
         a.download = `auto_like_backup_${new Date().toISOString().split('T')[0]}.json`;
         document.body.appendChild(a);
         a.click();
-        document.body.removeChild(a);
+        a.remove();
         URL.revokeObjectURL(url);
         showStatus("Backup exported.");
     });
@@ -506,10 +510,9 @@ function handleImportFile(event) {
     const file = event.target.files[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = function (e) {
+    file.text().then(text => {
         try {
-            const json = JSON.parse(e.target.result);
+            const json = JSON.parse(text);
             if (json.data && typeof json.data === 'object') {
                 chrome.storage.sync.set(json.data, () => {
                     loadAllData();
@@ -522,8 +525,10 @@ function handleImportFile(event) {
             console.error(err);
             showStatus("Read error.", true);
         }
-    };
-    reader.readAsText(file);
+    }).catch(err => {
+        console.error(err);
+        showStatus("Read error.", true);
+    });
     event.target.value = '';
 }
 

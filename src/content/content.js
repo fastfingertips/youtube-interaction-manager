@@ -119,7 +119,7 @@ function checkVideoStatus() {
             return;
         }
 
-        const urlParams = new URLSearchParams(window.location.search);
+        const urlParams = new URLSearchParams(globalThis.location.search);
         const currentVideoId = urlParams.get('v');
 
         if (!currentVideoId) return;
@@ -151,7 +151,8 @@ function checkVideoStatus() {
                 state.randomDelay = Math.floor(Math.random() * 12) + 3;
                 state.delayCalculated = true;
                 debugLog(`[HUMANIZE] Calculated delay: +${state.randomDelay}s`);
-            } else if (!enableHumanize) {
+            }
+            if (!enableHumanize) {
                 state.randomDelay = 0;
                 state.delayCalculated = true;
             }
@@ -160,18 +161,14 @@ function checkVideoStatus() {
             const currentTime = video.currentTime;
             const duration = video.duration;
 
-            if (triggerType === 'instant') {
-                if (currentTime > 0.5) shouldTrigger = true;
-            }
-            else if (triggerType === 'percent') {
-                if (Number.isFinite(duration) && duration > 0) {
-                    const targetTime = (duration * (triggerPercent / 100)) + state.randomDelay;
-                    if (currentTime > targetTime) shouldTrigger = true;
-                }
-            }
-            else if (triggerType === 'time') {
+            if (triggerType === 'instant' && currentTime > 0.5) {
+                shouldTrigger = true;
+            } else if (triggerType === 'percent' && Number.isFinite(duration) && duration > 0) {
+                const targetTime = (duration * (triggerPercent / 100)) + state.randomDelay;
+                shouldTrigger = currentTime > targetTime;
+            } else if (triggerType === 'time') {
                 const targetTime = triggerSeconds + state.randomDelay;
-                if (currentTime > targetTime) shouldTrigger = true;
+                shouldTrigger = currentTime > targetTime;
             }
 
             if (shouldTrigger) {
@@ -181,48 +178,54 @@ function checkVideoStatus() {
     });
 }
 
-// --- DECISION LOGIC HELPER ---
+// --- DECISION LOGIC HELPERS ---
+function getActionSetting(primary, legacy, defaultValue) {
+    if (primary !== undefined) return primary;
+    if (legacy !== undefined) return legacy;
+    return defaultValue;
+}
+
+function getUnlistedAction(settings) {
+    if (settings.actionUnlisted !== undefined) return settings.actionUnlisted;
+    if (settings.enableDislike === true) return 'dislike';
+    return 'none';
+}
+
 function resolveActionForChannel(channelName, settings) {
     const whitelist = settings.whitelist || [];
     const blacklist = settings.blacklist || [];
 
-    // Varsayılan Değerler ve Geriye Dönük Uyumluluk
-    const doLikeWhitelist = settings.actionWhitelist !== undefined ? settings.actionWhitelist : (settings.enableLike ?? true);
-    const doDislikeBlacklist = settings.actionBlacklist !== undefined ? settings.actionBlacklist : true;
-
-    let doUnlisted = 'none';
-    if (settings.actionUnlisted !== undefined) {
-        doUnlisted = settings.actionUnlisted;
-    } else if (settings.enableDislike === true) {
-        doUnlisted = 'dislike';
-    }
+    const doLikeWhitelist = getActionSetting(settings.actionWhitelist, settings.enableLike, true);
+    const doDislikeBlacklist = getActionSetting(settings.actionBlacklist, undefined, true);
+    const doUnlisted = getUnlistedAction(settings);
 
     const isWhitelisted = checkIsListed(whitelist, channelName);
     const isBlacklisted = checkIsListed(blacklist, channelName);
 
-    // 1. Durum: Kanal WHITELIST'te mi?
     if (isWhitelisted) {
-        if (doLikeWhitelist) return { action: 'like', reason: "Channel is Whitelisted & Action is ON" };
-        else return { action: 'none', reason: "Channel is Whitelisted but Action is OFF" };
+        return doLikeWhitelist
+            ? { action: 'like', reason: "Channel is Whitelisted & Action is ON" }
+            : { action: 'none', reason: "Channel is Whitelisted but Action is OFF" };
     }
-    // 2. Durum: Kanal BLACKLIST'te mi?
-    else if (isBlacklisted) {
-        if (doDislikeBlacklist) return { action: 'dislike', reason: "Channel is Blacklisted & Action is ON" };
-        else return { action: 'none', reason: "Channel is Blacklisted but Action is OFF" };
+
+    if (isBlacklisted) {
+        return doDislikeBlacklist
+            ? { action: 'dislike', reason: "Channel is Blacklisted & Action is ON" }
+            : { action: 'none', reason: "Channel is Blacklisted but Action is OFF" };
     }
-    // 3. Durum: Kanal LİSTESİZ (Unlisted) mi?
-    else {
-        if (doUnlisted === 'like') return { action: 'like', reason: "Unlisted Channel -> Action: LIKE ALL" };
-        else if (doUnlisted === 'dislike') return { action: 'dislike', reason: "Unlisted Channel -> Action: DISLIKE ALL" };
-        else return { action: 'none', reason: "Unlisted Channel -> Action: NONE" };
-    }
+
+    const unlistedActions = {
+        'like': { action: 'like', reason: "Unlisted Channel -> Action: LIKE ALL" },
+        'dislike': { action: 'dislike', reason: "Unlisted Channel -> Action: DISLIKE ALL" }
+    };
+    return unlistedActions[doUnlisted] || { action: 'none', reason: "Unlisted Channel -> Action: NONE" };
 }
 
 // --- ACTIONS ---
 function processVideo(videoId) {
     const data = getVideoData();
 
-    if (!data || !data.channelName) return;
+    if (!data?.channelName) return;
 
     const keys = [
         'whitelist', 'blacklist',
@@ -269,17 +272,17 @@ function attemptAction(action, channelName) {
 
     const isPressed = btn.getAttribute('aria-pressed') === 'true';
 
-    if (!isPressed) {
-        btn.click();
-        debugLog(`[CLICK] ${action} button clicked.`);
-        if (!state.verificationTimers.length) {
-            showNotification(`${action.toUpperCase()}: ${channelName}`, action === 'like');
-        }
-        return true;
-    } else {
+    if (isPressed) {
         debugLog(`[INFO] Button already pressed.`);
         return true;
     }
+
+    btn.click();
+    debugLog(`[CLICK] ${action} button clicked.`);
+    if (!state.verificationTimers.length) {
+        showNotification(`${action.toUpperCase()}: ${channelName}`, action === 'like');
+    }
+    return true;
 }
 
 function scheduleVerification(action, channelName, delays) {
@@ -366,7 +369,8 @@ function getVideoData() {
 }
 
 function checkIsListed(list, name) {
-    return list && list.some(item => item.name === name);
+    if (!list) return false;
+    return list.some(item => item.name === name);
 }
 
 function logActivity(action, data, videoId, reason) {
