@@ -20,15 +20,18 @@
     --success-color: #00c853;
     --danger-color: #ff5252;
 
-    /* Danger Button Backgrounds (Opaklık ayarlı) */
+    /* Danger Button Backgrounds (with opacity) */
     --danger-bg-light: rgba(255, 82, 82, 0.1);
     --danger-bg-hover: rgba(255, 82, 82, 0.2);
+
+    /* --- Focus State --- */
+    --focus-ring: rgba(34, 34, 34, 0.2);
 
     /* --- Components (Switch, Badges) --- */
     --switch-bg: #cccccc;
     --switch-knob: #ffffff;
     --badge-text: #ffffff;
-    /* İkon/Yazı rengi */
+    /* Icon/text color */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -46,9 +49,7 @@
 
         /* --- Buttons & Links (Dark) --- */
         --btn-bg: #8ab4f8;
-        /* Google Blue Pastel */
         --btn-text: #202124;
-        /* Koyu metin okuma kolaylığı için */
         --link-color: #8ab4f8;
 
         /* --- Status Colors (Dark Pastel) --- */
@@ -59,11 +60,13 @@
         --danger-bg-light: rgba(242, 139, 130, 0.15);
         --danger-bg-hover: rgba(242, 139, 130, 0.25);
 
+        /* --- Focus State (Dark) --- */
+        --focus-ring: rgba(138, 180, 248, 0.3);
+
         /* --- Components (Dark) --- */
         --switch-bg: #5f6368;
         --switch-knob: #e8eaed;
         --badge-text: #202124;
-        /* Pastel zemin üzerinde koyu ikon */
     }
 }
 
