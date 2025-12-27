@@ -336,7 +336,10 @@ function renderList(list, listKey) {
 
     ul.innerHTML = '';
     if (!list || list.length === 0) {
-        ul.innerHTML = '<li style="justify-content:center; opacity:0.5; border:none; padding:20px;">List Empty</li>';
+        const emptyLi = document.createElement('li');
+        emptyLi.style.cssText = 'justify-content:center; opacity:0.5; border:none; padding:20px;';
+        emptyLi.textContent = 'List Empty';
+        ul.appendChild(emptyLi);
         return;
     }
 
@@ -351,7 +354,11 @@ function renderList(list, listKey) {
         if (url) {
             const a = document.createElement('a');
             a.href = url;
-            a.innerHTML = `${name} <span style="font-size:10px; color:var(--link-color); opacity:0.8; margin-left:3px;">🔗</span>`;
+            a.textContent = name;
+            const linkIcon = document.createElement('span');
+            linkIcon.style.cssText = 'font-size:10px; color:var(--link-color); opacity:0.8; margin-left:3px;';
+            linkIcon.textContent = '🔗';
+            a.appendChild(linkIcon);
             a.target = "_blank";
             a.className = 'channel-link';
             a.title = `Open channel: ${url}`;
@@ -364,7 +371,7 @@ function renderList(list, listKey) {
 
         const btn = document.createElement('span');
         btn.className = 'del-btn';
-        btn.innerHTML = '&times;';
+        btn.textContent = '×';
         btn.title = 'Remove';
         btn.onclick = () => removeChannel(name, listKey);
 
@@ -379,44 +386,75 @@ function renderLogs(logs) {
     UI.logs.ul.innerHTML = '';
 
     if (!logs || logs.length === 0) {
-        UI.logs.ul.innerHTML = `
-            <li class="log-empty">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                </svg>
-                <span>No activity recorded yet</span>
-            </li>`;
+        const emptyLi = document.createElement('li');
+        emptyLi.className = 'log-empty';
+
+        const svg = createSvgIcon('M22 12 L18 12 L15 21 L9 3 L6 12 L2 12', 24, 1.5);
+        const span = document.createElement('span');
+        span.textContent = 'No activity recorded yet';
+
+        emptyLi.appendChild(svg);
+        emptyLi.appendChild(span);
+        UI.logs.ul.appendChild(emptyLi);
         return;
     }
-
-    const ICONS = {
-        LIKE: `<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>`,
-        DISLIKE: `<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>`
-    };
 
     logs.slice(0, 20).forEach(log => {
         const li = document.createElement('li');
         li.className = 'log-item';
 
-        const actionIcon = ICONS[log.action] || '?';
+        // Action icon
+        const actionSpan = document.createElement('span');
+        actionSpan.className = `log-action ${log.action}`;
+        const iconPath = log.action === 'LIKE'
+            ? 'M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3'
+            : 'M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17';
+        actionSpan.appendChild(createSvgIcon(iconPath, 12, 2));
+
+        // Content div
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'log-content';
+
+        // Main (video link or title)
+        const mainDiv = document.createElement('div');
+        mainDiv.className = 'log-main';
         const displayText = log.title || log.channel || 'Unknown';
-        const channelName = log.channel || '';
 
-        // Build the log entry
-        const videoLink = log.videoId
-            ? `<a href="https://www.youtube.com/watch?v=${log.videoId}" target="_blank" class="log-link" title="Watch: ${displayText}">${displayText}</a>`
-            : `<span class="log-title">${displayText}</span>`;
+        if (log.videoId) {
+            const a = document.createElement('a');
+            a.href = `https://www.youtube.com/watch?v=${encodeURIComponent(log.videoId)}`;
+            a.target = '_blank';
+            a.className = 'log-link';
+            a.title = `Watch: ${displayText}`;
+            a.textContent = displayText;
+            mainDiv.appendChild(a);
+        } else {
+            const titleSpan = document.createElement('span');
+            titleSpan.className = 'log-title';
+            titleSpan.textContent = displayText;
+            mainDiv.appendChild(titleSpan);
+        }
 
-        li.innerHTML = `
-            <span class="log-action ${log.action}">${actionIcon}</span>
-            <div class="log-content">
-                <div class="log-main">${videoLink}</div>
-                <div class="log-meta">
-                    <span class="log-channel">${channelName}</span>
-                    <span class="log-time">${log.time || ''}</span>
-                </div>
-            </div>
-        `;
+        // Meta (channel + time)
+        const metaDiv = document.createElement('div');
+        metaDiv.className = 'log-meta';
+
+        const channelSpan = document.createElement('span');
+        channelSpan.className = 'log-channel';
+        channelSpan.textContent = log.channel || '';
+
+        const timeSpan = document.createElement('span');
+        timeSpan.className = 'log-time';
+        timeSpan.textContent = log.time || '';
+
+        metaDiv.appendChild(channelSpan);
+        metaDiv.appendChild(timeSpan);
+
+        contentDiv.appendChild(mainDiv);
+        contentDiv.appendChild(metaDiv);
+
+        li.appendChild(actionSpan);
+        li.appendChild(contentDiv);
 
         if (log.reason) {
             li.title = `Reason: ${log.reason}`;
@@ -424,6 +462,23 @@ function renderLogs(logs) {
 
         UI.logs.ul.appendChild(li);
     });
+}
+
+// Helper function to create SVG icons safely
+function createSvgIcon(pathD, size = 12, strokeWidth = 2) {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('width', size);
+    svg.setAttribute('height', size);
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('stroke-width', strokeWidth);
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', pathD);
+    svg.appendChild(path);
+
+    return svg;
 }
 
 function handleExport() {
