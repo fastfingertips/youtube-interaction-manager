@@ -1,0 +1,62 @@
+/* 
+ * Options Page Styles
+ * Page-specific styles (uses shared theme.css and components.css)
+ */
+
+/* Page Layout - Override popup width, center content */
+body {
+    width: 100% !important;
+    max-width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Header - Centered */
+.header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.header h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.header p {
+    color: var(--sub-text-color);
+    font-size: 13px;
+    margin: 0;
+}
+
+/* Card - Centered content */
+.card {
+    text-align: center;
+}
+
+.card-title {
+    text-align: center;
+}
+
+/* Button Group - Centered */
+.btn-group {
+    justify-content: center;
+}
+
+.btn-group .btn {
+    flex: 1;
+}
+
+/* Note - Left aligned text for readability */
+.note {
+    text-align: left;
+}
