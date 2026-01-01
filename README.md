@@ -1,12 +1,12 @@
-# YouTube Auto Like
+# YouTube Interaction Manager
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/store/promo_marquee_dark.png">
   <source media="(prefers-color-scheme: light)" srcset="docs/store/promo_marquee_light.png">
-  <img alt="YouTube Auto Like" src="docs/store/promo_marquee_light.png">
+  <img alt="YouTube Interaction Manager" src="docs/store/promo_marquee_light.png">
 </picture>
 
-Automatic like and channel management extension for YouTube. Improve your viewing experience by automating interactions with your favorite channels.
+Smart interaction manager for YouTube. Auto-like whitelist, auto-dislike blacklist, and detailed activity logging. Improve your viewing experience by automating interactions with your favorite channels.
 
 ## Download
 

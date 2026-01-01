@@ -4,14 +4,14 @@
   <img alt="YouTube Auto Like" src="https://raw.githubusercontent.com/fastfingertips/youtube-auto-liker/main/docs/store/promo_marquee_light.png">
 </picture>
 
-# Privacy Policy for YouTube Auto Like
+# Privacy Policy for YouTube Interaction Manager
 
 **Created: December 26, 2025**
 **Last updated: January 1, 2026**
 
 ## Overview
 
-YouTube Auto Like is a browser extension that helps users automatically like or dislike YouTube videos based on their channel preferences. This privacy policy explains how we handle your data.
+YouTube Interaction Manager is a browser extension that helps users automatically like or dislike YouTube videos based on their channel preferences. This privacy policy explains how we handle your data.
 
 ## Data Collection
 

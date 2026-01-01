@@ -128,7 +128,7 @@ class Manifest:
         # Add Firefox-specific settings
         firefox_data['browser_specific_settings'] = {
             'gecko': {
-                'id': 'youtube-auto-like@fastfingertips',
+                'id': 'youtube-interaction-manager@fastfingertips',
                 'strict_min_version': '109.0'
             }
         }

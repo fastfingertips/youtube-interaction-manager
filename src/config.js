@@ -10,8 +10,8 @@ const CONFIG = {
     // ─────────────────────────────────────────
     // APP INFO
     // ─────────────────────────────────────────
-    APP_NAME: 'YouTube Auto Like',
-    BACKUP_PREFIX: 'auto_like_backup',
+    APP_NAME: 'YouTube Interaction Manager',
+    BACKUP_PREFIX: 'interaction_manager_backup',
 
     // ─────────────────────────────────────────
     // DEFAULT SETTINGS
