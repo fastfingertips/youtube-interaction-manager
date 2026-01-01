@@ -44,6 +44,7 @@ function initApp() {
             blacklistDisabledBanner: document.getElementById('blacklistDisabledBanner'),
             btnExport: document.getElementById('btnExport'),
             btnImport: document.getElementById('btnImport'),
+            btnOpenSettings: document.getElementById('btnOpenSettings'),
             fileInput: document.getElementById('fileInput')
         },
         logs: {
@@ -115,8 +116,27 @@ function setupEventListeners() {
     if (UI.lists.addBlacklistBtn) UI.lists.addBlacklistBtn.addEventListener('click', () => handleAutoAdd('blacklist'));
 
     if (UI.lists.btnExport) UI.lists.btnExport.addEventListener('click', handleExport);
-    if (UI.lists.btnImport) UI.lists.btnImport.addEventListener('click', () => UI.lists.fileInput.click());
-    if (UI.lists.fileInput) UI.lists.fileInput.addEventListener('change', handleImportFile);
+
+    // Browser detection: Firefox has 'browser' global, Chrome doesn't
+    const isFirefox = typeof browser !== 'undefined' && browser.runtime?.id;
+
+    if (isFirefox) {
+        // Firefox: Show Settings button (popup closes when file dialog opens)
+        if (UI.lists.btnOpenSettings) {
+            UI.lists.btnOpenSettings.style.display = 'inline-flex';
+            UI.lists.btnOpenSettings.addEventListener('click', () => {
+                chrome.runtime.openOptionsPage();
+            });
+        }
+    } else {
+        // Chrome: Show direct Import button
+        if (UI.lists.btnImport) {
+            UI.lists.btnImport.style.display = 'inline-flex';
+        }
+        if (UI.lists.fileInput) {
+            UI.lists.fileInput.addEventListener('change', handleImportFile);
+        }
+    }
 }
 
 // Enable humanize option only when Specific Second trigger is selected
@@ -515,18 +535,20 @@ function handleImportFile(event) {
             const json = JSON.parse(text);
             if (json.data && typeof json.data === 'object') {
                 chrome.storage.sync.set(json.data, () => {
+                    if (chrome.runtime.lastError) {
+                        showStatus("Import failed.", true);
+                        return;
+                    }
                     loadAllData();
                     showStatus("Imported successfully!");
                 });
             } else {
                 showStatus("Invalid format.", true);
             }
-        } catch (err) {
-            console.error(err);
+        } catch {
             showStatus("Read error.", true);
         }
-    }).catch(err => {
-        console.error(err);
+    }).catch(() => {
         showStatus("Read error.", true);
     });
     event.target.value = '';
