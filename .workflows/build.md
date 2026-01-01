@@ -8,7 +8,7 @@ python scripts/build_release.py
 ## Output
 ```
 releases/
-├── {name}-v{version}-store.zip   → Chrome Web Store
+├── {name}-v{version}-chrome.zip   → Chrome Web Store
 └── {name}-v{version}.zip         → GitHub Release
 ```
 

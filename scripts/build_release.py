@@ -13,7 +13,7 @@ PURPOSE:
 OUTPUTS:
     Creates ZIP files in the 'releases' folder:
     
-    - {name}-v{version}-store.zip
+    - {name}-v{version}-chrome.zip
         Minimal package for Chrome Web Store submission.
         Contains only essential extension files.
     
@@ -39,7 +39,7 @@ NOTES:
 WORKFLOW:
     1. Run with --bump to increment version
     2. Commit and push changes
-    3. Upload -store.zip to Chrome Developer Console
+    3. Upload -chrome.zip to Chrome Developer Console
     4. Upload -firefox.zip to Firefox Add-ons (AMO)
     5. Upload .zip to GitHub Release
 """
@@ -173,7 +173,7 @@ class ReleaseBuilder:
     """Handles the creation of release packages for Chrome extensions."""
     
     # Core extension files (required for Chrome Web Store)
-    STORE_FILES = [
+    CHROME_FILES = [
         'manifest.json',
         'icons',
         'src',
@@ -277,16 +277,16 @@ class ReleaseBuilder:
                 existing.append(item)
         return existing
     
-    def build_store_package(self):
+    def build_chrome_package(self):
         """Create minimal package for Chrome Web Store."""
-        files = self._get_existing_files(self.STORE_FILES)
-        return self._create_package(files, '-store')
+        files = self._get_existing_files(self.CHROME_FILES)
+        return self._create_package(files, '-chrome')
     
     def build_github_package(self):
         """Create full package for GitHub Release."""
-        store_files = self._get_existing_files(self.STORE_FILES)
+        chrome_files = self._get_existing_files(self.CHROME_FILES)
         docs_files = self._get_existing_files(self.DOCS_FILES)
-        return self._create_package(store_files + docs_files)
+        return self._create_package(chrome_files + docs_files)
     
     def build_firefox_package(self):
         """Create package for Firefox Add-ons (AMO)."""
@@ -295,8 +295,8 @@ class ReleaseBuilder:
         temp_dir = tempfile.mkdtemp()
         
         try:
-            # Copy store files to temp directory
-            files = self._get_existing_files(self.STORE_FILES)
+            # Copy chrome files to temp directory
+            files = self._get_existing_files(self.CHROME_FILES)
             for item in files:
                 source = os.path.join(self.project_root, item)
                 dest = os.path.join(temp_dir, item)
@@ -338,7 +338,7 @@ class ReleaseBuilder:
             shutil.rmtree(temp_dir, ignore_errors=True)
     
     def build_all(self, include_firefox=False):
-        """Build all release packages and return results."""
+        """Build multiple platform packages."""
         os.makedirs(self.output_dir, exist_ok=True)
         
         result = {
@@ -346,7 +346,7 @@ class ReleaseBuilder:
             'slug': self.manifest.slug,
             'version': self.manifest.version,
             'description': self.manifest.description,
-            'store': self.build_store_package(),
+            'chrome': self.build_chrome_package(),
             'github': self.build_github_package(),
             'output_dir': self.output_dir,
         }
@@ -375,8 +375,8 @@ class ReleaseBuilder:
         print(f"\n  Version:     {result['version']}")
         print(f"  Description: {result['description'][:40]}...")
         print("\n  Packages:")
-        print(f"    Chrome Store: {os.path.basename(result['store'])}")
-        print(f"                  {self.format_size(os.path.getsize(result['store']))}")
+        print(f"    Chrome:       {os.path.basename(result['chrome'])}")
+        print(f"                  {self.format_size(os.path.getsize(result['chrome']))}")
         if 'firefox' in result:
             print(f"    Firefox:      {os.path.basename(result['firefox'])}")
             print(f"                  {self.format_size(os.path.getsize(result['firefox']))}")

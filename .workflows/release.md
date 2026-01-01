@@ -75,7 +75,7 @@ AI will generate detailed release notes based on:
 
 ### 5. Publish
 - **GitHub**: Create release with tag, paste detailed notes, attach `.zip`
-- **Chrome Web Store**: Upload `-store.zip` to Developer Dashboard
+- **Chrome Web Store**: Upload `-chrome.zip` to Developer Dashboard
 
 ## Commit Convention
 | Prefix | Category |
