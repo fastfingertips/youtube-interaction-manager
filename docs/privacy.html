@@ -166,7 +166,7 @@
     <script>
         async function loadPrivacyPolicy() {
             try {
-                const response = await fetch('https://raw.githubusercontent.com/fastfingertips/youtube-auto-liker/main/PRIVACY.md');
+                const response = await fetch('https://raw.githubusercontent.com/fastfingertips/youtube-interaction-manager/main/PRIVACY.md');
 
                 if (response.ok) {
                     const markdown = await response.text();
@@ -178,7 +178,7 @@
                 document.getElementById('content').innerHTML = `
                     <h1>Privacy Policy</h1>
                     <p>Unable to load privacy policy. Please visit our 
-                    <a href="https://github.com/fastfingertips/youtube-auto-liker/blob/main/PRIVACY.md">GitHub repository</a> 
+                    <a href="https://github.com/fastfingertips/youtube-interaction-manager/blob/main/PRIVACY.md">GitHub repository</a> 
                     to view it.</p>
                 `;
             }

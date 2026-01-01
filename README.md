@@ -11,8 +11,8 @@ Smart interaction manager for YouTube. Auto-like whitelist, auto-dislike blackli
 ## Download
 
 - **[Chrome Web Store](https://chromewebstore.google.com/detail/youtube-auto-like/nlpclmfebmnahbhffafphgnajkbkiaib)**: Install directly for Chrome/Edge
-- **[GitHub Releases](https://github.com/fastfingertips/youtube-auto-liker/releases)**: Download for Chrome or Firefox (Firefox Store coming soon)
-- **[Website](https://fastfingertips.github.io/youtube-auto-liker/)**: Visit our documentation site
+- **[GitHub Releases](https://github.com/fastfingertips/youtube-interaction-manager/releases)**: Download for Chrome or Firefox (Firefox Store coming soon)
+- **[Website](https://fastfingertips.github.io/youtube-interaction-manager/)**: Visit our documentation site
 
 ## Screenshots
 
@@ -33,14 +33,14 @@ You can also set when this happens - right away, after watching some percentage 
 ## Installation
 
 ### Chrome / Edge
-1. Download the `youtube-auto-like-vX.X.X-chrome.zip` from [Releases](https://github.com/fastfingertips/youtube-auto-liker/releases)
+1. Download the `youtube-interaction-manager-vX.X.X-chrome.zip` from [Releases](https://github.com/fastfingertips/youtube-interaction-manager/releases)
 2. Extract the ZIP file
 3. Open browser and navigate to `chrome://extensions/`
 4. Enable **"Developer mode"** (top right)
 5. Click **"Load unpacked"** and select the extracted `src` folder (or the root folder containing common files)
 
 ### Firefox
-1. Download the `youtube-auto-like-vX.X.X-firefox.zip` from [Releases](https://github.com/fastfingertips/youtube-auto-liker/releases)
+1. Download the `youtube-interaction-manager-vX.X.X-firefox.zip` from [Releases](https://github.com/fastfingertips/youtube-interaction-manager/releases)
 2. Open Firefox and navigate to `about:debugging#/runtime/this-firefox`
 3. Click **"Load Temporary Add-on..."**
 4. Select the `manifest.json` from the extracted folder
@@ -99,7 +99,7 @@ This extension uses minimal permissions required for functionality:
 
 ## Privacy
 
-This extension does not collect any personal data. All data is stored locally on your device. See our [Privacy Policy](https://fastfingertips.github.io/youtube-auto-liker/privacy.html) for details.
+This extension does not collect any personal data. All data is stored locally on your device. See our [Privacy Policy](https://fastfingertips.github.io/youtube-interaction-manager/privacy.html) for details.
 
 ## License
 

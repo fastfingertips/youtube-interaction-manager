@@ -1,7 +1,7 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/fastfingertips/youtube-auto-liker/main/docs/store/promo_marquee_dark.png">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/fastfingertips/youtube-auto-liker/main/docs/store/promo_marquee_light.png">
-  <img alt="YouTube Auto Like" src="https://raw.githubusercontent.com/fastfingertips/youtube-auto-liker/main/docs/store/promo_marquee_light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/fastfingertips/youtube-interaction-manager/main/docs/store/promo_marquee_dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/fastfingertips/youtube-interaction-manager/main/docs/store/promo_marquee_light.png">
+  <img alt="YouTube Interaction Manager" src="https://raw.githubusercontent.com/fastfingertips/youtube-interaction-manager/main/docs/store/promo_marquee_light.png">
 </picture>
 
 # Privacy Policy for YouTube Interaction Manager
@@ -65,10 +65,10 @@ We may update this privacy policy from time to time. Any changes will be reflect
 
 If you have any questions about this privacy policy, please open an issue on our GitHub repository:
 
-https://github.com/fastfingertips/youtube-auto-liker/issues
+https://github.com/fastfingertips/youtube-interaction-manager/issues
 
 ## Open Source
 
 This extension is open source. You can review the complete source code at:
 
-https://github.com/fastfingertips/youtube-auto-liker
+https://github.com/fastfingertips/youtube-interaction-manager
