@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube Interaction Manager - Browser Extension</title>
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="./favicon.png">
     <style>
         :root {
             --bg-color: #ffffff;
@@ -176,14 +176,21 @@
             color: var(--accent-color);
         }
     </style>
+    <script>
+        // Fix for Vercel Rewrites: Ensure trailing slash so relative paths resolve correctly
+        // Converts /p/project-name -> /p/project-name/
+        if (!globalThis.location.pathname.endsWith('/') && !globalThis.location.pathname.includes('.')) {
+            globalThis.history.replaceState(null, '', globalThis.location.pathname + '/' + globalThis.location.search);
+        }
+    </script>
 </head>
 
 <body>
     <a href="https://github.com/fastfingertips/youtube-interaction-manager" class="banner">
         <picture>
-            <source media="(prefers-color-scheme: dark)" srcset="store/promo_marquee_dark.png">
-            <source media="(prefers-color-scheme: light)" srcset="store/promo_marquee_light.png">
-            <img src="store/promo_marquee_light.png" alt="YouTube Auto Like">
+            <source media="(prefers-color-scheme: dark)" srcset="./store/promo_marquee_dark.png">
+            <source media="(prefers-color-scheme: light)" srcset="./store/promo_marquee_light.png">
+            <img src="./store/promo_marquee_light.png" alt="YouTube Auto Like">
         </picture>
     </a>
 
@@ -259,7 +266,7 @@
 
     <h2>Links</h2>
     <ul class="links">
-        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="./privacy.html">Privacy Policy</a></li>
         <li><a href="https://github.com/fastfingertips/youtube-interaction-manager#readme">Documentation</a></li>
         <li><a href="https://github.com/fastfingertips/youtube-interaction-manager/issues">Report Issues</a></li>
     </ul>
