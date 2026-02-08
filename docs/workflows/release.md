@@ -53,13 +53,13 @@ AI will:
 3. Update CHANGELOG.md with concise entries
 
 ### 2. Bump Version and Build
-Using the new consolidated build tool:
+Using the new project-local build script:
 ```cmd
 build.bat --bump patch
 ```
 *Or directly via python:*
 ```bash
-python ../branding-tools/build_release.py --bump patch
+python tools/build_release.py --bump patch
 ```
 
 ### 3. Commit and Tag

@@ -1,2 +1,3 @@
 @echo off
-python ..\branding-tools\build_release.py %*
+@echo off
+python tools\build_release.py %*
