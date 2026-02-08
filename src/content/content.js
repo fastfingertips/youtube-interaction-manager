@@ -375,22 +375,26 @@ function showNotification(text, isSuccess) {
     const div = document.createElement('div');
     div.id = id;
 
+    // Glassmorphism Style
     Object.assign(div.style, {
         position: 'fixed',
         bottom: '24px',
         left: '24px',
-        backgroundColor: isSuccess ? CONFIG.COLORS.notifySuccess : CONFIG.COLORS.notifyError,
-        color: '#fff',
+        backgroundColor: isSuccess ? 'rgba(0, 50, 0, 0.7)' : 'rgba(50, 0, 0, 0.7)',
+        backdropFilter: 'blur(12px)',
+        webkitBackdropFilter: 'blur(12px)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        color: '#ffffff',
         padding: '12px 20px',
-        borderRadius: '8px',
+        borderRadius: '12px',
         fontFamily: 'Roboto, Arial, sans-serif',
         fontSize: '14px',
         fontWeight: '500',
         zIndex: '9999',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+        boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
         opacity: '0',
-        transform: 'translateY(20px)',
-        transition: `all ${CONFIG.TIMING.notificationFadeOut}ms cubic-bezier(0.4, 0, 0.2, 1)`
+        transform: 'translateY(20px) scale(0.95)',
+        transition: `all ${CONFIG.TIMING.notificationFadeOut}ms cubic-bezier(0.34, 1.56, 0.64, 1)`
     });
 
     div.innerText = text;
@@ -398,12 +402,12 @@ function showNotification(text, isSuccess) {
 
     requestAnimationFrame(() => {
         div.style.opacity = '1';
-        div.style.transform = 'translateY(0)';
+        div.style.transform = 'translateY(0) scale(1)';
     });
 
     setTimeout(() => {
         div.style.opacity = '0';
-        div.style.transform = 'translateY(10px)';
+        div.style.transform = 'translateY(10px) scale(0.95)';
         setTimeout(() => div.remove(), CONFIG.TIMING.notificationFadeOut);
     }, CONFIG.TIMING.notificationDuration);
 }
