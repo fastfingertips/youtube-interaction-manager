@@ -6,6 +6,11 @@
   <img alt="YouTube Interaction Manager" src="docs/store/promo_marquee_light.png">
 </picture>
 
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/nlpclmfebmnahbhffafphgnajkbkiaib?style=flat-square&logo=googlechrome&logoColor=white&label=Chrome)](https://chromewebstore.google.com/detail/youtube-auto-like/nlpclmfebmnahbhffafphgnajkbkiaib)
+[![License](https://img.shields.io/github/license/fastfingertips/youtube-interaction-manager?style=flat-square)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/fastfingertips/youtube-interaction-manager?style=flat-square&logo=github)](https://github.com/fastfingertips/youtube-interaction-manager/stargazers)
+[![GitHub release](https://img.shields.io/github/v/release/fastfingertips/youtube-interaction-manager?style=flat-square&logo=github)](https://github.com/fastfingertips/youtube-interaction-manager/releases)
+
 Smart interaction manager for YouTube. Auto-like whitelist, auto-dislike blacklist, and detailed activity logging. Improve your viewing experience by automating interactions with your favorite channels.
 
 ## Download
