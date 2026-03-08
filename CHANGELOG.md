@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+ 
++## [1.3.26] - 2026-03-08
++
++### Added
++- Automated publishing to Chrome Web Store via GitHub Actions
++- New custom domain tracking: `ytmanager.bugra.co`
++- `short_name` support in manifest for better UI display
++- `offline_enabled` support for settings management without internet
++
++### Changed
++- Refined action policy descriptions in README for better clarity
++- Set `YouTube Interaction Manager` as the default toolkit title
++
++## [1.3.25] - 2026-03-08
++
++### Added
++- **Metadata Sync**: Enhanced verification system for playlist navigation stability
++- **Robust Detection**: Intelligent channel detection for collaborative videos
++
++### Changed
++- Completed migration to modern branding and updated store descriptors
++
 
 ## [1.3.2] - 2026-01-01
 
