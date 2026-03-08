@@ -17,7 +17,7 @@ Smart interaction manager for YouTube. Auto-like whitelist, auto-dislike blackli
 
 - **[Chrome Web Store](https://chromewebstore.google.com/detail/youtube-auto-like/nlpclmfebmnahbhffafphgnajkbkiaib)**: Install directly for Chrome/Edge
 - **[GitHub Releases](https://github.com/fastfingertips/youtube-interaction-manager/releases)**: Download for Chrome or Firefox (Firefox Store coming soon)
-- **[Website](https://fastfingertips.github.io/youtube-interaction-manager/)**: Visit our documentation site
+- **[Website](https://ytmanager.bugra.co/)**: Visit our documentation site
 
 ## Screenshots
 
@@ -104,7 +104,7 @@ This extension uses minimal permissions required for functionality:
 
 ## Privacy
 
-This extension does not collect any personal data. All data is stored locally on your device. See our [Privacy Policy](https://fastfingertips.github.io/youtube-interaction-manager/privacy.html) for details.
+This extension does not collect any personal data. All data is stored locally on your device. See our [Privacy Policy](https://ytmanager.bugra.co/privacy.html) for details.
 
 ## License
 
