@@ -7,6 +7,8 @@
 </picture>
 
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/nlpclmfebmnahbhffafphgnajkbkiaib?style=flat-square&logo=googlechrome&logoColor=white&label=Chrome)](https://chromewebstore.google.com/detail/youtube-auto-like/nlpclmfebmnahbhffafphgnajkbkiaib)
+[![Release Build](https://img.shields.io/github/actions/workflow/status/fastfingertips/youtube-interaction-manager/release.yml?branch=main&style=flat-square&logo=github&label=Release%20Build)](https://github.com/fastfingertips/youtube-interaction-manager/actions/workflows/release.yml)
+[![Auto-Publish](https://img.shields.io/github/actions/workflow/status/fastfingertips/youtube-interaction-manager/publish.yml?branch=main&style=flat-square&logo=googlechrome&logoColor=white&label=Auto-Publish)](https://github.com/fastfingertips/youtube-interaction-manager/actions/workflows/publish.yml)
 [![License](https://img.shields.io/github/license/fastfingertips/youtube-interaction-manager?style=flat-square)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/fastfingertips/youtube-interaction-manager?style=flat-square&logo=github)](https://github.com/fastfingertips/youtube-interaction-manager/stargazers)
 [![GitHub release](https://img.shields.io/github/v/release/fastfingertips/youtube-interaction-manager?style=flat-square&logo=github)](https://github.com/fastfingertips/youtube-interaction-manager/releases)
