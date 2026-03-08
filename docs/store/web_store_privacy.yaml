@@ -1,6 +1,6 @@
 meta:
-  last_updated: "2026-01-01"
-  compliance_version: 1.3.2
+  last_updated: "2026-03-08"
+  compliance_version: 1.3.25
 
 single_purpose:
   description: "Automatically like or dislike YouTube videos based on user-defined channel lists (whitelist/blacklist). The extension helps users manage their YouTube interactions by automating the like/dislike process for specific channels."

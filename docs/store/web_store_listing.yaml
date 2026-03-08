@@ -1,13 +1,11 @@
 meta:
-  version: 1.3.2
-  last_updated: "2026-01-01"
+  version: 1.3.25
+  last_updated: "2026-03-08"
 
 listing:
   name: "YouTube Interaction Manager"
   summary: "Smart interaction manager for YouTube. Auto-like whitelist, auto-dislike blacklist, and detailed activity logging."
   description: |
-    NOTE: We have rebranded! "YouTube Auto Like" is now "YouTube Interaction Manager".
-
     YouTube Interaction Manager - Smart Channel Assistant
 
     Manage your YouTube interactions automatically based on your channel preferences. Whitelist your favorites, blacklist others, and customize exactly when and how interactions happen.
@@ -37,6 +35,8 @@ listing:
     - At Percentage: Trigger after watching X% of the video
     - Specific Second: Trigger after X seconds
     - Humanize: Adds random delays to feel like a real user
+    - Metadata Sync: Stability during playlist navigation
+    - Robust Detection: Support for collaborative channels
 
     ★ Activity & Privacy
     - History Log: Keep a local record of all automated actions
