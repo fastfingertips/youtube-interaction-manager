@@ -22,6 +22,11 @@ jobs:
         with:
           python-version: '3.10'
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Run Build Script
         run: python tools/build_release.py
 
@@ -34,12 +39,16 @@ jobs:
           prerelease: false
 
       - name: Upload & Publish to Chrome Web Store
-        uses: mnao305/chrome-extension-upload@v5.0.0
-        with:
-          # Uses the tag name (e.g., v1.3.26) for the zip filename
-          file-path: releases/youtube-interaction-manager-${{ github.ref_name }}-chrome.zip
-          extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
-          client-id: ${{ secrets.CHROME_CLIENT_ID }}
-          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
-          publish: true
+        env:
+          EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+          CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+        run: |
+          npx chrome-webstore-upload-cli@latest upload \
+            --source releases/youtube-interaction-manager-${{ github.ref_name }}-chrome.zip \
+            --extension-id $EXTENSION_ID \
+            --client-id $CLIENT_ID \
+            --client-secret $CLIENT_SECRET \
+            --refresh-token $REFRESH_TOKEN \
+            --auto-publish
