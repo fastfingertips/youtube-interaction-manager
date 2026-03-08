@@ -55,11 +55,11 @@ You can also set when this happens - right away, after watching some percentage 
 ### Smart Actions
 - **Whitelist**: Automatically LIKE videos from channels you trust
 - **Blacklist**: Automatically DISLIKE videos from channels you don't enjoy
-- **Unlisted Channels**: Flexible options for channels not in any list:
-  - Do Nothing (Default)
-  - Like Everything
-  - Dislike Everything
-  - **Neutral Badge**: Only show the list status icon without taking any action
+- **Unlisted Channels**: Choose how to handle channels not in any list:
+  - **Do Nothing**: Stay neutral (Default)
+  - **Like All**: Automatically like every video
+  - **Dislike All**: Automatically dislike every video
+- **Status Badge**: Toggle a visual indicator on the extension icon to see the channel's status (Whitelist, Blacklist, or Neutral) at a glance.
 
 ### Flexible Timing
 - **Instant**: Trigger the action immediately when the video starts
