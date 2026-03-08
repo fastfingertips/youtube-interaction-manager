@@ -68,12 +68,13 @@ const CONFIG = {
     // ─────────────────────────────────────────
     SELECTORS: {
         channelName: [
-            '#owner #channel-name a',
-            '.ytd-channel-name a',
-            '#upload-info #channel-name a',
-            'ytd-video-owner-renderer #channel-name a',
-            '#text.ytd-channel-name',
-            'ytd-channel-name a'
+            'ytd-watch-metadata yt-page-header-view-model h1 span', // Modern Video Page Header
+            'ytd-watch-metadata #attributed-channel-name',        // Collaborative Videos
+            'ytd-watch-metadata #owner #channel-name a',           // Standard Video Owner
+            'ytd-watch-metadata .ytd-channel-name a',              // General Metadata Owner
+            'yt-page-header-view-model h1 span',                   // Channel Page Header
+            'ytd-video-owner-renderer #channel-name a',            // Legacy Renderer
+            '#upload-info #channel-name a'                         // Old Upload Info
         ],
         videoTitle: [
             '#title > h1 > yt-formatted-string',

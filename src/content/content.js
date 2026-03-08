@@ -31,8 +31,13 @@ chrome.storage.sync.get(null, (res) => {
     if (res.enableDebug) state.enableDebug = true;
     debugLog("[SYSTEM] Extension Loaded. Hooking events...");
 
+    // 1. Initial Check: Run immediately on load (Handles F5 and Direct Access)
+    handleNavigation();
+
+    // 2. YouTube Internal Events (Handles SPA transitions)
     document.addEventListener('yt-navigate-finish', handleNavigation);
 
+    // 3. Document Visibility
     document.addEventListener('visibilitychange', () => {
         state.isPageActive = !document.hidden;
     });
@@ -112,8 +117,17 @@ function checkVideoStatus() {
 
         if (state.processedVideoId === currentVideoId) return;
 
+        // --- DOM-URL SYNC CHECK (Playlist & SPA Fix) ---
+        if (!isMetadataReady(currentVideoId)) {
+            debugLog(`[WAIT] Metadata not synced. URL: ${currentVideoId}, DOM: ${document.querySelector('ytd-watch-metadata')?.getAttribute('video-id') || 'null'}`);
+            return;
+        }
+
         const video = document.querySelector('video');
-        if (!video || video.readyState < 1) return;
+        if (!video || video.readyState < 1) {
+            debugLog("[WAIT] Video element not ready.");
+            return;
+        }
 
         // --- TETİKLEME MANTIĞI ---
         chrome.storage.sync.get(['triggerType', 'triggerSeconds', 'triggerPercent', 'enableHumanize'], (settings) => {
@@ -216,16 +230,18 @@ function processVideo(videoId) {
         const reason = result.reason;
 
         if (action && action !== 'none') {
-            debugLog(`[ACTION] Decided to ${action.toUpperCase()} (${reason}) - Channel: ${data.channelName}`);
+            debugLog(`[DECISION] Action: ${action.toUpperCase()}, Reason: ${reason}, Channel: ${data.channelName}`);
             const success = attemptAction(action, data.channelName);
 
             if (success) {
                 logActivity(action.toUpperCase(), data, videoId, reason);
                 state.processedVideoId = videoId;
                 scheduleVerification(action, data.channelName, CONFIG.TIMING.verificationDelays);
+            } else {
+                debugLog(`[FAIL] Action ${action.toUpperCase()} execution failed for ${data.channelName}`);
             }
         } else {
-            debugLog(`[SKIP] No action taken. Reason: ${reason} - Channel: ${data.channelName}`);
+            debugLog(`[SKIP] No action taken. Reason: ${reason}, Channel: ${data.channelName}`);
             state.processedVideoId = videoId;
         }
     });
@@ -241,19 +257,20 @@ function attemptAction(action, channelName) {
     }
 
     if (!btn) {
-        debugLog(`[FAIL] ${action} button not found.`);
+        debugLog(`[FAIL] ${action.toUpperCase()} button NOT FOUND for channel: ${channelName}. Checked selectors: ${btnSelectors.join(', ')}`);
         return false;
     }
 
     const isPressed = btn.getAttribute('aria-pressed') === 'true';
 
     if (isPressed) {
-        debugLog(`[INFO] Button already pressed.`);
+        debugLog(`[INFO] ${action.toUpperCase()} button ALREADY PRESSED for ${channelName}. Skipping...`);
         return true;
     }
 
+    debugLog(`[EXECUTE] Clicking ${action.toUpperCase()} button for ${channelName}...`);
     btn.click();
-    debugLog(`[CLICK] ${action} button clicked.`);
+    
     if (!state.verificationTimers.length) {
         showNotification(`${action.toUpperCase()}: ${channelName}`, action === 'like');
     }
@@ -324,7 +341,7 @@ function getVideoData() {
 
     for (let sel of CONFIG.SELECTORS.channelName) {
         const el = document.querySelector(sel);
-        if (el) {
+        if (el && el.textContent.trim()) {
             channelName = el.textContent.trim();
             channelUrl = el.href || el.closest('a')?.href || null;
             break;
@@ -365,6 +382,29 @@ function logActivity(action, data, videoId, reason) {
         if (logs.length > 50) logs = logs.slice(0, 50); // Increased log limit a bit
         chrome.storage.sync.set({ activityLogs: logs });
     });
+}
+
+function isMetadataReady(currentVideoId) {
+    // 1. Check Primary Metadata Component (Modern YouTube)
+    const watchMetadata = document.querySelector('ytd-watch-metadata');
+    if (watchMetadata) {
+        const domVideoId = watchMetadata.getAttribute('video-id');
+        const ready = domVideoId === currentVideoId;
+        if (!ready) {
+            debugLog(`[SYNC-CHECK] Metadata mismatch. URL ID: ${currentVideoId}, DOM ID: ${domVideoId || 'null'}`);
+        }
+        return ready;
+    }
+
+    // 2. Fallback for older layouts or specific views
+    const videoPrimaryInfo = document.querySelector('ytd-video-primary-info-renderer');
+    if (videoPrimaryInfo) {
+        debugLog("[SYNC-CHECK] Falling back to primary-info renderer (Assuming Ready)");
+        return true; 
+    }
+
+    debugLog("[SYNC-CHECK] No valid metadata element found yet.");
+    return false; // Not ready or can't verify
 }
 
 function showNotification(text, isSuccess) {
