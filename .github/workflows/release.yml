@@ -1,4 +1,4 @@
-name: Build and Release
+name: Build, Release and Publish
 
 on:
   push:
@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  build-and-release:
+  build-release-publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -32,3 +32,14 @@ jobs:
           generate_release_notes: true
           draft: false
           prerelease: false
+
+      - name: Upload & Publish to Chrome Web Store
+        uses: mnao305/chrome-extension-upload@v5
+        with:
+          # Uses the tag name (e.g., v1.3.26) for the zip filename
+          file-path: releases/youtube-interaction-manager-${{ github.ref_name }}-chrome.zip
+          extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          publish: true
