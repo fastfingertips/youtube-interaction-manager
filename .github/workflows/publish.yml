@@ -1,0 +1,34 @@
+name: Auto-Publish to Chrome Web Store
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish-to-webstore:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Build Zip Package
+        run: python tools/build_release.py
+
+      - name: Upload & Publish to Chrome Web Store
+        uses: mnao305/chrome-extension-upload@v5
+        with:
+          # Targets the zip file produced by build_release.py in the 'releases' directory
+          # The filename must match the tag version (vX.X.X)
+          file-path: releases/youtube-interaction-manager-${{ github.event.release.tag_name }}-chrome.zip
+          extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          publish: true
