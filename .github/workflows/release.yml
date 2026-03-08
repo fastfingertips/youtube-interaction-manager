@@ -34,7 +34,7 @@ jobs:
           prerelease: false
 
       - name: Upload & Publish to Chrome Web Store
-        uses: mnao305/chrome-extension-upload@v5
+        uses: mnao305/chrome-extension-upload@v5.0.0
         with:
           # Uses the tag name (e.g., v1.3.26) for the zip filename
           file-path: releases/youtube-interaction-manager-${{ github.ref_name }}-chrome.zip
