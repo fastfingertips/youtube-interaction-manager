@@ -1,6 +1,7 @@
 {
     "manifest_version": 3,
     "name": "YouTube Interaction Manager",
+    "short_name": "YT Interaction",
     "version": "1.3.25",
     "description": "Smart interaction manager for YouTube. Auto-like whitelist, auto-dislike blacklist, and detailed activity logging.",
     "icons": {
