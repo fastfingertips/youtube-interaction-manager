@@ -10,10 +10,21 @@ const BackupUtils = {
      */
     createBackup() {
         return new Promise((resolve) => {
-            chrome.storage.sync.get(null, (data) => {
+            chrome.storage.local.get(null, (data) => {
+                // Order keys: simple settings first, arrays last
+                const ordered = {};
+                const arrayKeys = ['whitelist', 'blacklist', 'activityLogs'];
+                Object.keys(data).sort((a, b) => {
+                    const aIsArray = arrayKeys.includes(a);
+                    const bIsArray = arrayKeys.includes(b);
+                    if (aIsArray !== bIsArray) return aIsArray ? 1 : -1;
+                    return a.localeCompare(b);
+                }).forEach(key => {
+                    if (key !== '_migrated') ordered[key] = data[key];
+                });
                 resolve({
                     timestamp: new Date().toISOString(),
-                    data: data
+                    data: ordered
                 });
             });
         });
@@ -60,7 +71,7 @@ const BackupUtils = {
     saveBackup(data) {
         return new Promise((resolve, reject) => {
             // Handle both Chrome (callback) and Firefox (Promise) APIs
-            const result = chrome.storage.sync.set(data, () => {
+            const result = chrome.storage.local.set(data, () => {
                 if (chrome.runtime.lastError) {
                     reject(new Error(chrome.runtime.lastError.message));
                 } else {

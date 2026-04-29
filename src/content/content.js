@@ -27,7 +27,7 @@ function debugLog(message, data = null, allowSpam = false) {
 }
 
 // --- INIT ---
-chrome.storage.sync.get(null, (res) => {
+chrome.storage.local.get(null, (res) => {
     if (res.enableDebug) state.enableDebug = true;
     debugLog("[SYSTEM] Extension Loaded. Hooking events...");
 
@@ -47,7 +47,7 @@ chrome.storage.sync.get(null, (res) => {
 
 // --- LISTENER ---
 chrome.storage.onChanged.addListener((changes, namespace) => {
-    if (namespace === 'sync') {
+    if (namespace === 'local') {
         if (changes.enableDebug) {
             state.enableDebug = changes.enableDebug.newValue;
         }
@@ -91,7 +91,7 @@ function startObserver() {
 function checkVideoStatus() {
     if (!state.isPageActive && state.processedVideoId === state.currentVideoId) return;
 
-    chrome.storage.sync.get(['enableExtension', 'enableDebug'], (res) => {
+    chrome.storage.local.get(['enableExtension', 'enableDebug'], (res) => {
         state.enableDebug = res.enableDebug ?? false;
 
         if (res.enableExtension === false) {
@@ -130,7 +130,7 @@ function checkVideoStatus() {
         }
 
         // --- TETİKLEME MANTIĞI ---
-        chrome.storage.sync.get(['triggerType', 'triggerSeconds', 'triggerPercent', 'enableHumanize'], (settings) => {
+        chrome.storage.local.get(['triggerType', 'triggerSeconds', 'triggerPercent', 'enableHumanize'], (settings) => {
             const triggerType = settings.triggerType || 'instant';
             const triggerSeconds = settings.triggerSeconds || 10;
             const triggerPercent = settings.triggerPercent || 50;
@@ -224,7 +224,7 @@ function processVideo(videoId) {
         'enableLike', 'enableDislike'
     ];
 
-    chrome.storage.sync.get(keys, (settings) => {
+    chrome.storage.local.get(keys, (settings) => {
         const result = resolveActionForChannel(data.channelName, settings);
         const action = result.action;
         const reason = result.reason;
@@ -307,7 +307,7 @@ function updateIconState() {
         'enableExtension'
     ];
 
-    chrome.storage.sync.get(keys, (settings) => {
+    chrome.storage.local.get(keys, (settings) => {
         // Eğer eklenti kapalıysa
         if (settings.enableExtension === false) {
             chrome.runtime.sendMessage({ action: "updateIcon", status: "disabled" });
@@ -366,7 +366,7 @@ function checkIsListed(list, name) {
 }
 
 function logActivity(action, data, videoId, reason) {
-    chrome.storage.sync.get(['activityLogs', 'enableHistory'], (res) => {
+    chrome.storage.local.get(['activityLogs', 'enableHistory'], (res) => {
         if (res.enableHistory === false) return;
 
         let logs = res.activityLogs || [];
@@ -380,7 +380,7 @@ function logActivity(action, data, videoId, reason) {
         };
         logs.unshift(newLog);
         if (logs.length > 50) logs = logs.slice(0, 50); // Increased log limit a bit
-        chrome.storage.sync.set({ activityLogs: logs });
+        chrome.storage.local.set({ activityLogs: logs });
     });
 }
 

@@ -287,7 +287,7 @@ function saveSettings() {
             showStatus("Saved.");
             updateStatusBanners();
             // Re-render logs with current setting
-            chrome.storage.sync.get(['activityLogs'], res => {
+            chrome.storage.local.get(['activityLogs'], res => {
                 renderLogs(res.activityLogs || [], settings.enableHistory);
             });
         })

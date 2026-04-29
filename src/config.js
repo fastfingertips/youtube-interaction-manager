@@ -97,21 +97,23 @@ const CONFIG = {
     // STORAGE KEYS
     // ─────────────────────────────────────────
     STORAGE_KEYS: [
+        // Settings (simple values)
         'enableExtension',
         'enableLike',
         'enableDislike',
-        'triggerType',
-        'triggerSeconds',
-        'triggerPercent',
         'enableHumanize',
-        'whitelist',
-        'blacklist',
+        'enableDebug',
+        'enableHistory',
+        'showNeutralBadge',
         'actionWhitelist',
         'actionBlacklist',
         'actionUnlisted',
-        'showNeutralBadge',
-        'enableDebug',
-        'enableHistory',
+        'triggerType',
+        'triggerSeconds',
+        'triggerPercent',
+        // Data (arrays)
+        'whitelist',
+        'blacklist',
         'activityLogs'
     ],
 

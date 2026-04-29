@@ -1,6 +1,28 @@
 // Chrome Extension MV3 Service Worker
 importScripts('../config.js');
 
+// --- MIGRATION: sync -> local (v1.3.27+) ---
+// One-time migration for existing users who had data in chrome.storage.sync
+chrome.runtime.onInstalled.addListener((details) => {
+    if (details.reason === 'update' || details.reason === 'install') {
+        chrome.storage.local.get('_migrated', (localData) => {
+            if (localData._migrated) return; // Already migrated
+
+            chrome.storage.sync.get(null, (syncData) => {
+                if (syncData && Object.keys(syncData).length > 0) {
+                    syncData._migrated = true;
+                    chrome.storage.local.set(syncData, () => {
+                        console.log('[YIM] Migration complete: sync -> local', Object.keys(syncData).length, 'keys');
+                    });
+                } else {
+                    // No sync data, just mark as migrated
+                    chrome.storage.local.set({ _migrated: true });
+                }
+            });
+        });
+    }
+});
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "updateIcon") {
         const tabId = sender.tab.id;

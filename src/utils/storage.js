@@ -10,7 +10,7 @@ const StorageUtils = {
      */
     getAllData() {
         return new Promise((resolve) => {
-            chrome.storage.sync.get(CONFIG.STORAGE_KEYS, (res) => {
+            chrome.storage.local.get(CONFIG.STORAGE_KEYS, (res) => {
                 if (chrome.runtime.lastError) {
                     console.error("Storage Error:", chrome.runtime.lastError);
                     resolve({});
@@ -28,7 +28,7 @@ const StorageUtils = {
      */
     saveSettings(settings) {
         return new Promise((resolve, reject) => {
-            chrome.storage.sync.set(settings, () => {
+            chrome.storage.local.set(settings, () => {
                 if (chrome.runtime.lastError) reject(chrome.runtime.lastError);
                 else resolve();
             });
