@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
  
+## [1.3.27] - 2026-04-29
+
+### Fixed
+- **Storage Migration**: Switched from `chrome.storage.sync` (8KB limit) to `chrome.storage.local` (10MB limit) to resolve the whitelist capacity issue (Fixes #3).
+- **Auto-Migration**: Implemented background logic to safely migrate existing user data from sync to local storage on update.
+
+### Changed
+- **Data Export**: Reordered backup JSON structure for better readability (settings first, large data arrays last).
+- **Maintenance**: Updated OAuth credentials and publishing pipeline for 2026 stability.
+
 +## [1.3.26] - 2026-03-08
 +
 +### Added
