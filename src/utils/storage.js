@@ -91,6 +91,22 @@ const StorageUtils = {
     },
 
     /**
+     * Remove a single activity log entry
+     * @param {number} index 
+     * @returns {Promise<Array>} Updated logs
+     */
+    async removeLog(index) {
+        const res = await this.getAllData();
+        const currentLogs = res.activityLogs || [];
+        const updatedLogs = [...currentLogs];
+        
+        updatedLogs.splice(index, 1);
+        
+        await this.saveSettings({ activityLogs: updatedLogs });
+        return updatedLogs;
+    },
+
+    /**
      * Simple toggle for boolean settings (e.g. enableExtension)
      * @param {string} key 
      * @param {boolean} value 

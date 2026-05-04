@@ -417,6 +417,13 @@ async function handleClearLogs() {
     }
 }
 
+async function handleRemoveLog(index) {
+    const updatedLogs = await StorageUtils.removeLog(index);
+    const isHistoryEnabled = UI.settings.checkHistory ? UI.settings.checkHistory.checked : true;
+    renderLogs(updatedLogs, isHistoryEnabled);
+    showStatus("Entry removed.");
+}
+
 function renderLogs(logs, isHistoryEnabled = true) {
     if (!UI.logs.ul) return;
     UI.logs.ul.innerHTML = '';
@@ -444,7 +451,7 @@ function renderLogs(logs, isHistoryEnabled = true) {
         return;
     }
 
-    logs.slice(0, 50).forEach(log => {
+    logs.slice(0, 50).forEach((log, index) => {
         const li = document.createElement('li');
         li.className = 'log-item';
 
@@ -504,6 +511,17 @@ function renderLogs(logs, isHistoryEnabled = true) {
         if (log.reason) {
             li.title = `Reason: ${log.reason}`;
         }
+
+        // Delete button (×)
+        const btn = document.createElement('span');
+        btn.className = 'del-btn';
+        btn.textContent = '×';
+        btn.title = 'Remove this entry';
+        btn.onclick = (e) => {
+            e.stopPropagation();
+            handleRemoveLog(index);
+        };
+        li.appendChild(btn);
 
         UI.logs.ul.appendChild(li);
     });
