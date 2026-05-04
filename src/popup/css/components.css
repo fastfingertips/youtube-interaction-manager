@@ -484,3 +484,47 @@ button:hover {
     background: rgba(255, 255, 255, 0.2);
     color: var(--btn-text);
 }
+
+/* ============================================
+   7. SCROLL TO TOP BUTTON
+   ============================================ */
+
+.scroll-top-btn {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, 10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scroll-top-btn.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+}
+
+.scroll-top-btn:hover {
+    filter: brightness(1.1);
+    transform: translate(-50%, -2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.scroll-top-btn:active {
+    transform: translate(-50%, 0) scale(0.95);
+}
+
+

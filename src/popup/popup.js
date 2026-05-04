@@ -42,6 +42,7 @@ function initApp() {
             addBlacklistBtn: document.getElementById('addBlacklistBtn'),
             whitelistUl: document.getElementById('whitelistUl'),
             blacklistUl: document.getElementById('blacklistUl'),
+            scrollToTopBtn: document.getElementById('scrollToTopBtn'),
             whitelistCount: document.getElementById('whitelistCount'),
             blacklistCount: document.getElementById('blacklistCount'),
             whitelistDisabledBanner: document.getElementById('whitelistDisabledBanner'),
@@ -122,6 +123,9 @@ function setupEventListeners() {
 
     if (UI.lists.addWhitelistBtn) UI.lists.addWhitelistBtn.addEventListener('click', () => handleAutoAdd('whitelist'));
     if (UI.lists.addBlacklistBtn) UI.lists.addBlacklistBtn.addEventListener('click', () => handleAutoAdd('blacklist'));
+
+    // Initialize Scroll to Top logic
+    initScrollToTop();
 
     if (UI.lists.btnExport) UI.lists.btnExport.addEventListener('click', handleExport);
 
@@ -544,6 +548,40 @@ function createDeleteButton(onClick, title = 'Remove') {
         onClick(e);
     };
     return btn;
+}
+
+function initScrollToTop() {
+    const btn = UI.lists.scrollToTopBtn;
+    if (!btn) return;
+
+    const scrollableLists = [UI.lists.whitelistUl, UI.lists.blacklistUl, UI.logs.ul];
+
+    const updateBtnVisibility = (e) => {
+        if (e.target.scrollTop > 80) {
+            btn.classList.add('visible');
+        } else {
+            btn.classList.remove('visible');
+        }
+    };
+
+    scrollableLists.forEach(ul => {
+        if (ul) ul.addEventListener('scroll', updateBtnVisibility);
+    });
+
+    btn.addEventListener('click', () => {
+        const activeTab = document.querySelector('.tab-content.active');
+        const activeUl = activeTab ? activeTab.querySelector('ul') : null;
+        if (activeUl) {
+            activeUl.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+
+    // Hide button when switching tabs
+    document.querySelectorAll('.tab-btn').forEach(tabBtn => {
+        tabBtn.addEventListener('click', () => {
+            btn.classList.remove('visible');
+        });
+    });
 }
 
 async function handleExport() {
