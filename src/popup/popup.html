@@ -14,13 +14,20 @@
 
 <body>
 
-    <div class="header-container">
+    <div class="header-container" style="position: relative;">
         <h2>Interaction</h2>
         <label class="switch" title="Master Enable/Disable" for="masterSwitch">
             <span class="sr-only">Master Toggle</span>
             <input type="checkbox" id="masterSwitch">
             <span class="slider round"></span>
         </label>
+        <div id="masterHint" class="master-hint" style="display: none;">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 19c2-5 5-11 12-14"/>
+                <path d="M13 5h5v5"/>
+            </svg>
+            <span>Extension is <strong>PAUSED</strong><br>Enable to activate!</span>
+        </div>
     </div>
 
     <div class="tabs">

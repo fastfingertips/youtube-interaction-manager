@@ -56,7 +56,8 @@ function initApp() {
             btnClear: document.getElementById('btnClearLogs'),
             historyDisabledBanner: document.getElementById('historyDisabledBanner')
         },
-        status: document.getElementById('statusMsg')
+        status: document.getElementById('statusMsg'),
+        masterHint: document.getElementById('masterHint')
     };
 
     if (UI.versionBadge && chrome.runtime.getManifest) {
@@ -264,6 +265,10 @@ function updateMasterUI(isEnabled) {
         el.style.pointerEvents = isEnabled ? 'auto' : 'none';
         el.style.filter = isEnabled ? 'none' : 'grayscale(100%)';
     });
+
+    if (UI.masterHint) {
+        UI.masterHint.style.display = isEnabled ? 'none' : 'flex';
+    }
 }
 
 function saveSettings() {

@@ -55,6 +55,48 @@ input:checked+.slider:before {
     transform: translateX(16px);
 }
 
+/* Master Switch Pulse Animation (when disabled) */
+@keyframes pulse-disabled {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 8px rgba(255, 82, 82, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 82, 82, 0);
+    }
+}
+
+input:not(:checked)+.slider {
+    animation: pulse-disabled 2s infinite;
+    background-color: rgba(255, 82, 82, 0.1); /* Very subtle red tint */
+}
+
+@media (prefers-color-scheme: dark) {
+    input:not(:checked)+.slider {
+        box-shadow: 0 0 0 0 rgba(242, 139, 130, 0.4);
+        background-color: rgba(242, 139, 130, 0.1);
+    }
+    
+    @keyframes pulse-disabled-dark {
+        0% {
+            box-shadow: 0 0 0 0 rgba(242, 139, 130, 0.4);
+        }
+        70% {
+            box-shadow: 0 0 0 8px rgba(242, 139, 130, 0);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(242, 139, 130, 0);
+        }
+    }
+    
+    input:not(:checked)+.slider {
+        animation: pulse-disabled-dark 2s infinite;
+    }
+}
+
+
 /* ============================================
    2. FORM CONTROLS
    ============================================ */
