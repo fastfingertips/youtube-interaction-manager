@@ -6,16 +6,26 @@
     margin-top: 5px;
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    overflow: hidden;
+    flex: 0 1 auto; /* Grow to content, but don't force fill */
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    max-height: 100%;
 }
+
+
 
 ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    max-height: 260px;
+    flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 0; /* Enable internal scroll */
 }
+
+
 
 ul::-webkit-scrollbar {
     width: 6px;
@@ -96,17 +106,26 @@ li:hover {
    ============================================ */
 
 .logs-container {
-    margin-top: 0;
-    padding-top: 0;
-    border-top: none;
+    margin-top: 10px;
+    flex: 0 1 auto; /* Grow to content */
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    max-height: 100%;
 }
+
+
 
 .logs-list {
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    max-height: 320px;
+    flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 0; /* Enable internal scroll */
 }
+
+
 
 .logs-list li {
     padding: 0;

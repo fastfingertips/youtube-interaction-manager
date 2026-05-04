@@ -491,7 +491,7 @@ button:hover {
 
 .scroll-top-btn {
     position: fixed;
-    bottom: 16px;
+    bottom: 52px; /* Just above the footer */
     left: 50%;
     width: 32px;
     height: 32px;
@@ -499,12 +499,12 @@ button:hover {
     background: var(--btn-bg);
     color: var(--btn-text);
     border: none;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 1000;
+    z-index: 2000;
     opacity: 0;
     visibility: hidden;
     transform: translate(-50%, 10px);
@@ -526,5 +526,10 @@ button:hover {
 .scroll-top-btn:active {
     transform: translate(-50%, 0) scale(0.95);
 }
+
+
+
+
+
 
 
