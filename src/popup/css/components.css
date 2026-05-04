@@ -288,26 +288,6 @@ button:hover {
     background: var(--hover-bg);
 }
 
-.btn-success {
-    background: var(--success-color);
-    border-color: var(--success-color);
-    color: var(--btn-text);
-}
-
-.btn-success:hover {
-    opacity: 0.9;
-}
-
-.btn-danger {
-    background: var(--danger-color);
-    border-color: var(--danger-color);
-    color: var(--btn-text);
-}
-
-.btn-danger:hover {
-    opacity: 0.9;
-}
-
 .danger-btn {
     color: var(--danger-color);
     background: var(--danger-bg-light);

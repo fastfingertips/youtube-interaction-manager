@@ -342,6 +342,7 @@ async function addChannel(name, url, targetListKey) {
 async function removeChannel(nameToDelete, listKey) {
     const updatedList = await StorageUtils.removeChannel(nameToDelete, listKey);
     renderList(updatedList, listKey);
+    showStatus(`${listKey === 'whitelist' ? 'Whitelisted' : 'Blacklisted'} channel removed.`);
 }
 
 function renderList(list, listKey) {
@@ -396,11 +397,7 @@ function renderList(list, listKey) {
             contentDiv.appendChild(span);
         }
 
-        const btn = document.createElement('span');
-        btn.className = 'del-btn';
-        btn.textContent = '×';
-        btn.title = 'Remove';
-        btn.onclick = () => removeChannel(name, listKey);
+        const btn = createDeleteButton(() => removeChannel(name, listKey), 'Remove');
 
         li.appendChild(contentDiv);
         li.appendChild(btn);
@@ -513,14 +510,7 @@ function renderLogs(logs, isHistoryEnabled = true) {
         }
 
         // Delete button (×)
-        const btn = document.createElement('span');
-        btn.className = 'del-btn';
-        btn.textContent = '×';
-        btn.title = 'Remove this entry';
-        btn.onclick = (e) => {
-            e.stopPropagation();
-            handleRemoveLog(index);
-        };
+        const btn = createDeleteButton((e) => handleRemoveLog(index), 'Remove this entry');
         li.appendChild(btn);
 
         UI.logs.ul.appendChild(li);
@@ -542,6 +532,18 @@ function createSvgIcon(pathD, size = 12, strokeWidth = 2) {
     svg.appendChild(path);
 
     return svg;
+}
+
+function createDeleteButton(onClick, title = 'Remove') {
+    const btn = document.createElement('span');
+    btn.className = 'del-btn';
+    btn.textContent = '×';
+    btn.title = title;
+    btn.onclick = (e) => {
+        if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
+        onClick(e);
+    };
+    return btn;
 }
 
 async function handleExport() {

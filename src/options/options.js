@@ -7,19 +7,19 @@ const statusEl = document.getElementById('status');
 const btnExport = document.getElementById('btnExport');
 const fileInput = document.getElementById('fileInput');
 
-function showStatus(message, isError = false) {
-    statusEl.textContent = message;
+function showStatus(msg, isError = false) {
+    statusEl.textContent = msg;
     statusEl.className = isError ? 'error' : 'success';
     setTimeout(() => {
         statusEl.className = '';
         statusEl.textContent = '';
-    }, CONFIG.TIMING.notificationDuration);
+    }, CONFIG.TIMING.statusMessage);
 }
 
 async function handleExport() {
     try {
         await BackupUtils.exportBackup();
-        showStatus("Backup exported successfully!");
+        showStatus("Backup exported.");
     } catch {
         showStatus("Export failed.", true);
     }
@@ -31,9 +31,9 @@ async function handleImport(event) {
 
     try {
         await BackupUtils.importBackup(file);
-        showStatus("Settings imported! Reload the extension popup to see changes.");
-    } catch (err) {
-        showStatus("Import failed: " + (err.message || "Unknown error"), true);
+        showStatus("Imported! Reload the popup to see changes.");
+    } catch {
+        showStatus("Import failed.", true);
     }
     event.target.value = '';
 }
