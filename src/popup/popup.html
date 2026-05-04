@@ -174,11 +174,15 @@
             </svg>
             <span>Auto-like is <strong>disabled</strong> for whitelist in Settings</span>
         </div>
+        <div class="tab-header">
+            <div class="tab-header-info">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--success-color)" stroke-width="2">
+                    <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
+                </svg>
+                <span>Whitelisted Channels <span id="whitelistTabCount" class="list-count">0</span></span>
+            </div>
+        </div>
         <div class="tab-info-bar">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--success-color)" stroke-width="2">
-                <path
-                    d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
-            </svg>
             <span>Channels here will be <strong>liked</strong> automatically</span>
         </div>
         <button id="addWhitelistBtn" class="btn-add-full">
@@ -203,11 +207,15 @@
             </svg>
             <span>Auto-dislike is <strong>disabled</strong> for blacklist in Settings</span>
         </div>
+        <div class="tab-header">
+            <div class="tab-header-info">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--danger-color)" stroke-width="2">
+                    <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17" />
+                </svg>
+                <span>Blacklisted Channels <span id="blacklistTabCount" class="list-count">0</span></span>
+            </div>
+        </div>
         <div class="tab-info-bar">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--danger-color)" stroke-width="2">
-                <path
-                    d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17" />
-            </svg>
             <span>Channels here will be <strong>disliked</strong> automatically</span>
         </div>
         <button id="addBlacklistBtn" class="btn-add-full">
@@ -237,7 +245,7 @@
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
                 </svg>
-                <span>Recent activity</span>
+                <span>Recent activity <span id="activityTabCount" class="list-count">0</span></span>
             </div>
             <button id="btnClearLogs" class="btn-sm danger-btn" title="Clear all logs">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

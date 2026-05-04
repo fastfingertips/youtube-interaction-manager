@@ -12,6 +12,9 @@ function initApp() {
             blacklist: document.getElementById('btn-blacklist'),
             activity: document.getElementById('btn-activity'),
             about: document.getElementById('btn-about'),
+            whitelistTabCount: document.getElementById('whitelistTabCount'),
+            blacklistTabCount: document.getElementById('blacklistTabCount'),
+            activityTabCount: document.getElementById('activityTabCount'),
 
             contentSettings: document.getElementById('content-settings'),
             contentWhitelist: document.getElementById('content-whitelist'),
@@ -340,9 +343,15 @@ function renderList(list, listKey) {
     const ul = listKey === 'whitelist' ? UI.lists.whitelistUl : UI.lists.blacklistUl;
     const countEl = listKey === 'whitelist' ? UI.lists.whitelistCount : UI.lists.blacklistCount;
 
-    // Update count badge
+    // Update count badges
     if (countEl) {
         countEl.textContent = list?.length || 0;
+    }
+
+    // Update tab counts
+    const tabCountEl = listKey === 'whitelist' ? UI.tabs.whitelistTabCount : UI.tabs.blacklistTabCount;
+    if (tabCountEl) {
+        tabCountEl.textContent = list?.length || 0;
     }
 
     if (!ul) return;
@@ -406,6 +415,11 @@ async function handleClearLogs() {
 function renderLogs(logs, isHistoryEnabled = true) {
     if (!UI.logs.ul) return;
     UI.logs.ul.innerHTML = '';
+
+    // Update activity tab count
+    if (UI.tabs.activityTabCount) {
+        UI.tabs.activityTabCount.textContent = logs?.length || 0;
+    }
 
     if (!isHistoryEnabled) {
         return; // Banner handles this now
