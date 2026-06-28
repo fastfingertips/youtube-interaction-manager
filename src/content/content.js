@@ -371,6 +371,7 @@ function logActivity(action, data, videoId, reason) {
 
         let logs = res.activityLogs || [];
         const newLog = {
+            timestamp: Date.now(),
             time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             action: action,
             title: data.videoTitle || data.channelName || "Video",

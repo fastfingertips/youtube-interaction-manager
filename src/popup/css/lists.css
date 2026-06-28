@@ -61,21 +61,43 @@ li:hover {
 
 .channel-info {
     flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    min-width: 0;
     padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .channel-link {
-    color: var(--text-color);
+    color: var(--link-color);
     text-decoration: none;
     font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    max-width: 100%;
 }
 
 .channel-link:hover {
-    color: var(--link-color);
     text-decoration: underline;
+    opacity: 0.8;
+}
+
+.channel-name-static {
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    max-width: 100%;
+    color: var(--text-color);
+}
+
+.channel-date {
+    font-size: 10px;
+    color: var(--sub-text-color);
+    display: block;
 }
 
 /* Delete Button - Modern Style */

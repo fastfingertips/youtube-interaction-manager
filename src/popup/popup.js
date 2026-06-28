@@ -387,18 +387,37 @@ function renderList(list, listKey) {
             const a = document.createElement('a');
             a.href = url;
             a.textContent = name;
-            const linkIcon = document.createElement('span');
-            linkIcon.style.cssText = 'font-size:10px; color:var(--link-color); opacity:0.8; margin-left:3px;';
-            linkIcon.textContent = '🔗';
-            a.appendChild(linkIcon);
             a.target = "_blank";
             a.className = 'channel-link';
             a.title = `Open channel: ${url}`;
             contentDiv.appendChild(a);
         } else {
             const span = document.createElement('span');
+            span.className = 'channel-name-static';
             span.textContent = name;
             contentDiv.appendChild(span);
+        }
+
+        // Add date if available
+        if (item.date) {
+            try {
+                const date = new Date(item.date);
+                if (!isNaN(date.getTime())) {
+                    const dateSpan = document.createElement('span');
+                    dateSpan.className = 'channel-date';
+                    const dateFormatted = date.toLocaleString([], {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    dateSpan.textContent = `Added: ${dateFormatted}`;
+                    contentDiv.appendChild(dateSpan);
+                }
+            } catch (e) {
+                console.error("Error formatting channel date:", e);
+            }
         }
 
         const btn = createDeleteButton(() => removeChannel(name, listKey), 'Remove');
@@ -498,7 +517,24 @@ function renderLogs(logs, isHistoryEnabled = true) {
 
         const timeSpan = document.createElement('span');
         timeSpan.className = 'log-time';
-        timeSpan.textContent = log.time || '';
+        
+        let displayTime = log.time || '';
+        if (log.timestamp) {
+            try {
+                const date = new Date(log.timestamp);
+                if (!isNaN(date.getTime())) {
+                    displayTime = date.toLocaleString([], {
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                }
+            } catch (e) {
+                console.error("Error formatting timestamp:", e);
+            }
+        }
+        timeSpan.textContent = displayTime;
 
         metaDiv.appendChild(channelSpan);
         metaDiv.appendChild(timeSpan);
