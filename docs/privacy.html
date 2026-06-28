@@ -5,7 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - YouTube Interaction Manager</title>
+    <meta name="description" content="Privacy policy for YouTube Interaction Manager. Learn what data is stored locally, which permissions are used, and how the extension handles your information.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ytmanager.bugra.co/privacy.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="YouTube Interaction Manager">
+    <meta property="og:title" content="Privacy Policy - YouTube Interaction Manager">
+    <meta property="og:description" content="YouTube Interaction Manager stores settings locally and does not collect personal data.">
+    <meta property="og:url" content="https://ytmanager.bugra.co/privacy.html">
+    <meta property="og:image" content="https://ytmanager.bugra.co/store/promo_marquee_light.png">
+    <meta property="og:image:alt" content="YouTube Interaction Manager privacy policy preview">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Privacy Policy - YouTube Interaction Manager">
+    <meta name="twitter:description" content="Privacy and permissions details for YouTube Interaction Manager.">
+    <meta name="twitter:image" content="https://ytmanager.bugra.co/store/promo_marquee_light.png">
     <link rel="icon" type="image/png" href="./favicon.png">
+    <link rel="stylesheet" href="./site.css">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Privacy Policy - YouTube Interaction Manager",
+            "description": "Privacy policy and permissions details for YouTube Interaction Manager.",
+            "url": "https://ytmanager.bugra.co/privacy.html",
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "YouTube Interaction Manager",
+                "url": "https://ytmanager.bugra.co/"
+            }
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         :root {
@@ -32,39 +61,13 @@
             font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
             line-height: 1.75;
             color: var(--text-color);
-            background: var(--bg-color);
+            background: var(--site-noise), var(--bg-color);
             font-size: 14px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 36px 24px;
         }
 
         .page-wrapper {
-            max-width: 600px;
-            width: 100%;
             display: flex;
             flex-direction: column;
-        }
-
-        header {
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--text-color);
-            padding-bottom: 12px;
-        }
-
-        h1 {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-        }
-
-        .tagline {
-            font-size: 13px;
-            color: var(--text-secondary);
         }
 
         #content picture {
@@ -146,7 +149,6 @@
             background: var(--code-bg);
             color: var(--text-color);
             padding: 2px 6px;
-            border-radius: 4px;
             font-size: 12px;
             border: 1px solid var(--border-color);
         }
@@ -179,52 +181,25 @@
             color: var(--text-secondary);
         }
 
-        footer {
-            margin-top: 36px;
-            padding-top: 16px;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            font-size: 12px;
-        }
-
-        footer a {
-            color: var(--text-color);
-            text-decoration: underline;
-        }
-
-        footer a:hover {
-            color: var(--text-secondary);
-        }
     </style>
+    <script src="./site.js" defer></script>
 </head>
 
-<body>
-    <div class="page-wrapper">
-    <header>
-        <h1>YouTube Interaction Manager</h1>
-        <p class="tagline">Smart interaction manager for YouTube. Auto-like, auto-dislike, and more.</p>
-    </header>
+<body class="site-page">
+    <div class="page-wrapper site-page-wrapper">
+    <div data-site-header></div>
 
     <nav class="breadcrumb">
         <a href="./index.html">Home</a> <span>/</span> Privacy Policy
     </nav>
 
+    <main class="site-content-wide">
     <div id="content">
         <p class="loading">Loading privacy policy...</p>
     </div>
 
-    <footer>
-        <p>
-            <a href="https://github.com/fastfingertips/youtube-interaction-manager">GitHub</a> · 
-            <a href="./guide.html">Guide</a> · 
-            <a href="./privacy.html">Privacy Policy</a> · 
-            <a href="https://github.com/fastfingertips/youtube-interaction-manager/issues">Report Issues</a> · 
-            <a href="https://github.com/fastfingertips/youtube-interaction-manager/blob/main/LICENSE">MIT License</a>
-        </p>
-        <p style="margin-top: 10px; opacity: 0.8; font-size: 11px;">
-            Made by <a href="https://github.com/fastfingertips">fastfingertips</a> · <a href="https://bugra.co">bugra.co</a>
-        </p>
-    </footer>
+    </main>
+    <div data-site-footer></div>
     </div>
 
     <script>

@@ -5,7 +5,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube Interaction Manager - Browser Extension</title>
+    <meta name="description" content="YouTube Interaction Manager is a Chrome and Firefox extension for automatic YouTube likes, dislikes, channel lists, timing controls, and local activity logging.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ytmanager.bugra.co/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="YouTube Interaction Manager">
+    <meta property="og:title" content="YouTube Interaction Manager - Browser Extension">
+    <meta property="og:description" content="Automatically manage YouTube likes and dislikes with whitelist, blacklist, timing controls, and local activity logs.">
+    <meta property="og:url" content="https://ytmanager.bugra.co/">
+    <meta property="og:image" content="https://ytmanager.bugra.co/store/promo_marquee_light.png">
+    <meta property="og:image:alt" content="YouTube Interaction Manager browser extension preview">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="YouTube Interaction Manager">
+    <meta name="twitter:description" content="A Chrome and Firefox extension for automatic YouTube likes, dislikes, channel lists, timing controls, and local activity logging.">
+    <meta name="twitter:image" content="https://ytmanager.bugra.co/store/promo_marquee_light.png">
     <link rel="icon" type="image/png" href="./favicon.png">
+    <link rel="stylesheet" href="./site.css">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "YouTube Interaction Manager",
+            "applicationCategory": "BrowserApplication",
+            "operatingSystem": "Chrome, Firefox",
+            "description": "A browser extension for automatic YouTube likes, dislikes, channel lists, timing controls, and local activity logging.",
+            "url": "https://ytmanager.bugra.co/",
+            "image": "https://ytmanager.bugra.co/store/promo_marquee_light.png",
+            "softwareVersion": "1.4.0",
+            "license": "https://github.com/fastfingertips/youtube-interaction-manager/blob/main/LICENSE",
+            "downloadUrl": "https://chromewebstore.google.com/detail/youtube-auto-like/nlpclmfebmnahbhffafphgnajkbkiaib",
+            "codeRepository": "https://github.com/fastfingertips/youtube-interaction-manager",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            }
+        }
+    </script>
     <style>
         :root {
             --bg-color: #fcfcfc;
@@ -30,50 +66,31 @@
             font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
             line-height: 1.75;
             color: var(--text-color);
-            background: var(--bg-color);
+            background: var(--site-noise), var(--bg-color);
             font-size: 14px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 36px 24px;
         }
 
         .page-wrapper {
-            max-width: 600px;
-            width: 100%;
             display: flex;
             flex-direction: column;
-        }
-
-        header {
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--text-color);
-            padding-bottom: 12px;
-        }
-
-        h1 {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-        }
-
-        .tagline {
-            font-size: 13px;
-            color: var(--text-secondary);
         }
 
         .download-section {
             margin-bottom: 20px;
         }
 
+        .download-heading {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
         .download-label {
             font-size: 11px;
             font-weight: 700;
             color: var(--text-secondary);
-            margin-bottom: 12px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -84,17 +101,26 @@
         }
 
         .btn-segment {
+            position: relative;
             flex: 1;
             display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 18px;
+            align-items: flex-start;
+            gap: 14px;
+            min-height: 86px;
+            padding: 20px 118px 16px 18px;
             background: transparent;
             color: var(--text-color);
             text-decoration: none;
             border: 1px solid var(--text-color);
-            border-radius: 4px;
             transition: all 0.15s ease;
+        }
+
+        .btn-content {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
         }
 
         .btn-segment:hover:not(.btn-disabled) {
@@ -104,16 +130,36 @@
 
         .btn-segment svg {
             flex-shrink: 0;
+            margin-top: 2px;
         }
 
         .btn-title {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 700;
+            line-height: 1.25;
         }
 
         .btn-subtitle {
+            max-width: 160px;
             font-size: 11px;
             color: var(--text-secondary);
+            line-height: 1.45;
+        }
+
+        .btn-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: block;
+            width: fit-content;
+            height: 20px;
+            filter: grayscale(1) contrast(1.15);
+        }
+
+        .download-status-badge {
+            display: block;
+            height: 20px;
+            filter: grayscale(1) contrast(1.15);
         }
 
         .btn-segment:hover .btn-subtitle {
@@ -153,11 +199,13 @@
                 flex-direction: column;
                 gap: 12px;
             }
+            .btn-segment {
+                padding-right: 118px;
+            }
         }
 
         .feature {
-            border-left: 2px solid var(--text-color);
-            padding-left: 16px;
+            padding: 0;
         }
 
         .feature h3 {
@@ -172,6 +220,44 @@
             color: var(--text-secondary);
         }
 
+        .guide-callout {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 16px 18px;
+            border: 1px solid var(--text-color);
+        }
+
+        .guide-callout h3 {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .guide-callout p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .guide-link {
+            flex-shrink: 0;
+            color: var(--text-color);
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .guide-callout {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
 
 
 
@@ -180,27 +266,10 @@
             font-family: inherit;
             background: var(--card-bg);
             padding: 2px 6px;
-            border-radius: 3px;
             font-size: 11px;
             border: 1px solid var(--border-color);
         }
 
-        footer {
-            margin-top: 36px;
-            padding-top: 16px;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            font-size: 12px;
-        }
-
-        footer a {
-            color: var(--text-color);
-            text-decoration: underline;
-        }
-
-        footer a:hover {
-            color: var(--text-secondary);
-        }
     </style>
     <script>
         // Fix for Vercel Rewrites: Ensure trailing slash so relative paths resolve correctly
@@ -209,17 +278,21 @@
             globalThis.history.replaceState(null, '', globalThis.location.pathname + '/' + globalThis.location.search);
         }
     </script>
+    <script src="./site.js" defer></script>
 </head>
 
-<body>
-    <div class="page-wrapper">
-    <header>
-        <h1>YouTube Interaction Manager</h1>
-        <p class="tagline">Smart interaction manager for YouTube. Auto-like, auto-dislike, and more.</p>
-    </header>
+<body class="site-page">
+    <div class="page-wrapper site-page-wrapper">
+    <div data-site-header></div>
 
+    <main class="site-content-wide">
     <div class="download-section">
-        <p class="download-label">Download Extension</p>
+        <div class="download-heading">
+            <p class="download-label">Download Extension</p>
+            <a href="https://github.com/fastfingertips/youtube-interaction-manager/commits/main">
+                <img class="download-status-badge" alt="Last update" src="https://img.shields.io/github/last-commit/fastfingertips/youtube-interaction-manager?style=flat-square&label=last%20update">
+            </a>
+        </div>
         <div class="btn-group">
             <a href="https://chromewebstore.google.com/detail/youtube-auto-like/nlpclmfebmnahbhffafphgnajkbkiaib"
                 class="btn-segment">
@@ -227,9 +300,10 @@
                     <path
                         d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 16.364a4.364 4.364 0 1 1 0-8.728 4.364 4.364 0 0 1 0 8.728Z" />
                 </svg>
-                <div>
+                <div class="btn-content">
                     <div class="btn-title">Chrome Web Store</div>
-                    <div class="btn-subtitle">Install Extension</div>
+                    <div class="btn-subtitle">Install directly from the browser store</div>
+                    <img class="btn-badge" alt="Chrome Web Store version" src="https://img.shields.io/chrome-web-store/v/nlpclmfebmnahbhffafphgnajkbkiaib?style=flat-square&logo=googlechrome&logoColor=white&label=Chrome">
                 </div>
             </a>
             <a href="https://github.com/fastfingertips/youtube-interaction-manager/releases" class="btn-segment">
@@ -237,9 +311,10 @@
                     <path
                         d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
                 </svg>
-                <div>
+                <div class="btn-content">
                     <div class="btn-title">GitHub Release</div>
-                    <div class="btn-subtitle">Chrome & Firefox</div>
+                    <div class="btn-subtitle">Download packaged builds for Chrome and Firefox</div>
+                    <img class="btn-badge" alt="Latest GitHub release" src="https://img.shields.io/github/v/release/fastfingertips/youtube-interaction-manager?style=flat-square&logo=github&label=Release">
                 </div>
             </a>
         </div>
@@ -266,25 +341,16 @@
     </div>
 
     <h2>Guide</h2>
-    <div class="features">
-        <div class="feature">
+    <div class="guide-callout">
+        <div>
             <h3>Setup & Usage</h3>
-            <p>Read the <a href="./guide.html">guide</a> for installation steps, feature details, permissions, screenshots, and privacy notes.</p>
+            <p>Installation steps, feature details, permissions, screenshots, and privacy notes in one place.</p>
         </div>
+        <a href="./guide.html" class="guide-link">Open Guide</a>
     </div>
 
-    <footer>
-        <p>
-            <a href="https://github.com/fastfingertips/youtube-interaction-manager">GitHub</a> · 
-            <a href="./guide.html">Guide</a> · 
-            <a href="./privacy.html">Privacy Policy</a> · 
-            <a href="https://github.com/fastfingertips/youtube-interaction-manager/issues">Report Issues</a> · 
-            <a href="https://github.com/fastfingertips/youtube-interaction-manager/blob/main/LICENSE">MIT License</a>
-        </p>
-        <p style="margin-top: 10px; opacity: 0.8; font-size: 11px;">
-            Made by <a href="https://github.com/fastfingertips">fastfingertips</a> · <a href="https://bugra.co">bugra.co</a>
-        </p>
-    </footer>
+    </main>
+    <div data-site-footer></div>
     </div>
 
 </body>

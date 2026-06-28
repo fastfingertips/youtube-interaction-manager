@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chrome Store Assets Preview</title>
+    <meta name="robots" content="noindex, nofollow">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../site.css">
     <style>
         :root {
             --bg: #0f172a;
@@ -12,16 +14,16 @@
             --text: #f8fafc;
             --accent: #38bdf8;
             --border: rgba(255, 255, 255, 0.1);
+            --site-text-color: var(--text);
+            --site-text-secondary: rgba(248, 250, 252, 0.7);
+            --site-border-color: var(--border);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: var(--bg); 
+            background: var(--site-noise), var(--bg);
             color: var(--text); 
-            padding: 40px;
         }
-        header { margin-bottom: 40px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
-        h1 { font-size: 2rem; margin-bottom: 8px; }
         .timestamp { color: var(--accent); font-size: 0.9rem; opacity: 0.8; }
         
         .section { margin-bottom: 60px; }
@@ -37,11 +39,8 @@
         .asset-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 16px;
             overflow: hidden;
-            transition: transform 0.2s;
         }
-        .asset-card:hover { transform: translateY(-4px); }
         
         .img-container {
             background-image: 
@@ -69,7 +68,7 @@
                 linear-gradient(-45deg, transparent 75%, #333 75%);
         }
         
-        img { max-width: 100%; height: auto; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        img { max-width: 100%; height: auto; }
         
         .info { padding: 16px; display: flex; justify-content: space-between; align-items: center; }
         .label { font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
@@ -77,7 +76,6 @@
         
         .badge {
             padding: 4px 10px;
-            border-radius: 100px;
             font-size: 0.7rem;
             font-weight: 700;
         }
@@ -85,12 +83,12 @@
         .badge-dark { background: #334155; color: #f8fafc; }
         .badge-alpha { background: var(--accent); color: #0f172a; }
     </style>
+    <script src="../site.js" defer></script>
 </head>
-<body>
-    <header>
-        <h1>Store Assets Dashboard</h1>
-        <p class="timestamp">Last Generated: 2025-12-26 20:01:45</p>
-    </header>
+<body class="site-page">
+    <div class="site-page-wrapper">
+    <div data-site-header></div>
+    <p class="timestamp">Store assets preview · Last Generated: 2025-12-26 20:01:45</p>
 
     <div id="content">
         <div class="section">
@@ -189,6 +187,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div data-site-footer></div>
     </div>
 </body>
 </html>
