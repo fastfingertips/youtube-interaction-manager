@@ -64,8 +64,10 @@ li:hover {
     min-width: 0;
     padding-right: 10px;
     display: flex;
-    flex-direction: column;
-    gap: 2px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
 }
 
 .channel-link {
@@ -97,7 +99,10 @@ li:hover {
 .channel-date {
     font-size: 10px;
     color: var(--sub-text-color);
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 4px;
 }
 
 /* Delete Button - Modern Style */

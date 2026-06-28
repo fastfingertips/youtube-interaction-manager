@@ -413,7 +413,13 @@ function renderList(list, listKey) {
                         hour: '2-digit',
                         minute: '2-digit'
                     });
-                    dateSpan.textContent = `Added: ${dateFormatted}`;
+                    
+                    const calendarSvg = createSvgIcon('M19 4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z M16 2v4 M8 2v4 M3 10h18', 10, 1.8);
+                    calendarSvg.style.opacity = '0.6';
+                    dateSpan.appendChild(calendarSvg);
+
+                    const textNode = document.createTextNode(dateFormatted);
+                    dateSpan.appendChild(textNode);
                     contentDiv.appendChild(dateSpan);
                 }
             } catch (e) {
