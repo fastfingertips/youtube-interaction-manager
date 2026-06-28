@@ -24,7 +24,8 @@ const CONFIG = {
         showNeutralBadge: true,
         enableDebug: false,
         enableExtension: true,
-        enableHistory: true
+        enableHistory: true,
+        highlightChannels: true
     },
 
     // ─────────────────────────────────────────
@@ -111,6 +112,7 @@ const CONFIG = {
         'triggerType',
         'triggerSeconds',
         'triggerPercent',
+        'highlightChannels',
         // Data (arrays)
         'whitelist',
         'blacklist',

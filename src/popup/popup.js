@@ -35,7 +35,8 @@ function initApp() {
             checkHumanize: document.getElementById('checkHumanize'),
             checkShowNeutral: document.getElementById('checkShowNeutral'),
             checkDebug: document.getElementById('checkDebug'),
-            checkHistory: document.getElementById('checkHistory')
+            checkHistory: document.getElementById('checkHistory'),
+            checkHighlightChannels: document.getElementById('checkHighlightChannels')
         },
         lists: {
             addWhitelistBtn: document.getElementById('addWhitelistBtn'),
@@ -98,7 +99,8 @@ function setupEventListeners() {
         UI.settings.radioTime, UI.settings.checkHumanize,
         UI.settings.checkShowNeutral,
         UI.settings.checkDebug,
-        UI.settings.checkHistory
+        UI.settings.checkHistory,
+        UI.settings.checkHighlightChannels
     ];
     settingInputs.forEach(el => {
         if (el) el.addEventListener('change', saveSettings);
@@ -238,6 +240,7 @@ function mapStorageToSettings(res) {
         neutral: res.showNeutralBadge ?? false,
         debug: res.enableDebug ?? false,
         history: res.enableHistory ?? true,
+        highlightChannels: res.highlightChannels ?? true,
         trigger: {
             type: res.triggerType || 'instant',
             seconds: res.triggerSeconds || 10,
@@ -255,6 +258,7 @@ function applySettingsToUI(s) {
     if (UI.settings.checkShowNeutral) UI.settings.checkShowNeutral.checked = s.neutral;
     if (UI.settings.checkDebug) UI.settings.checkDebug.checked = s.debug;
     if (UI.settings.checkHistory) UI.settings.checkHistory.checked = s.history;
+    if (UI.settings.checkHighlightChannels) UI.settings.checkHighlightChannels.checked = s.highlightChannels;
 
     if (UI.settings.radioPercent) UI.settings.radioPercent.checked = (s.trigger.type === 'percent');
     if (UI.settings.radioTime) UI.settings.radioTime.checked = (s.trigger.type === 'time');
@@ -291,6 +295,7 @@ function saveSettings() {
         showNeutralBadge: UI.settings.checkShowNeutral ? UI.settings.checkShowNeutral.checked : false,
         enableDebug: UI.settings.checkDebug ? UI.settings.checkDebug.checked : false,
         enableHistory: UI.settings.checkHistory ? UI.settings.checkHistory.checked : true,
+        highlightChannels: UI.settings.checkHighlightChannels ? UI.settings.checkHighlightChannels.checked : true,
         triggerType: triggerType,
         triggerSeconds: UI.settings.inputSeconds ? (Number.parseInt(UI.settings.inputSeconds.value, 10) || CONFIG.DEFAULTS.triggerSeconds) : CONFIG.DEFAULTS.triggerSeconds,
         triggerPercent: UI.settings.inputPercent ? (Number.parseInt(UI.settings.inputPercent.value, 10) || CONFIG.DEFAULTS.triggerPercent) : CONFIG.DEFAULTS.triggerPercent

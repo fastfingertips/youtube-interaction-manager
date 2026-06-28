@@ -57,7 +57,7 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
             'triggerType', 'triggerSeconds', 'triggerPercent',
             'whitelist', 'blacklist', 'enableExtension',
             'actionWhitelist', 'actionBlacklist', 'actionUnlisted',
-            'showNeutralBadge'
+            'showNeutralBadge', 'highlightChannels'
         ];
         if (relevantKeys.some(key => changes[key])) {
             debugLog("[SETTINGS] Config changed. Resetting state for current video.");
@@ -304,13 +304,15 @@ function updateIconState() {
         'actionUnlisted',
         'enableLike', 'enableDislike',
         'showNeutralBadge',
-        'enableExtension'
+        'enableExtension',
+        'highlightChannels'
     ];
 
     chrome.storage.local.get(keys, (settings) => {
         // Eğer eklenti kapalıysa
         if (settings.enableExtension === false) {
             chrome.runtime.sendMessage({ action: "updateIcon", status: "disabled" });
+            resetChannelNameColor();
             return;
         }
 
@@ -332,7 +334,54 @@ function updateIconState() {
         }
 
         chrome.runtime.sendMessage({ action: "updateIcon", status: status });
+
+        // Highlight channel name on page
+        if (settings.highlightChannels !== false) {
+            colorChannelNameOnPage(data.channelName, settings.whitelist || [], settings.blacklist || []);
+        } else {
+            resetChannelNameColor();
+        }
     });
+}
+
+function colorChannelNameOnPage(channelName, whitelist, blacklist) {
+    const isWhitelisted = whitelist.some(item => item.name === channelName);
+    const isBlacklisted = blacklist.some(item => item.name === channelName);
+
+    let color = '';
+    if (isWhitelisted) {
+        color = '#10b981'; // Emerald Green
+    } else if (isBlacklisted) {
+        color = '#ef4444'; // Vibrant Red
+    }
+
+    for (let sel of CONFIG.SELECTORS.channelName) {
+        const el = document.querySelector(sel);
+        if (el) {
+            const anchor = el.tagName === 'A' ? el : el.querySelector('a');
+            const targetEl = anchor || el;
+            
+            if (color) {
+                targetEl.style.color = color;
+                targetEl.style.fontWeight = 'bold';
+            } else {
+                targetEl.style.color = '';
+                targetEl.style.fontWeight = '';
+            }
+        }
+    }
+}
+
+function resetChannelNameColor() {
+    for (let sel of CONFIG.SELECTORS.channelName) {
+        const el = document.querySelector(sel);
+        if (el) {
+            const anchor = el.tagName === 'A' ? el : el.querySelector('a');
+            const targetEl = anchor || el;
+            targetEl.style.color = '';
+            targetEl.style.fontWeight = '';
+        }
+    }
 }
 
 function getVideoData() {
