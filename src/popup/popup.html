@@ -96,28 +96,38 @@
         <!-- TIMING -->
         <div class="section-title">TIMING</div>
 
-        <div class="option-row" title="Trigger action immediately when video starts">
-            <input type="radio" name="trigger" id="radioInstant" value="instant">
-            <label for="radioInstant">Instant (Start)</label>
-        </div>
+        <div class="option-row" style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
+            <div style="width: 100%;">
+                <label for="selectTriggerType" class="text-sub" style="display: block; margin-bottom: 5px; font-weight: 500;">
+                    <strong>Trigger Action</strong>:
+                </label>
+                <select id="selectTriggerType" title="When to perform the auto action" style="width: 100%; height: 32px; box-sizing: border-box; display: block;">
+                    <option value="instant">Instant (Start of Video)</option>
+                    <option value="percent">At Percentage</option>
+                    <option value="time">Specific Second</option>
+                </select>
+            </div>
 
-        <div class="option-row" title="Trigger action after watching a percentage of the video">
-            <input type="radio" name="trigger" id="radioPercent" value="percent">
-            <label for="radioPercent">At Percentage:</label>
-            <input type="number" id="triggerPercent" min="1" max="99" value="50" class="w-45 ml-auto mr-5">
-            <span class="text-sub">%</span>
-        </div>
+            <!-- Dynamic Sub-Options -->
+            <!-- Percentage Input (Visible only when 'percent' is selected) -->
+            <div id="triggerPercentContainer" class="option-row sub-option" style="display: none; align-items: center; width: 100%; margin-top: 5px; border-radius: 0;">
+                <label for="triggerPercent" style="font-weight: 500;">Percentage:</label>
+                <input type="number" id="triggerPercent" min="1" max="99" value="50" class="w-45 ml-auto mr-5">
+                <span class="text-sub">%</span>
+            </div>
 
-        <div class="option-row" title="Trigger action after a specific number of seconds">
-            <input type="radio" name="trigger" id="radioTime" value="time">
-            <label for="radioTime">Specific Second:</label>
-            <input type="number" id="triggerSeconds" min="1" class="w-45 ml-auto mr-5">
-            <span class="text-sub">seconds</span>
-        </div>
-
-        <div class="option-row sub-option">
-            <input type="checkbox" id="checkHumanize">
-            <label for="checkHumanize" title="Adds random delays">Humanize (Random Delay)</label>
+            <!-- Seconds Input & Humanize (Visible only when 'time' is selected) -->
+            <div id="triggerTimeContainer" style="display: none; flex-direction: column; gap: 8px; width: 100%; margin-top: 5px;">
+                <div class="option-row sub-option" style="display: flex; align-items: center; width: 100%; border-radius: 0;">
+                    <label for="triggerSeconds" style="font-weight: 500;">Delay Time:</label>
+                    <input type="number" id="triggerSeconds" min="1" class="w-45 ml-auto mr-5">
+                    <span class="text-sub">seconds</span>
+                </div>
+                <div class="option-row sub-option" style="display: flex; align-items: center; margin-top: 2px;">
+                    <input type="checkbox" id="checkHumanize">
+                    <label for="checkHumanize" title="Adds random delays">Humanize (Random Delay)</label>
+                </div>
+            </div>
         </div>
 
         <!-- DATA & ADVANCED - Least used -->

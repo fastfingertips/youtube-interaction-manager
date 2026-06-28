@@ -27,9 +27,7 @@ function initApp() {
             checkDislikeBlacklist: document.getElementById('checkDislikeBlacklist'),
             selectUnlisted: document.getElementById('selectUnlisted'),
 
-            radioInstant: document.getElementById('radioInstant'),
-            radioPercent: document.getElementById('radioPercent'),
-            radioTime: document.getElementById('radioTime'),
+            selectTriggerType: document.getElementById('selectTriggerType'),
             inputPercent: document.getElementById('triggerPercent'),
             inputSeconds: document.getElementById('triggerSeconds'),
             checkHumanize: document.getElementById('checkHumanize'),
@@ -95,8 +93,8 @@ function setupEventListeners() {
         UI.settings.checkLikeWhitelist,
         UI.settings.checkDislikeBlacklist,
         UI.settings.selectUnlisted,
-        UI.settings.radioInstant, UI.settings.radioPercent,
-        UI.settings.radioTime, UI.settings.checkHumanize,
+        UI.settings.selectTriggerType,
+        UI.settings.checkHumanize,
         UI.settings.checkShowNeutral,
         UI.settings.checkDebug,
         UI.settings.checkHistory,
@@ -106,11 +104,9 @@ function setupEventListeners() {
         if (el) el.addEventListener('change', saveSettings);
     });
 
-    // Update humanize state when trigger type changes
-    const triggerRadios = [UI.settings.radioInstant, UI.settings.radioPercent, UI.settings.radioTime];
-    triggerRadios.forEach(radio => {
-        if (radio) radio.addEventListener('change', updateHumanizeState);
-    });
+    if (UI.settings.selectTriggerType) {
+        UI.settings.selectTriggerType.addEventListener('change', updateTriggerUI);
+    }
 
     // Update status banners when whitelist/blacklist settings change
     if (UI.settings.checkLikeWhitelist) {
@@ -164,7 +160,7 @@ function updateHumanizeState() {
     const humanizeRow = UI.settings.checkHumanize?.closest('.option-row');
     if (!humanizeRow || !UI.settings.checkHumanize) return;
 
-    const isTimeMode = UI.settings.radioTime?.checked;
+    const isTimeMode = UI.settings.selectTriggerType?.value === 'time';
 
     if (isTimeMode) {
         UI.settings.checkHumanize.disabled = false;
@@ -178,6 +174,22 @@ function updateHumanizeState() {
         humanizeRow.style.pointerEvents = 'none';
         humanizeRow.title = 'Humanize requires Specific Second trigger mode';
     }
+}
+
+function updateTriggerUI() {
+    const triggerType = UI.settings.selectTriggerType ? UI.settings.selectTriggerType.value : 'instant';
+    
+    const percentContainer = document.getElementById('triggerPercentContainer');
+    const timeContainer = document.getElementById('triggerTimeContainer');
+    
+    if (percentContainer) {
+        percentContainer.style.display = (triggerType === 'percent') ? 'flex' : 'none';
+    }
+    if (timeContainer) {
+        timeContainer.style.display = (triggerType === 'time') ? 'flex' : 'none';
+    }
+    
+    updateHumanizeState();
 }
 
 // Update status banners in whitelist/blacklist/activity tabs
@@ -260,9 +272,10 @@ function applySettingsToUI(s) {
     if (UI.settings.checkHistory) UI.settings.checkHistory.checked = s.history;
     if (UI.settings.checkHighlightChannels) UI.settings.checkHighlightChannels.checked = s.highlightChannels;
 
-    if (UI.settings.radioPercent) UI.settings.radioPercent.checked = (s.trigger.type === 'percent');
-    if (UI.settings.radioTime) UI.settings.radioTime.checked = (s.trigger.type === 'time');
-    if (UI.settings.radioInstant) UI.settings.radioInstant.checked = (s.trigger.type === 'instant');
+    if (UI.settings.selectTriggerType) {
+        UI.settings.selectTriggerType.value = s.trigger.type;
+        updateTriggerUI();
+    }
 
     if (UI.settings.inputSeconds) UI.settings.inputSeconds.value = s.trigger.seconds;
     if (UI.settings.inputPercent) UI.settings.inputPercent.value = s.trigger.percent;
@@ -282,9 +295,7 @@ function updateMasterUI(isEnabled) {
 }
 
 function saveSettings() {
-    let triggerType = 'instant';
-    if (UI.settings.radioPercent?.checked) triggerType = 'percent';
-    if (UI.settings.radioTime?.checked) triggerType = 'time';
+    const triggerType = UI.settings.selectTriggerType ? UI.settings.selectTriggerType.value : 'instant';
 
     const settings = {
         actionWhitelist: UI.settings.checkLikeWhitelist ? UI.settings.checkLikeWhitelist.checked : true,
