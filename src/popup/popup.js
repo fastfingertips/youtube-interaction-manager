@@ -653,6 +653,41 @@ function showStatus(msg, isError = false) {
 }
 
 function setupMarqueeListeners() {
+    function startMarquee(target, scrollDist, duration) {
+        target.style.textOverflow = 'clip';
+        target.style.transition = `transform ${duration}s linear`;
+        target.style.transform = `translateX(-${scrollDist + 8}px)`;
+
+        const onTransitionEnd = () => {
+            target.removeEventListener('transitionend', onTransitionEnd);
+            if (target.dataset.isHovered !== 'true') return;
+
+            target.dataset.timeoutId = setTimeout(() => {
+                if (target.dataset.isHovered !== 'true') return;
+
+                // Animate back to start using ease-in-out
+                target.style.transition = `transform ${duration * 0.8}s ease-in-out`;
+                target.style.transform = 'translateX(0)';
+
+                const onReturnEnd = () => {
+                    target.removeEventListener('transitionend', onReturnEnd);
+                    if (target.dataset.isHovered !== 'true') return;
+
+                    target.dataset.timeoutId = setTimeout(() => {
+                        if (target.dataset.isHovered !== 'true') return;
+                        startMarquee(target, scrollDist, duration);
+                    }, 1500);
+                };
+
+                target.onMarqueeEnd = onReturnEnd;
+                target.addEventListener('transitionend', onReturnEnd);
+            }, 1500);
+        };
+
+        target.onMarqueeEnd = onTransitionEnd;
+        target.addEventListener('transitionend', onTransitionEnd);
+    }
+
     // Listen to mouseenter on rows using capture phase
     document.addEventListener('mouseenter', (e) => {
         const row = e.target.closest('.log-item, #whitelistUl li, #blacklistUl li');
@@ -687,13 +722,12 @@ function setupMarqueeListeners() {
             const containerWidth = container.clientWidth;
 
             if (scrollWidth > containerWidth) {
+                target.dataset.isHovered = 'true';
                 const scrollDist = scrollWidth - containerWidth;
                 // Constant speed (approx 50px per second)
                 const duration = Math.max(1, scrollDist / 50);
 
-                target.style.textOverflow = 'clip';
-                target.style.transition = `transform ${duration}s linear`;
-                target.style.transform = `translateX(-${scrollDist + 8}px)`;
+                startMarquee(target, scrollDist, duration);
             } else {
                 // Restore styles if not overflowing
                 target.style.maxWidth = originalStyle.maxWidth;
@@ -710,19 +744,33 @@ function setupMarqueeListeners() {
         const targets = row.querySelectorAll('.log-link, .log-title, .channel-link, .channel-name-static, .log-channel');
         
         targets.forEach(target => {
-            target.style.transition = 'transform 0.2s ease-out';
+            target.dataset.isHovered = 'false';
+            
+            // Clear any active timers
+            if (target.dataset.timeoutId) {
+                clearTimeout(parseInt(target.dataset.timeoutId));
+                target.dataset.timeoutId = '';
+            }
+
+            // Remove active transitionend listeners
+            if (target.onMarqueeEnd) {
+                target.removeEventListener('transitionend', target.onMarqueeEnd);
+                target.onMarqueeEnd = null;
+            }
+
+            target.style.transition = 'transform 0.25s ease-out';
             target.style.transform = 'translateX(0)';
 
             // Clean up styles after transition finishes
             setTimeout(() => {
-                if (target.style.transform === 'translateX(0px)' || target.style.transform === 'none' || target.style.transform === '') {
+                if (target.dataset.isHovered !== 'true') {
                     target.style.maxWidth = target.dataset.originalMaxWidth || '';
                     target.style.display = target.dataset.originalDisplay || '';
                     target.style.whiteSpace = target.dataset.originalWhiteSpace || '';
                     target.style.textOverflow = target.dataset.originalTextOverflow || '';
                     target.style.transition = '';
                 }
-            }, 200);
+            }, 250);
         });
     }, true);
 }
