@@ -9,27 +9,13 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         :root {
-            /* Light theme - matches banner */
-            --bg-color: #ffffff;
-            --text-color: #1e1e1e;
-            --text-secondary: #646464;
-            --accent-color: #4285f4;
-            --border-color: #e1e4e8;
-            --code-bg: #f6f8fa;
-            --table-header-bg: #f6f8fa;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                /* Dark theme - matches banner */
-                --bg-color: #0d1117;
-                --text-color: #e6edf3;
-                --text-secondary: #8b949e;
-                --accent-color: #58a6ff;
-                --border-color: #30363d;
-                --code-bg: #161b22;
-                --table-header-bg: #161b22;
-            }
+            --bg-color: #fcfcfc;
+            --text-color: #111111;
+            --text-secondary: #555555;
+            --accent-color: #000000;
+            --border-color: #e0e0e0;
+            --code-bg: #f1f1f1;
+            --table-header-bg: #f1f1f1;
         }
 
         * {
@@ -38,50 +24,85 @@
             box-sizing: border-box;
         }
 
+        html {
+            height: 100%;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            line-height: 1.6;
+            font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+            line-height: 1.75;
             color: var(--text-color);
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px 20px;
             background: var(--bg-color);
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 36px 24px;
+        }
+
+        .page-wrapper {
+            max-width: 600px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--text-color);
+            padding-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .tagline {
+            font-size: 13px;
+            color: var(--text-secondary);
         }
 
         #content picture {
-            display: block;
-            margin-bottom: 20px;
-        }
-
-        #content picture img {
-            width: 100%;
-            border-radius: 8px;
+            display: none;
         }
 
         #content h1 {
             color: var(--text-color);
             margin-bottom: 20px;
+            font-size: 22px;
+            font-weight: 700;
         }
 
         #content h2 {
             color: var(--text-color);
             margin-top: 30px;
             margin-bottom: 15px;
-            border-bottom: 2px solid var(--border-color);
+            border-bottom: 1px dashed var(--border-color);
             padding-bottom: 10px;
+            font-size: 14px;
+            font-weight: 700;
         }
 
         #content h3 {
             color: var(--text-secondary);
             margin-top: 20px;
             margin-bottom: 10px;
+            font-size: 13px;
+            font-weight: 700;
         }
 
         #content p,
         #content li,
         #content td {
             color: var(--text-color);
-            margin-bottom: 15px;
+            margin-bottom: 16px;
+            font-size: 13.5px;
+            line-height: 1.75;
         }
 
         #content li {
@@ -113,7 +134,12 @@
         }
 
         #content a {
-            color: var(--accent-color);
+            color: var(--text-color);
+            text-decoration: underline;
+        }
+
+        #content a:hover {
+            color: var(--text-secondary);
         }
 
         #content code {
@@ -121,7 +147,8 @@
             color: var(--text-color);
             padding: 2px 6px;
             border-radius: 4px;
-            font-size: 14px;
+            font-size: 12px;
+            border: 1px solid var(--border-color);
         }
 
         #content strong {
@@ -136,31 +163,68 @@
 
         .breadcrumb {
             margin-bottom: 20px;
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .breadcrumb a {
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-
-        .breadcrumb a:hover {
+            color: var(--text-color);
             text-decoration: underline;
         }
 
+        .breadcrumb a:hover {
+            color: var(--text-secondary);
+        }
+
         .breadcrumb span {
+            color: var(--text-secondary);
+        }
+
+        footer {
+            margin-top: 36px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        footer a {
+            color: var(--text-color);
+            text-decoration: underline;
+        }
+
+        footer a:hover {
             color: var(--text-secondary);
         }
     </style>
 </head>
 
 <body>
+    <div class="page-wrapper">
+    <header>
+        <h1>YouTube Interaction Manager</h1>
+        <p class="tagline">Smart interaction manager for YouTube. Auto-like, blacklist, and more.</p>
+    </header>
+
     <nav class="breadcrumb">
         <a href="./index.html">Home</a> <span>/</span> Privacy Policy
     </nav>
 
     <div id="content">
         <p class="loading">Loading privacy policy...</p>
+    </div>
+
+    <footer>
+        <p>
+            <a href="https://github.com/fastfingertips/youtube-interaction-manager">GitHub</a> · 
+            <a href="./privacy.html">Privacy Policy</a> · 
+            <a href="https://github.com/fastfingertips/youtube-interaction-manager#readme">Documentation</a> · 
+            <a href="https://github.com/fastfingertips/youtube-interaction-manager/issues">Report Issues</a> · 
+            <a href="https://github.com/fastfingertips/youtube-interaction-manager/blob/main/LICENSE">MIT License</a>
+        </p>
+        <p style="margin-top: 10px; opacity: 0.8; font-size: 11px;">
+            Made by <a href="https://github.com/fastfingertips">fastfingertips</a> · <a href="https://bugra.co">bugra.co</a>
+        </p>
+    </footer>
     </div>
 
     <script>

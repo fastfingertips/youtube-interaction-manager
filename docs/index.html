@@ -8,23 +8,12 @@
     <link rel="icon" type="image/png" href="./favicon.png">
     <style>
         :root {
-            --bg-color: #ffffff;
-            --text-color: #1e1e1e;
-            --text-secondary: #646464;
-            --accent-color: #4285f4;
-            --border-color: #e1e4e8;
-            --card-bg: #f6f8fa;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #0d1117;
-                --text-color: #e6edf3;
-                --text-secondary: #8b949e;
-                --accent-color: #58a6ff;
-                --border-color: #30363d;
-                --card-bg: #161b22;
-            }
+            --bg-color: #fcfcfc;
+            --text-color: #111111;
+            --text-secondary: #555555;
+            --accent-color: #000000;
+            --border-color: #e0e0e0;
+            --card-bg: #f1f1f1;
         }
 
         * {
@@ -33,48 +22,65 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            background: var(--bg-color);
+        html {
+            height: 100%;
         }
 
-        .banner img {
+        body {
+            font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+            line-height: 1.75;
+            color: var(--text-color);
+            background: var(--bg-color);
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 36px 24px;
+        }
+
+        .page-wrapper {
+            max-width: 600px;
             width: 100%;
-            border-radius: 8px;
-            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--text-color);
+            padding-bottom: 12px;
         }
 
         h1 {
-            margin-bottom: 10px;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
         }
 
         .tagline {
+            font-size: 13px;
             color: var(--text-secondary);
-            margin-bottom: 30px;
         }
 
         .download-section {
-            margin-bottom: 40px;
+            margin-bottom: 20px;
         }
 
         .download-label {
-            font-size: 12px;
+            font-size: 11px;
+            font-weight: 700;
             color: var(--text-secondary);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
 
         .btn-group {
             display: flex;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            overflow: hidden;
+            gap: 16px;
         }
 
         .btn-segment {
@@ -82,20 +88,18 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 16px;
-            background: var(--card-bg);
+            padding: 14px 18px;
+            background: transparent;
             color: var(--text-color);
             text-decoration: none;
-            border-right: 1px solid var(--border-color);
-            transition: background 0.2s;
-        }
-
-        .btn-segment:last-child {
-            border-right: none;
+            border: 1px solid var(--text-color);
+            border-radius: 4px;
+            transition: all 0.15s ease;
         }
 
         .btn-segment:hover:not(.btn-disabled) {
-            background: var(--bg-color);
+            background: var(--text-color);
+            color: var(--bg-color);
         }
 
         .btn-segment svg {
@@ -103,77 +107,99 @@
         }
 
         .btn-title {
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 13px;
+            font-weight: 700;
         }
 
         .btn-subtitle {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-secondary);
         }
 
+        .btn-segment:hover .btn-subtitle {
+            color: var(--bg-color);
+            opacity: 0.8;
+        }
+
         .btn-disabled {
-            opacity: 0.6;
+            opacity: 0.5;
             cursor: not-allowed;
+            border-style: dashed;
         }
 
         h2 {
-            margin-top: 30px;
-            margin-bottom: 15px;
-            font-size: 1.2em;
+            margin-top: 24px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 6px;
         }
 
         .features {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .features {
+                grid-template-columns: 1fr;
+            }
+            .btn-group {
+                flex-direction: column;
+                gap: 12px;
+            }
         }
 
         .feature {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 15px;
+            border-left: 2px solid var(--text-color);
+            padding-left: 16px;
         }
 
         .feature h3 {
-            font-size: 14px;
-            margin-bottom: 5px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            text-transform: uppercase;
         }
 
         .feature p {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-secondary);
         }
 
-        .links {
-            list-style: none;
-        }
 
-        .links li {
-            margin-bottom: 8px;
-        }
 
-        .links a {
-            color: var(--accent-color);
-            text-decoration: none;
-        }
 
-        .links a:hover {
-            text-decoration: underline;
+
+        code {
+            font-family: inherit;
+            background: var(--card-bg);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            border: 1px solid var(--border-color);
         }
 
         footer {
-            margin-top: 40px;
-            padding-top: 20px;
+            margin-top: 36px;
+            padding-top: 16px;
             border-top: 1px solid var(--border-color);
             color: var(--text-secondary);
-            font-size: 13px;
+            font-size: 12px;
         }
 
         footer a {
-            color: var(--accent-color);
+            color: var(--text-color);
+            text-decoration: underline;
+        }
+
+        footer a:hover {
+            color: var(--text-secondary);
         }
     </style>
     <script>
@@ -186,16 +212,11 @@
 </head>
 
 <body>
-    <a href="https://github.com/fastfingertips/youtube-interaction-manager" class="banner">
-        <picture>
-            <source media="(prefers-color-scheme: dark)" srcset="./store/promo_marquee_dark.png">
-            <source media="(prefers-color-scheme: light)" srcset="./store/promo_marquee_light.png">
-            <img src="./store/promo_marquee_light.png" alt="YouTube Auto Like">
-        </picture>
-    </a>
-
-    <h1>YouTube Interaction Manager</h1>
-    <p class="tagline">Smart interaction manager for YouTube. Auto-like, blacklist, and more.</p>
+    <div class="page-wrapper">
+    <header>
+        <h1>YouTube Interaction Manager</h1>
+        <p class="tagline">Smart interaction manager for YouTube. Auto-like, blacklist, and more.</p>
+    </header>
 
     <div class="download-section">
         <p class="download-label">Download Extension</p>
@@ -264,18 +285,20 @@
         </div>
     </div>
 
-    <h2>Links</h2>
-    <ul class="links">
-        <li><a href="./privacy.html">Privacy Policy</a></li>
-        <li><a href="https://github.com/fastfingertips/youtube-interaction-manager#readme">Documentation</a></li>
-        <li><a href="https://github.com/fastfingertips/youtube-interaction-manager/issues">Report Issues</a></li>
-    </ul>
-
     <footer>
-        <p>Made by <a href="https://github.com/fastfingertips">fastfingertips</a> · <a
-                href="https://github.com/fastfingertips/youtube-interaction-manager/blob/main/LICENSE">MIT License</a>
+        <p>
+            <a href="https://github.com/fastfingertips/youtube-interaction-manager">GitHub</a> · 
+            <a href="./privacy.html">Privacy Policy</a> · 
+            <a href="https://github.com/fastfingertips/youtube-interaction-manager#readme">Documentation</a> · 
+            <a href="https://github.com/fastfingertips/youtube-interaction-manager/issues">Report Issues</a> · 
+            <a href="https://github.com/fastfingertips/youtube-interaction-manager/blob/main/LICENSE">MIT License</a>
+        </p>
+        <p style="margin-top: 10px; opacity: 0.8; font-size: 11px;">
+            Made by <a href="https://github.com/fastfingertips">fastfingertips</a> · <a href="https://bugra.co">bugra.co</a>
         </p>
     </footer>
+    </div>
+
 </body>
 
 </html>
