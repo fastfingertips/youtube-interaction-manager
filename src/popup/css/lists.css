@@ -183,7 +183,7 @@ li:hover {
 /* Log Item */
 .log-item {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 10px;
     padding: 10px 12px !important;
     transition: background 0.1s;
@@ -201,7 +201,6 @@ li:hover {
     width: 20px;
     height: 20px;
     flex-shrink: 0;
-    margin-top: 2px;
 }
 
 .log-action svg {
