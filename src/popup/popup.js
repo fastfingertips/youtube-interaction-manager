@@ -49,6 +49,7 @@ function initApp() {
             btnExport: document.getElementById('btnExport'),
             btnImport: document.getElementById('btnImport'),
             btnOpenSettings: document.getElementById('btnOpenSettings'),
+            btnResetSettings: document.getElementById('btnResetSettings'),
             fileInput: document.getElementById('fileInput')
         },
         logs: {
@@ -126,6 +127,7 @@ function setupEventListeners() {
     initScrollToTop();
 
     if (UI.lists.btnExport) UI.lists.btnExport.addEventListener('click', handleExport);
+    if (UI.lists.btnResetSettings) UI.lists.btnResetSettings.addEventListener('click', handleResetSettings);
 
     // Browser detection: Firefox has 'browser' global, Chrome doesn't
     const isFirefox = typeof browser !== 'undefined' && browser.runtime?.id;
@@ -157,22 +159,22 @@ function setupEventListeners() {
 
 // Enable humanize option only when Specific Second trigger is selected
 function updateHumanizeState() {
-    const humanizeRow = UI.settings.checkHumanize?.closest('.option-row');
-    if (!humanizeRow || !UI.settings.checkHumanize) return;
+    const humanizeLabel = UI.settings.checkHumanize?.closest('label');
+    if (!humanizeLabel || !UI.settings.checkHumanize) return;
 
     const isTimeMode = UI.settings.selectTriggerType?.value === 'time';
 
     if (isTimeMode) {
         UI.settings.checkHumanize.disabled = false;
-        humanizeRow.style.opacity = '1';
-        humanizeRow.style.pointerEvents = 'auto';
-        humanizeRow.title = 'Adds random delays to make actions appear more natural';
+        humanizeLabel.style.opacity = '1';
+        humanizeLabel.style.pointerEvents = 'auto';
+        humanizeLabel.title = 'Adds random delays to make actions appear more natural';
     } else {
         UI.settings.checkHumanize.disabled = true;
         UI.settings.checkHumanize.checked = false;
-        humanizeRow.style.opacity = '0.5';
-        humanizeRow.style.pointerEvents = 'none';
-        humanizeRow.title = 'Humanize requires Specific Second trigger mode';
+        humanizeLabel.style.opacity = '0.5';
+        humanizeLabel.style.pointerEvents = 'none';
+        humanizeLabel.title = 'Humanize requires Specific Second trigger mode';
     }
 }
 
@@ -180,16 +182,58 @@ function updateTriggerUI() {
     const triggerType = UI.settings.selectTriggerType ? UI.settings.selectTriggerType.value : 'instant';
     
     const percentContainer = document.getElementById('triggerPercentContainer');
-    const timeContainer = document.getElementById('triggerTimeContainer');
+    const secondsContainer = document.getElementById('triggerSecondsContainer');
     
     if (percentContainer) {
-        percentContainer.style.display = (triggerType === 'percent') ? 'flex' : 'none';
+        percentContainer.style.display = (triggerType === 'percent') ? 'inline-flex' : 'none';
     }
-    if (timeContainer) {
-        timeContainer.style.display = (triggerType === 'time') ? 'flex' : 'none';
+    if (secondsContainer) {
+        secondsContainer.style.display = (triggerType === 'time') ? 'inline-flex' : 'none';
     }
     
     updateHumanizeState();
+}
+
+function updateResetButtonState() {
+    const btn = UI.lists.btnResetSettings;
+    if (!btn) return;
+
+    const whitelist = UI.settings.checkLikeWhitelist ? UI.settings.checkLikeWhitelist.checked : true;
+    const blacklist = UI.settings.checkDislikeBlacklist ? UI.settings.checkDislikeBlacklist.checked : true;
+    const unlisted = UI.settings.selectUnlisted ? UI.settings.selectUnlisted.value : 'none';
+    const humanize = UI.settings.checkHumanize ? UI.settings.checkHumanize.checked : false;
+    const neutral = UI.settings.checkShowNeutral ? UI.settings.checkShowNeutral.checked : true;
+    const debug = UI.settings.checkDebug ? UI.settings.checkDebug.checked : false;
+    const history = UI.settings.checkHistory ? UI.settings.checkHistory.checked : true;
+    const highlightChannels = UI.settings.checkHighlightChannels ? UI.settings.checkHighlightChannels.checked : true;
+    const triggerType = UI.settings.selectTriggerType ? UI.settings.selectTriggerType.value : 'instant';
+    const triggerSeconds = UI.settings.inputSeconds ? (Number.parseInt(UI.settings.inputSeconds.value, 10) || CONFIG.DEFAULTS.triggerSeconds) : CONFIG.DEFAULTS.triggerSeconds;
+    const triggerPercent = UI.settings.inputPercent ? (Number.parseInt(UI.settings.inputPercent.value, 10) || CONFIG.DEFAULTS.triggerPercent) : CONFIG.DEFAULTS.triggerPercent;
+
+    const isDefault = 
+        whitelist === true &&
+        blacklist === true &&
+        unlisted === 'none' &&
+        humanize === false &&
+        neutral === true &&
+        debug === false &&
+        history === true &&
+        highlightChannels === true &&
+        triggerType === 'instant' &&
+        triggerSeconds === CONFIG.DEFAULTS.triggerSeconds &&
+        triggerPercent === CONFIG.DEFAULTS.triggerPercent;
+
+    if (isDefault) {
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+        btn.style.pointerEvents = 'none';
+        btn.title = "Settings are already at default values";
+    } else {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+        btn.title = "Reset all settings to default (channel lists and history are kept)";
+    }
 }
 
 // Update status banners in whitelist/blacklist/activity tabs
@@ -249,7 +293,7 @@ function mapStorageToSettings(res) {
         blacklist: res.actionBlacklist ?? true,
         unlisted: res.actionUnlisted ?? (res.enableDislike === true ? 'dislike' : 'none'),
         humanize: res.enableHumanize ?? false,
-        neutral: res.showNeutralBadge ?? false,
+        neutral: res.showNeutralBadge ?? true,
         debug: res.enableDebug ?? false,
         history: res.enableHistory ?? true,
         highlightChannels: res.highlightChannels ?? true,
@@ -279,6 +323,8 @@ function applySettingsToUI(s) {
 
     if (UI.settings.inputSeconds) UI.settings.inputSeconds.value = s.trigger.seconds;
     if (UI.settings.inputPercent) UI.settings.inputPercent.value = s.trigger.percent;
+
+    updateResetButtonState();
 }
 
 function updateMasterUI(isEnabled) {
@@ -316,6 +362,7 @@ function saveSettings() {
         .then(() => {
             showStatus("Saved.");
             updateStatusBanners();
+            updateResetButtonState();
             // Re-render logs with current setting
             chrome.storage.local.get(['activityLogs'], res => {
                 renderLogs(res.activityLogs || [], settings.enableHistory);
@@ -648,6 +695,35 @@ async function handleExport() {
         showStatus("Backup exported.");
     } catch {
         showStatus("Export failed.", true);
+    }
+}
+
+async function handleResetSettings() {
+    if (!confirm("Are you sure you want to reset settings to default? Your lists and history will not be cleared.")) {
+        return;
+    }
+
+    const defaultSettings = {
+        actionWhitelist: CONFIG.DEFAULTS.actionWhitelist ?? true,
+        actionBlacklist: CONFIG.DEFAULTS.actionBlacklist ?? true,
+        actionUnlisted: CONFIG.DEFAULTS.actionUnlisted ?? 'none',
+        enableHumanize: CONFIG.DEFAULTS.enableHumanize ?? false,
+        showNeutralBadge: CONFIG.DEFAULTS.showNeutralBadge ?? true,
+        enableDebug: CONFIG.DEFAULTS.enableDebug ?? false,
+        enableHistory: CONFIG.DEFAULTS.enableHistory ?? true,
+        highlightChannels: CONFIG.DEFAULTS.highlightChannels ?? true,
+        triggerType: CONFIG.DEFAULTS.triggerType ?? 'instant',
+        triggerSeconds: CONFIG.DEFAULTS.triggerSeconds ?? 10,
+        triggerPercent: CONFIG.DEFAULTS.triggerPercent ?? 50,
+        enableExtension: CONFIG.DEFAULTS.enableExtension ?? true
+    };
+
+    try {
+        await StorageUtils.saveSettings(defaultSettings);
+        showStatus("Settings reset.");
+        loadAllData();
+    } catch {
+        showStatus("Reset failed.", true);
     }
 }
 

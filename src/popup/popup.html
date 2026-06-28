@@ -43,41 +43,39 @@
     <main id="main-content">
     <div id="content-settings" class="tab-content active">
 
-        <!-- BEHAVIOR PREFERENCES - Most used -->
-        <div class="section-title mt-0">BEHAVIOR PREFERENCES</div>
+        <div class="settings-group">
+            <!-- BEHAVIOR PREFERENCES - Most used -->
+            <div class="section-title mt-0">BEHAVIOR PREFERENCES</div>
 
-        <!-- WHITELIST & BLACKLIST - Compact row with counts -->
-        <div class="list-actions-row">
-            <label class="list-action-item" title="Auto-like videos from whitelisted channels">
-                <input type="checkbox" id="checkLikeWhitelist">
-                <span class="list-action-label">Whitelist → Like</span>
-                <span class="list-count" id="whitelistCount">0</span>
-            </label>
-            <label class="list-action-item" title="Auto-dislike videos from blacklisted channels">
-                <input type="checkbox" id="checkDislikeBlacklist">
-                <span class="list-action-label">Blacklist → Dislike</span>
-                <span class="list-count" id="blacklistCount">0</span>
-            </label>
-        </div>
-
-        <!-- 3. UNLISTED ACTION (Dropdown) -->
-        <div class="mt-15" style="display: flex; align-items: flex-end; gap: 8px; width: 100%;">
-            <div style="flex: 4; min-width: 0;">
-                <label for="selectUnlisted" class="text-sub"
-                    style="display: block; margin-bottom: 5px; font-weight: 500;">
-                    <strong>Unlisted Channels</strong>:
+            <!-- WHITELIST & BLACKLIST - Compact row with counts -->
+            <div class="list-actions-row">
+                <label class="list-action-item" title="Auto-like videos from whitelisted channels">
+                    <input type="checkbox" id="checkLikeWhitelist">
+                    <span class="list-action-label">Whitelist → Like</span>
+                    <span class="list-count" id="whitelistCount">0</span>
                 </label>
+                <label class="list-action-item" title="Auto-dislike videos from blacklisted channels">
+                    <input type="checkbox" id="checkDislikeBlacklist">
+                    <span class="list-action-label">Blacklist → Dislike</span>
+                    <span class="list-count" id="blacklistCount">0</span>
+                </label>
+            </div>
+
+            <!-- 3. UNLISTED ACTION (Dropdown) -->
+            <div class="option-row mt-15" style="display: flex; align-items: center; gap: 8px; width: 100%;">
+                <label for="selectUnlisted" style="font-weight: 500; white-space: nowrap; flex: 0 0 60px; font-size: 12px;"><strong>Unlisted:</strong></label>
                 <select id="selectUnlisted" title="Action for channels not in whitelist or blacklist"
-                    style="margin-top: 0; width: 100%; box-sizing: border-box; height: 32px; display: block;">
+                    style="flex: 1; min-width: 0; height: 28px; box-sizing: border-box; display: block; padding: 2px 4px; font-size: 12px; margin-top: 0;">
                     <option value="none">Do Nothing (Neutral)</option>
                     <option value="like">Like Everything</option>
                     <option value="dislike">Dislike Everything</option>
                 </select>
             </div>
 
-            <!-- Label and Badge Toggle (Smaller) -->
-            <div style="flex: 1; min-width: 0;">
-                <label class="btn-toggle-sm" title="Show neutral badge" style="width: 100%;">
+            <!-- Toggles Row: Badge & Highlight (Side-by-side) -->
+            <div style="display: flex; gap: 8px; width: 100%; margin-top: 8px;">
+                <!-- Badge Toggle -->
+                <label class="btn-toggle-sm" title="Show neutral badge" style="flex: 1; justify-content: center; height: 28px; font-size: 11px;">
                     <input type="checkbox" id="checkShowNeutral">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="10" />
@@ -85,102 +83,114 @@
                     </svg>
                     <span>Badge</span>
                 </label>
+
+                <!-- Highlight Toggle -->
+                <label class="btn-toggle-sm" title="Color channel names on YouTube pages based on your Whitelist (Green) and Blacklist (Red)" style="flex: 1; justify-content: center; height: 28px; font-size: 11px;">
+                    <input type="checkbox" id="checkHighlightChannels">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                        <path d="M12 6v12M6 12h12" />
+                    </svg>
+                    <span>Highlight</span>
+                </label>
             </div>
         </div>
 
-        <div class="option-row mt-10" title="Color channel names on YouTube pages based on your Whitelist (Green) and Blacklist (Red)">
-            <input type="checkbox" id="checkHighlightChannels">
-            <label for="checkHighlightChannels">Highlight channel names on YouTube</label>
-        </div>
+        <div class="settings-group">
+            <!-- TIMING -->
+            <div class="section-title">TIMING</div>
 
-        <!-- TIMING -->
-        <div class="section-title">TIMING</div>
-
-        <div class="option-row" style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
-            <div style="width: 100%;">
-                <label for="selectTriggerType" class="text-sub" style="display: block; margin-bottom: 5px; font-weight: 500;">
-                    <strong>Trigger Action</strong>:
-                </label>
-                <select id="selectTriggerType" title="When to perform the auto action" style="width: 100%; height: 32px; box-sizing: border-box; display: block;">
-                    <option value="instant">Instant (Start of Video)</option>
+            <div class="option-row" style="display: flex; align-items: center; gap: 8px; width: 100%;">
+                <label for="selectTriggerType" style="font-weight: 500; white-space: nowrap; flex: 0 0 60px; font-size: 12px;">Trigger:</label>
+                <select id="selectTriggerType" title="When to perform the auto action" style="flex: 1; min-width: 0; height: 28px; box-sizing: border-box; display: block; padding: 2px 4px; font-size: 12px; margin-top: 0;">
+                    <option value="instant">Instant (Start)</option>
                     <option value="percent">At Percentage</option>
                     <option value="time">Specific Second</option>
                 </select>
-            </div>
 
-            <!-- Dynamic Sub-Options -->
-            <!-- Percentage Input (Visible only when 'percent' is selected) -->
-            <div id="triggerPercentContainer" class="option-row sub-option" style="display: none; align-items: center; width: 100%; margin-top: 5px; border-radius: 0;">
-                <label for="triggerPercent" style="font-weight: 500;">Percentage:</label>
-                <input type="number" id="triggerPercent" min="1" max="99" value="50" class="w-45 ml-auto mr-5">
-                <span class="text-sub">%</span>
-            </div>
-
-            <!-- Seconds Input & Humanize (Visible only when 'time' is selected) -->
-            <div id="triggerTimeContainer" style="display: none; flex-direction: column; gap: 8px; width: 100%; margin-top: 5px;">
-                <div class="option-row sub-option" style="display: flex; align-items: center; width: 100%; border-radius: 0;">
-                    <label for="triggerSeconds" style="font-weight: 500;">Delay Time:</label>
-                    <input type="number" id="triggerSeconds" min="1" class="w-45 ml-auto mr-5">
-                    <span class="text-sub">seconds</span>
+                <!-- Percentage Input (Inline) -->
+                <div id="triggerPercentContainer" style="display: none; align-items: center; gap: 4px; flex-shrink: 0;">
+                    <input type="number" id="triggerPercent" min="1" max="99" value="50" style="width: 40px; height: 28px; text-align: center; box-sizing: border-box; font-size: 12px; padding: 2px;">
+                    <span class="text-sub" style="font-size: 11px;">%</span>
                 </div>
-                <div class="option-row sub-option" style="display: flex; align-items: center; margin-top: 2px;">
-                    <input type="checkbox" id="checkHumanize">
-                    <label for="checkHumanize" title="Adds random delays">Humanize (Random Delay)</label>
+
+                <!-- Seconds Input (Inline) & Humanize -->
+                <div id="triggerSecondsContainer" style="display: none; align-items: center; gap: 4px; flex-shrink: 0;">
+                    <input type="number" id="triggerSeconds" min="1" style="width: 40px; height: 28px; text-align: center; box-sizing: border-box; font-size: 12px; padding: 2px;">
+                    <span class="text-sub" style="font-size: 11px; margin-right: 2px;">sec</span>
+                    
+                    <label for="checkHumanize" title="Adds random delays to make actions appear more natural" style="display: inline-flex; align-items: center; gap: 4px; font-size: 11px; cursor: pointer; user-select: none; margin-left: 2px; border-left: 1px solid var(--border-color); padding-left: 6px; height: 16px;">
+                        <input type="checkbox" id="checkHumanize" style="margin: 0;">
+                        <span>Humanize</span>
+                    </label>
                 </div>
             </div>
         </div>
 
-        <!-- DATA & ADVANCED - Least used -->
-        <div class="section-title">DATA & ADVANCED</div>
+        <div class="settings-group">
+            <!-- DATA & ADVANCED - Least used -->
+            <div class="section-title">DATA & ADVANCED</div>
 
-        <!-- QUICK SETTINGS TOOLBAR -->
-        <div class="quick-settings-row">
-            <div class="btn-group">
-                <button id="btnExport" class="btn-sm" title="Export settings and data">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                        <polyline points="7 10 12 15 17 10" />
-                        <line x1="12" y1="15" x2="12" y2="3" />
-                    </svg>
-                    Export
-                </button>
-                <label for="fileInput" id="btnImport" class="btn-sm" title="Import settings and data"
-                    style="cursor: pointer; display: none;">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                        <polyline points="17 8 12 3 7 8" />
-                        <line x1="12" y1="3" x2="12" y2="15" />
-                    </svg>
-                    Import
-                    <input type="file" id="fileInput" style="display: none;" accept=".json">
-                </label>
-                <button id="btnOpenSettings" class="btn-sm" title="Firefox limitation: Import opens in a new tab"
-                    style="display: none;">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                        <polyline points="17 8 12 3 7 8" />
-                        <line x1="12" y1="3" x2="12" y2="15" />
-                    </svg>
-                    Import
-                </button>
+            <!-- QUICK SETTINGS TOOLBAR -->
+            <div class="quick-settings-row">
+                <div class="btn-group">
+                    <button id="btnExport" class="btn-sm" title="Export settings and data">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
+                        Export
+                    </button>
+                    <label for="fileInput" id="btnImport" class="btn-sm" title="Import settings and data"
+                        style="cursor: pointer; display: none;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="17 8 12 3 7 8" />
+                            <line x1="12" y1="3" x2="12" y2="15" />
+                        </svg>
+                        Import
+                        <input type="file" id="fileInput" style="display: none;" accept=".json">
+                    </label>
+                    <button id="btnOpenSettings" class="btn-sm" title="Firefox limitation: Import opens in a new tab"
+                        style="display: none;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="17 8 12 3 7 8" />
+                            <line x1="12" y1="3" x2="12" y2="15" />
+                        </svg>
+                        Import
+                    </button>
+                </div>
+
+                <div class="btn-group-toggle">
+                    <label class="btn-toggle" title="Enable console logs (F12)">
+                        <input type="checkbox" id="checkDebug">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="4 17 10 11 4 5" />
+                            <line x1="12" y1="19" x2="20" y2="19" />
+                        </svg>
+                        Debug
+                    </label>
+                    <label class="btn-toggle" title="Remembers only your last 50 activities locally">
+                        <input type="checkbox" id="checkHistory">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        History
+                    </label>
+                </div>
             </div>
 
-            <div class="btn-group-toggle">
-                <label class="btn-toggle" title="Enable console logs (F12)">
-                    <input type="checkbox" id="checkDebug">
+            <!-- Separate Reset Row -->
+            <div style="margin-top: 12px; display: flex; justify-content: flex-end; width: 100%; border-top: 1px dashed var(--border-color); padding-top: 8px;">
+                <button id="btnResetSettings" class="btn-sm danger-btn" style="border: 1px solid transparent; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px; margin-right: 0;" title="Reset all settings to default (channel lists and history are kept)">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="4 17 10 11 4 5" />
-                        <line x1="12" y1="19" x2="20" y2="19" />
+                        <path d="M23 4v6h-6" />
+                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
                     </svg>
-                    Debug
-                </label>
-                <label class="btn-toggle" title="Remembers only your last 50 activities locally">
-                    <input type="checkbox" id="checkHistory">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    History
-                </label>
+                    Reset Settings
+                </button>
             </div>
         </div>
 

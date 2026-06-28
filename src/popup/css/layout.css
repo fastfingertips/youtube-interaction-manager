@@ -270,10 +270,19 @@ h2 {
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: none; /* Firefox */
+    justify-content: space-between;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 #content-settings::-webkit-scrollbar {
     width: 0px; /* Hide scrollbar but keep scroll functionality */
+}
+
+.settings-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 
