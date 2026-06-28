@@ -349,6 +349,11 @@ h2 {
    7. ABOUT SECTION
    ============================================ */
 
+#content-about {
+    justify-content: center;
+    align-items: center;
+}
+
 .about-container {
     display: flex;
     flex-direction: column;
