@@ -230,8 +230,16 @@ li:hover {
     font-weight: 500;
     color: var(--text-color);
     overflow: hidden;
+    white-space: nowrap;
+}
+
+.log-link, .log-title {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    vertical-align: top;
 }
 
 .log-link {
@@ -250,12 +258,16 @@ li:hover {
     gap: 6px;
     font-size: 11px;
     color: var(--sub-text-color);
+    min-width: 0;
 }
 
 .log-channel {
+    display: inline-block;
+    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    vertical-align: top;
 }
 
 .log-time {

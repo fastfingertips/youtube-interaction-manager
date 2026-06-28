@@ -153,6 +153,8 @@ function setupEventListeners() {
     if (UI.logs.btnClear) {
         UI.logs.btnClear.addEventListener('click', handleClearLogs);
     }
+
+    setupMarqueeListeners();
 }
 
 // Enable humanize option only when Specific Second trigger is selected
@@ -650,4 +652,64 @@ function showStatus(msg, isError = false) {
     setTimeout(() => {
         if (UI.status) UI.status.textContent = '';
     }, CONFIG.TIMING.statusMessage);
+}
+
+function setupMarqueeListeners() {
+    // Listen to mouseenter using capture because it doesn't bubble
+    document.addEventListener('mouseenter', (e) => {
+        const target = e.target.closest('.log-link, .log-title, .channel-link, .channel-name-static, .log-channel');
+        if (!target) return;
+
+        const container = target.parentElement;
+        if (!container) return;
+
+        // Temporarily allow the target to expand to its full width to calculate scrollWidth
+        const originalStyle = {
+            maxWidth: target.style.maxWidth,
+            display: target.style.display,
+            whiteSpace: target.style.whiteSpace,
+            textOverflow: target.style.textOverflow
+        };
+
+        target.style.maxWidth = 'none';
+        target.style.display = 'inline-block';
+        target.style.whiteSpace = 'nowrap';
+
+        const scrollWidth = target.scrollWidth;
+        const containerWidth = container.clientWidth;
+
+        if (scrollWidth > containerWidth) {
+            const scrollDist = scrollWidth - containerWidth;
+            // Constant speed (approx 50px per second)
+            const duration = Math.max(1, scrollDist / 50);
+
+            target.style.textOverflow = 'clip';
+            target.style.transition = `transform ${duration}s linear`;
+            target.style.transform = `translateX(-${scrollDist + 8}px)`;
+        } else {
+            // Restore styles if not overflowing
+            target.style.maxWidth = originalStyle.maxWidth;
+            target.style.display = originalStyle.display;
+            target.style.whiteSpace = originalStyle.whiteSpace;
+        }
+    }, true);
+
+    document.addEventListener('mouseleave', (e) => {
+        const target = e.target.closest('.log-link, .log-title, .channel-link, .channel-name-static, .log-channel');
+        if (!target) return;
+
+        target.style.transition = 'transform 0.2s ease-out';
+        target.style.transform = 'translateX(0)';
+
+        // Clean up styles after transition finishes
+        setTimeout(() => {
+            if (target.style.transform === 'translateX(0px)' || target.style.transform === 'none' || target.style.transform === '') {
+                target.style.maxWidth = '';
+                target.style.display = '';
+                target.style.whiteSpace = '';
+                target.style.textOverflow = '';
+                target.style.transition = '';
+            }
+        }, 200);
+    }, true);
 }
