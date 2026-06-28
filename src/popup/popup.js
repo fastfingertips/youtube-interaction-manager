@@ -391,7 +391,6 @@ function renderList(list, listKey) {
             a.textContent = name;
             a.target = "_blank";
             a.className = 'channel-link';
-            a.title = `Open channel: ${url}`;
             contentDiv.appendChild(a);
         } else {
             const span = document.createElement('span');
@@ -499,7 +498,6 @@ function renderLogs(logs, isHistoryEnabled = true) {
             a.href = `https://www.youtube.com/watch?v=${encodeURIComponent(log.videoId)}`;
             a.target = '_blank';
             a.className = 'log-link';
-            a.title = `Watch: ${displayText}`;
             a.textContent = displayText;
             mainDiv.appendChild(a);
         } else {
@@ -655,61 +653,76 @@ function showStatus(msg, isError = false) {
 }
 
 function setupMarqueeListeners() {
-    // Listen to mouseenter using capture because it doesn't bubble
+    // Listen to mouseenter on rows using capture phase
     document.addEventListener('mouseenter', (e) => {
-        const target = e.target.closest('.log-link, .log-title, .channel-link, .channel-name-static, .log-channel');
-        if (!target) return;
+        const row = e.target.closest('.log-item, #whitelistUl li, #blacklistUl li');
+        if (!row) return;
 
-        const container = target.parentElement;
-        if (!container) return;
+        // Find scrollable targets inside this row
+        const targets = row.querySelectorAll('.log-link, .log-title, .channel-link, .channel-name-static, .log-channel');
+        
+        targets.forEach(target => {
+            const container = target.parentElement;
+            if (!container) return;
 
-        // Temporarily allow the target to expand to its full width to calculate scrollWidth
-        const originalStyle = {
-            maxWidth: target.style.maxWidth,
-            display: target.style.display,
-            whiteSpace: target.style.whiteSpace,
-            textOverflow: target.style.textOverflow
-        };
+            // Temporarily allow the target to expand to its full width to calculate scrollWidth
+            const originalStyle = {
+                maxWidth: target.style.maxWidth,
+                display: target.style.display,
+                whiteSpace: target.style.whiteSpace,
+                textOverflow: target.style.textOverflow
+            };
 
-        target.style.maxWidth = 'none';
-        target.style.display = 'inline-block';
-        target.style.whiteSpace = 'nowrap';
+            // Store original styles on target dataset
+            target.dataset.originalMaxWidth = originalStyle.maxWidth || '';
+            target.dataset.originalDisplay = originalStyle.display || '';
+            target.dataset.originalWhiteSpace = originalStyle.whiteSpace || '';
+            target.dataset.originalTextOverflow = originalStyle.textOverflow || '';
 
-        const scrollWidth = target.scrollWidth;
-        const containerWidth = container.clientWidth;
+            target.style.maxWidth = 'none';
+            target.style.display = 'inline-block';
+            target.style.whiteSpace = 'nowrap';
 
-        if (scrollWidth > containerWidth) {
-            const scrollDist = scrollWidth - containerWidth;
-            // Constant speed (approx 50px per second)
-            const duration = Math.max(1, scrollDist / 50);
+            const scrollWidth = target.scrollWidth;
+            const containerWidth = container.clientWidth;
 
-            target.style.textOverflow = 'clip';
-            target.style.transition = `transform ${duration}s linear`;
-            target.style.transform = `translateX(-${scrollDist + 8}px)`;
-        } else {
-            // Restore styles if not overflowing
-            target.style.maxWidth = originalStyle.maxWidth;
-            target.style.display = originalStyle.display;
-            target.style.whiteSpace = originalStyle.whiteSpace;
-        }
+            if (scrollWidth > containerWidth) {
+                const scrollDist = scrollWidth - containerWidth;
+                // Constant speed (approx 50px per second)
+                const duration = Math.max(1, scrollDist / 50);
+
+                target.style.textOverflow = 'clip';
+                target.style.transition = `transform ${duration}s linear`;
+                target.style.transform = `translateX(-${scrollDist + 8}px)`;
+            } else {
+                // Restore styles if not overflowing
+                target.style.maxWidth = originalStyle.maxWidth;
+                target.style.display = originalStyle.display;
+                target.style.whiteSpace = originalStyle.whiteSpace;
+            }
+        });
     }, true);
 
     document.addEventListener('mouseleave', (e) => {
-        const target = e.target.closest('.log-link, .log-title, .channel-link, .channel-name-static, .log-channel');
-        if (!target) return;
+        const row = e.target.closest('.log-item, #whitelistUl li, #blacklistUl li');
+        if (!row) return;
 
-        target.style.transition = 'transform 0.2s ease-out';
-        target.style.transform = 'translateX(0)';
+        const targets = row.querySelectorAll('.log-link, .log-title, .channel-link, .channel-name-static, .log-channel');
+        
+        targets.forEach(target => {
+            target.style.transition = 'transform 0.2s ease-out';
+            target.style.transform = 'translateX(0)';
 
-        // Clean up styles after transition finishes
-        setTimeout(() => {
-            if (target.style.transform === 'translateX(0px)' || target.style.transform === 'none' || target.style.transform === '') {
-                target.style.maxWidth = '';
-                target.style.display = '';
-                target.style.whiteSpace = '';
-                target.style.textOverflow = '';
-                target.style.transition = '';
-            }
-        }, 200);
+            // Clean up styles after transition finishes
+            setTimeout(() => {
+                if (target.style.transform === 'translateX(0px)' || target.style.transform === 'none' || target.style.transform === '') {
+                    target.style.maxWidth = target.dataset.originalMaxWidth || '';
+                    target.style.display = target.dataset.originalDisplay || '';
+                    target.style.whiteSpace = target.dataset.originalWhiteSpace || '';
+                    target.style.textOverflow = target.dataset.originalTextOverflow || '';
+                    target.style.transition = '';
+                }
+            }, 200);
+        });
     }, true);
 }
