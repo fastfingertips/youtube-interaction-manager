@@ -1,19 +1,22 @@
-# YouTube Interaction Manager
+<h1 align="center">YouTube Interaction Manager</h1>
 
+<p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/store/promo_marquee_dark.png">
   <source media="(prefers-color-scheme: light)" srcset="docs/store/promo_marquee_light.png">
   <img alt="YouTube Interaction Manager" src="docs/store/promo_marquee_light.png">
 </picture>
+</p>
 
-[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/nlpclmfebmnahbhffafphgnajkbkiaib?style=flat-square&logo=googlechrome&logoColor=white&label=Chrome)](https://chromewebstore.google.com/detail/youtube-auto-like/nlpclmfebmnahbhffafphgnajkbkiaib)
-[![Release Build](https://img.shields.io/github/actions/workflow/status/fastfingertips/youtube-interaction-manager/release.yml?branch=main&style=flat-square&logo=github&label=Release%20Build)](https://github.com/fastfingertips/youtube-interaction-manager/actions/workflows/release.yml)
-[![Auto-Publish](https://img.shields.io/github/actions/workflow/status/fastfingertips/youtube-interaction-manager/release.yml?branch=main&style=flat-square&logo=googlechrome&logoColor=white&label=Auto-Publish)](https://github.com/fastfingertips/youtube-interaction-manager/actions/workflows/release.yml)
-[![License](https://img.shields.io/github/license/fastfingertips/youtube-interaction-manager?style=flat-square)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/fastfingertips/youtube-interaction-manager?style=flat-square&logo=github)](https://github.com/fastfingertips/youtube-interaction-manager/stargazers)
-[![GitHub release](https://img.shields.io/github/v/release/fastfingertips/youtube-interaction-manager?style=flat-square&logo=github)](https://github.com/fastfingertips/youtube-interaction-manager/releases)
+<p align="center">
+  <a href="https://chromewebstore.google.com/detail/youtube-auto-like/nlpclmfebmnahbhffafphgnajkbkiaib"><img alt="Chrome Web Store" src="https://img.shields.io/chrome-web-store/v/nlpclmfebmnahbhffafphgnajkbkiaib?style=flat-square&logo=googlechrome&logoColor=white&label=Chrome"></a>
+  <a href="https://github.com/fastfingertips/youtube-interaction-manager/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/fastfingertips/youtube-interaction-manager?style=flat-square&logo=github"></a>
+  <a href="https://github.com/fastfingertips/youtube-interaction-manager/commits/main"><img alt="Last update" src="https://img.shields.io/github/last-commit/fastfingertips/youtube-interaction-manager?style=flat-square&label=last%20update"></a>
+</p>
 
+<p align="center">
 Smart interaction manager for YouTube. Auto-like whitelist, auto-dislike blacklist, and detailed activity logging. Improve your viewing experience by automating interactions with your favorite channels.
+</p>
 
 ## Download
 
