@@ -377,7 +377,7 @@ function renderList(list, listKey) {
         return;
     }
 
-    [...list].reverse().forEach(item => {
+    list.forEach(item => {
         const name = item.name || "Unknown";
         const url = item.url;
 
