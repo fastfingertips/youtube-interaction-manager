@@ -63,15 +63,6 @@
         .page-wrapper {
         }
 
-        .breadcrumb {
-            color: var(--text-secondary);
-            font-size: 12px;
-        }
-
-        .breadcrumb {
-            margin-bottom: 24px;
-        }
-
         a {
             color: var(--text-color);
             text-decoration: underline;
@@ -79,32 +70,6 @@
 
         a:hover {
             color: var(--text-secondary);
-        }
-
-        h2 {
-            margin-top: 28px;
-            margin-bottom: 10px;
-            font-size: 14px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 1px dashed var(--border-color);
-            padding-bottom: 6px;
-        }
-
-        h3 {
-            margin-top: 16px;
-            margin-bottom: 6px;
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        p,
-        li,
-        td {
-            font-size: 13px;
-            color: var(--text-color);
         }
 
         p {
@@ -119,32 +84,6 @@
 
         li {
             margin-bottom: 6px;
-        }
-
-        code {
-            font-family: inherit;
-            background: var(--card-bg);
-            padding: 2px 6px;
-            font-size: 11px;
-            border: 1px solid var(--border-color);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 14px 0;
-        }
-
-        th,
-        td {
-            padding: 10px;
-            border: 1px solid var(--border-color);
-            text-align: left;
-            vertical-align: top;
-        }
-
-        th {
-            background: var(--card-bg);
         }
 
         .screenshots {
@@ -169,7 +108,7 @@
             height: 260px;
             object-fit: contain;
             object-position: top center;
-            background: #1f2023;
+            background: var(--card-bg);
             border-bottom: 1px solid var(--border-color);
         }
 
@@ -195,10 +134,6 @@
 <body class="site-page">
     <div class="page-wrapper site-page-wrapper">
         <div data-site-header></div>
-
-        <nav class="breadcrumb">
-            <a href="./index.html">Home</a> / Guide
-        </nav>
 
         <main class="site-content-wide">
         <div>

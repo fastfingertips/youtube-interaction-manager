@@ -313,3 +313,105 @@ html[data-theme="dark"] {
     }
 }
 
+/* Unified content typography & components */
+.site-content-wide h2,
+.site-content-narrow h2 {
+    margin-top: 28px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px dashed var(--site-border-color);
+    padding-bottom: 6px;
+}
+
+.site-content-wide h3,
+.site-content-narrow h3 {
+    margin-top: 16px;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.site-content-wide a,
+.site-content-narrow a {
+    color: var(--site-text-color);
+    text-decoration: underline;
+}
+
+.site-content-wide a:hover,
+.site-content-narrow a:hover {
+    color: var(--site-text-secondary);
+}
+
+.site-content-wide ul,
+.site-content-narrow ul,
+.site-content-wide ol,
+.site-content-narrow ol {
+    margin-left: 22px;
+    margin-bottom: 14px;
+}
+
+.site-content-wide p,
+.site-content-narrow p,
+.site-content-wide li,
+.site-content-narrow li,
+.site-content-wide td,
+.site-content-narrow td {
+    font-size: 13px;
+    line-height: 1.75;
+}
+
+.site-content-wide li,
+.site-content-narrow li {
+    margin-bottom: 6px;
+}
+
+.site-content-wide code,
+.site-content-narrow code {
+    font-family: inherit;
+    background: var(--site-card-bg);
+    padding: 2px 6px;
+    font-size: 12px;
+    border: 1px solid var(--site-border-color);
+}
+
+.site-content-wide table,
+.site-content-narrow table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+}
+
+.site-content-wide th,
+.site-content-narrow th,
+.site-content-wide td,
+.site-content-narrow td {
+    padding: 10px;
+    border: 1px solid var(--site-border-color);
+    text-align: left;
+    vertical-align: top;
+}
+
+.site-content-wide th,
+.site-content-narrow th {
+    background: var(--site-table-header-bg);
+    color: var(--site-text-color);
+}
+
+@media (max-width: 600px) {
+    .site-content-wide table,
+    .site-content-narrow table {
+        font-size: 11px;
+    }
+
+    .site-content-wide th,
+    .site-content-narrow th,
+    .site-content-wide td,
+    .site-content-narrow td {
+        padding: 6px 8px;
+    }
+}
+
