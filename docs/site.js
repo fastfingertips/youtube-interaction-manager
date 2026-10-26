@@ -3,9 +3,9 @@
     const themeStorageKey = 'youtube-interaction-manager-theme';
 
     const internalLinks = [
-        { href: `${basePath}index.html`, label: 'Home' },
-        { href: `${basePath}guide.html`, label: 'Guide' },
-        { href: `${basePath}privacy.html`, label: 'Privacy Policy' },
+        { href: `${basePath}index.html`, label: 'Home', key: 'home' },
+        { href: `${basePath}guide.html`, label: 'Guide', key: 'guide' },
+        { href: `${basePath}privacy.html`, label: 'Privacy Policy', key: 'privacy' },
     ];
 
     const externalLinks = [
@@ -14,9 +14,22 @@
         { href: 'https://github.com/fastfingertips/youtube-interaction-manager/blob/main/LICENSE', label: 'MIT License' },
     ];
 
-    function renderLinks(links) {
+    function getCurrentPage() {
+        const path = globalThis.location.pathname.toLowerCase();
+        if (path.includes('guide')) return { name: 'Guide', key: 'guide' };
+        if (path.includes('privacy')) return { name: 'Privacy Policy', key: 'privacy' };
+        return { name: 'Home', key: 'home' };
+    }
+
+    function renderLinks(links, currentKey) {
         return links
-            .map((link) => `<a href="${link.href}">${link.label}</a>`)
+            .map((link) => {
+                const isActive = Boolean(link.key && currentKey && link.key === currentKey);
+                if (isActive) {
+                    return `<span class="site-header-nav-current" aria-current="page">${link.label}</span>`;
+                }
+                return `<a href="${link.href}">${link.label}</a>`;
+            })
             .join('');
     }
 
@@ -61,15 +74,17 @@
     }
 
     function renderHeader(target) {
+        const current = getCurrentPage();
+
         target.innerHTML = `
             <button class="site-theme-toggle" type="button" data-theme-toggle aria-label="Toggle theme"></button>
             <header class="site-header">
                 <div class="site-header-main">
-                    <h1>YouTube Interaction Manager</h1>
+                    <h1><a href="${basePath}index.html" class="site-header-home-link">YouTube Interaction Manager</a></h1>
                     <p class="site-tagline">Smart interaction manager for YouTube. Auto-like, auto-dislike, and more.</p>
                 </div>
                 <nav class="site-header-nav" aria-label="Site navigation">
-                    ${renderLinks(internalLinks)}
+                    ${renderLinks(internalLinks, current.key)}
                 </nav>
             </header>
         `;
@@ -93,6 +108,31 @@
     document.querySelectorAll('[data-site-header]').forEach(renderHeader);
     document.querySelectorAll('[data-site-footer]').forEach(renderFooter);
     setTheme(document.documentElement.dataset.theme);
+
+    function initStickyHeader() {
+        const headerContainers = document.querySelectorAll('[data-site-header]');
+        if (!headerContainers.length) return;
+
+        let isCompact = false;
+        const compactThreshold = 60;
+        const uncompactThreshold = 10;
+
+        const updateHeader = () => {
+            const y = globalThis.scrollY || document.documentElement.scrollTop || 0;
+            if (!isCompact && y > compactThreshold) {
+                isCompact = true;
+                headerContainers.forEach((el) => el.classList.add('is-compact'));
+            } else if (isCompact && y <= uncompactThreshold) {
+                isCompact = false;
+                headerContainers.forEach((el) => el.classList.remove('is-compact'));
+            }
+        };
+
+        globalThis.addEventListener('scroll', updateHeader, { passive: true });
+        updateHeader();
+    }
+
+    initStickyHeader();
 
     document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
         button.addEventListener('click', () => {
