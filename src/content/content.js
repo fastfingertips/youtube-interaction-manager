@@ -117,6 +117,12 @@ function checkVideoStatus() {
 
         if (state.processedVideoId === currentVideoId) return;
 
+        // --- ADVERTISEMENT CHECK ---
+        if (isAdPlaying()) {
+            debugLog("[WAIT] Advertisement is playing. Pausing interaction triggers.");
+            return;
+        }
+
         // --- DOM-URL SYNC CHECK (Playlist & SPA Fix) ---
         if (!isMetadataReady(currentVideoId)) {
             debugLog(`[WAIT] Metadata not synced. URL: ${currentVideoId}, DOM: ${document.querySelector('ytd-watch-metadata')?.getAttribute('video-id') || 'null'}`);
@@ -389,6 +395,10 @@ function logActivity(action, data, videoId, reason) {
         if (logs.length > 50) logs = logs.slice(0, 50); // Increased log limit a bit
         chrome.storage.local.set({ activityLogs: logs });
     });
+}
+
+function isAdPlaying() {
+    return DecisionUtils.isAdPlaying(document, CONFIG.SELECTORS.adIndicator);
 }
 
 function isMetadataReady(currentVideoId) {

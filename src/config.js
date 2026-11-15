@@ -68,6 +68,10 @@ const CONFIG = {
     // YOUTUBE DOM SELECTORS
     // ─────────────────────────────────────────
     SELECTORS: {
+        adIndicator: [
+            '.ad-showing',
+            '.ad-interrupting'
+        ],
         channelName: [
             'ytd-watch-metadata yt-page-header-view-model h1 span', // Modern Video Page Header
             'ytd-watch-metadata #attributed-channel-name',        // Collaborative Videos

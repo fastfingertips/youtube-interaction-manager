@@ -60,6 +60,8 @@ describe('CONFIG integrity & defaults', () => {
     });
 
     it('should define valid DOM selector arrays', () => {
+        assert.ok(Array.isArray(CONFIG.SELECTORS.adIndicator));
+        assert.ok(CONFIG.SELECTORS.adIndicator.length > 0);
         assert.ok(Array.isArray(CONFIG.SELECTORS.channelName));
         assert.ok(CONFIG.SELECTORS.channelName.length > 0);
         assert.ok(Array.isArray(CONFIG.SELECTORS.videoTitle));

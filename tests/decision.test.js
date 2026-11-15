@@ -118,4 +118,40 @@ describe('DecisionUtils - Channel Action Logic', () => {
             assert.equal(res.action, 'none');
         });
     });
+
+    describe('isAdPlaying()', () => {
+        it('should return true if .ad-showing is present', () => {
+            const mockDoc = {
+                querySelector: (sel) => (sel === '.ad-showing' ? {} : null)
+            };
+            assert.equal(DecisionUtils.isAdPlaying(mockDoc), true);
+        });
+
+        it('should return true if .ad-interrupting is present', () => {
+            const mockDoc = {
+                querySelector: (sel) => (sel === '.ad-interrupting' ? {} : null)
+            };
+            assert.equal(DecisionUtils.isAdPlaying(mockDoc), true);
+        });
+
+        it('should return false when no ad indicator is in the DOM', () => {
+            const mockDoc = {
+                querySelector: () => null
+            };
+            assert.equal(DecisionUtils.isAdPlaying(mockDoc), false);
+        });
+
+        it('should safely return false when doc is null or invalid', () => {
+            assert.equal(DecisionUtils.isAdPlaying(null), false);
+            assert.equal(DecisionUtils.isAdPlaying({}), false);
+        });
+
+        it('should support custom selectors array', () => {
+            const mockDoc = {
+                querySelector: (sel) => (sel === '.custom-ad-tag' ? {} : null)
+            };
+            assert.equal(DecisionUtils.isAdPlaying(mockDoc, ['.custom-ad-tag']), true);
+            assert.equal(DecisionUtils.isAdPlaying(mockDoc, ['.other-tag']), false);
+        });
+    });
 });
