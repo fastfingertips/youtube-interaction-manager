@@ -36,6 +36,7 @@ export default [
         CONFIG: 'writable',
         StorageUtils: 'writable',
         BackupUtils: 'writable',
+        DecisionUtils: 'writable',
       }
     },
     rules: {

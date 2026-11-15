@@ -168,46 +168,8 @@ function checkVideoStatus() {
 }
 
 // --- DECISION LOGIC HELPERS ---
-function getActionSetting(primary, legacy, defaultValue) {
-    if (primary !== undefined) return primary;
-    if (legacy !== undefined) return legacy;
-    return defaultValue;
-}
-
-function getUnlistedAction(settings) {
-    if (settings.actionUnlisted !== undefined) return settings.actionUnlisted;
-    if (settings.enableDislike === true) return 'dislike';
-    return 'none';
-}
-
 function resolveActionForChannel(channelName, settings) {
-    const whitelist = settings.whitelist || [];
-    const blacklist = settings.blacklist || [];
-
-    const doLikeWhitelist = getActionSetting(settings.actionWhitelist, settings.enableLike, true);
-    const doDislikeBlacklist = getActionSetting(settings.actionBlacklist, undefined, true);
-    const doUnlisted = getUnlistedAction(settings);
-
-    const isWhitelisted = checkIsListed(whitelist, channelName);
-    const isBlacklisted = checkIsListed(blacklist, channelName);
-
-    if (isWhitelisted) {
-        return doLikeWhitelist
-            ? { action: 'like', reason: "Channel is Whitelisted & Action is ON" }
-            : { action: 'none', reason: "Channel is Whitelisted but Action is OFF" };
-    }
-
-    if (isBlacklisted) {
-        return doDislikeBlacklist
-            ? { action: 'dislike', reason: "Channel is Blacklisted & Action is ON" }
-            : { action: 'none', reason: "Channel is Blacklisted but Action is OFF" };
-    }
-
-    const unlistedActions = {
-        'like': { action: 'like', reason: "Unlisted Channel -> Action: LIKE ALL" },
-        'dislike': { action: 'dislike', reason: "Unlisted Channel -> Action: DISLIKE ALL" }
-    };
-    return unlistedActions[doUnlisted] || { action: 'none', reason: "Unlisted Channel -> Action: NONE" };
+    return DecisionUtils.resolveActionForChannel(channelName, settings);
 }
 
 // --- ACTIONS ---
@@ -407,11 +369,6 @@ function getVideoData() {
     }
 
     return { channelName, videoTitle, url: channelUrl };
-}
-
-function checkIsListed(list, name) {
-    if (!list) return false;
-    return list.some(item => item.name === name);
 }
 
 function logActivity(action, data, videoId, reason) {

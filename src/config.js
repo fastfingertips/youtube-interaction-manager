@@ -143,3 +143,9 @@ Object.freeze(CONFIG.HUMANIZE);
 Object.freeze(CONFIG.COLORS);
 Object.freeze(CONFIG.SELECTORS);
 Object.freeze(CONFIG.STORAGE_KEYS);
+
+// Export for ES modules / CommonJS (if used in tests/Node)
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = CONFIG;
+}
+

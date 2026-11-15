@@ -39,6 +39,7 @@
             ],
             "js": [
                 "src/config.js",
+                "src/utils/decision.js",
                 "src/content/content.js"
             ],
             "run_at": "document_end"
