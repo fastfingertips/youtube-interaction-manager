@@ -30,6 +30,7 @@ describe('CONFIG integrity & defaults', () => {
         assert.equal(DEFAULTS.enableExtension, true);
         assert.equal(DEFAULTS.enableHistory, true);
         assert.equal(DEFAULTS.highlightChannels, true);
+        assert.equal(DEFAULTS.enableNotifications, true);
     });
 
     it('should have required timing and humanize boundaries', () => {
@@ -51,7 +52,8 @@ describe('CONFIG integrity & defaults', () => {
             'triggerPercent',
             'actionWhitelist',
             'actionBlacklist',
-            'actionUnlisted'
+            'actionUnlisted',
+            'enableNotifications'
         ];
 
         for (const key of requiredKeys) {

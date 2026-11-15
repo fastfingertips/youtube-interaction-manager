@@ -25,7 +25,8 @@ const CONFIG = {
         enableDebug: false,
         enableExtension: true,
         enableHistory: true,
-        highlightChannels: true
+        highlightChannels: true,
+        enableNotifications: true
     },
 
     // ─────────────────────────────────────────
@@ -117,6 +118,7 @@ const CONFIG = {
         'triggerSeconds',
         'triggerPercent',
         'highlightChannels',
+        'enableNotifications',
         // Data (arrays)
         'whitelist',
         'blacklist',

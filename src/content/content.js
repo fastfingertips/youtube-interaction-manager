@@ -240,7 +240,11 @@ function attemptAction(action, channelName) {
     btn.click();
     
     if (!state.verificationTimers.length) {
-        showNotification(`${action.toUpperCase()}: ${channelName}`, action === 'like');
+        chrome.storage.local.get(['enableNotifications'], (res) => {
+            if (res.enableNotifications !== false) {
+                showNotification(`${action.toUpperCase()}: ${channelName}`, action === 'like');
+            }
+        });
     }
     return true;
 }

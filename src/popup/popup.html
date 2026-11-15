@@ -72,7 +72,7 @@
                 </select>
             </div>
 
-            <!-- Toggles Row: Badge & Highlight (Side-by-side) -->
+            <!-- Toggles Row: Badge, Highlight & Notify (Side-by-side) -->
             <div style="display: flex; gap: 8px; width: 100%; margin-top: 8px;">
                 <!-- Badge Toggle -->
                 <label class="btn-toggle-sm" title="Show neutral badge" style="flex: 1; justify-content: center; height: 28px; font-size: 11px;">
@@ -92,6 +92,16 @@
                         <path d="M12 6v12M6 12h12" />
                     </svg>
                     <span>Highlight</span>
+                </label>
+
+                <!-- Notify Toggle -->
+                <label class="btn-toggle-sm" title="Show on-screen notification when action is performed" style="flex: 1; justify-content: center; height: 28px; font-size: 11px;">
+                    <input type="checkbox" id="checkNotifications">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
+                    <span>Notify</span>
                 </label>
             </div>
         </div>
