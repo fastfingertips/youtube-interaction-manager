@@ -74,6 +74,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         sendResponse(details);
         return true;
     }
+
+    if (request.action === "showToast") {
+        chrome.storage.local.get(['enableNotifications'], (res) => {
+            if (res.enableNotifications !== false) {
+                showNotification(request.text, request.isSuccess);
+            }
+        });
+        updateIconState();
+        sendResponse({ success: true });
+        return true;
+    }
 });
 
 // --- EVENT HANDLERS ---

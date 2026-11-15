@@ -1,5 +1,6 @@
 // Chrome Extension MV3 Service Worker
 importScripts('../config.js');
+importScripts('../utils/storage.js');
 
 // --- MIGRATION: sync -> local (v1.3.27+) ---
 // One-time migration for existing users who had data in chrome.storage.sync
@@ -58,5 +59,47 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 chrome.action.setBadgeText({ text: "", tabId: tabId });
                 break;
         }
+    }
+});
+
+// --- KEYBOARD SHORTCUTS (chrome.commands) ---
+chrome.commands.onCommand.addListener(async (command) => {
+    if (command !== "toggle-whitelist" && command !== "toggle-blacklist") return;
+
+    try {
+        const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+        if (!tab?.id) return;
+
+        chrome.tabs.sendMessage(tab.id, { action: "getChannelDetails" }, async (response) => {
+            if (chrome.runtime.lastError || !response?.channelName) return;
+
+            const channelName = response.channelName;
+            const channelUrl = response.url || "";
+            const isWhitelist = command === "toggle-whitelist";
+            const targetList = isWhitelist ? "whitelist" : "blacklist";
+            const targetLabel = isWhitelist ? "Whitelist" : "Blacklist";
+
+            const data = await StorageUtils.getAllData();
+            const currentList = data[targetList] || [];
+            const isListed = currentList.some((item) => item.name === channelName);
+
+            if (isListed) {
+                await StorageUtils.removeChannel(channelName, targetList);
+                chrome.tabs.sendMessage(tab.id, {
+                    action: "showToast",
+                    text: `Removed from ${targetLabel}: ${channelName}`,
+                    isSuccess: false
+                });
+            } else {
+                await StorageUtils.addChannel(channelName, channelUrl, targetList);
+                chrome.tabs.sendMessage(tab.id, {
+                    action: "showToast",
+                    text: `Added to ${targetLabel}: ${channelName}`,
+                    isSuccess: true
+                });
+            }
+        });
+    } catch (err) {
+        console.error('[YIM] Error handling command:', err);
     }
 });
