@@ -2,6 +2,7 @@
   "name": "youtube-interaction-manager",
   "private": true,
   "scripts": {
+    "test": "node --test tests/**/*.test.js",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
     "prepare": "husky"
