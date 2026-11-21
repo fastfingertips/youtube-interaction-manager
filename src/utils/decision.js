@@ -41,6 +41,21 @@ const DecisionUtils = {
     },
 
     /**
+     * Check if an advertisement is currently playing in the DOM
+     * @param {Document|Object} doc - Document or mock DOM object
+     * @param {Array<string>} selectors - Array of CSS selector strings
+     * @returns {boolean}
+     */
+    isAdPlaying(doc = (typeof document !== 'undefined' ? document : null), selectors = ['.ad-showing', '.ad-interrupting']) {
+        if (!doc || typeof doc.querySelector !== 'function') return false;
+        const list = Array.isArray(selectors) && selectors.length > 0 ? selectors : ['.ad-showing', '.ad-interrupting'];
+        for (const sel of list) {
+            if (doc.querySelector(sel)) return true;
+        }
+        return false;
+    },
+
+    /**
      * Resolve action and reasoning for a channel based on current settings
      * @param {string} channelName - Channel name
      * @param {Object} settings - Settings object

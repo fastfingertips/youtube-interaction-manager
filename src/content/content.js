@@ -74,6 +74,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         sendResponse(details);
         return true;
     }
+
+    if (request.action === "showToast") {
+        chrome.storage.local.get(['enableNotifications'], (res) => {
+            if (res.enableNotifications !== false) {
+                showNotification(request.text, request.isSuccess);
+            }
+        });
+        updateIconState();
+        sendResponse({ success: true });
+        return true;
+    }
 });
 
 // --- EVENT HANDLERS ---
@@ -116,6 +127,12 @@ function checkVideoStatus() {
         updateIconState();
 
         if (state.processedVideoId === currentVideoId) return;
+
+        // --- ADVERTISEMENT CHECK ---
+        if (isAdPlaying()) {
+            debugLog("[WAIT] Advertisement is playing. Pausing interaction triggers.");
+            return;
+        }
 
         // --- DOM-URL SYNC CHECK (Playlist & SPA Fix) ---
         if (!isMetadataReady(currentVideoId)) {
@@ -234,7 +251,11 @@ function attemptAction(action, channelName) {
     btn.click();
     
     if (!state.verificationTimers.length) {
-        showNotification(`${action.toUpperCase()}: ${channelName}`, action === 'like');
+        chrome.storage.local.get(['enableNotifications'], (res) => {
+            if (res.enableNotifications !== false) {
+                showNotification(`${action.toUpperCase()}: ${channelName}`, action === 'like');
+            }
+        });
     }
     return true;
 }
@@ -389,6 +410,10 @@ function logActivity(action, data, videoId, reason) {
         if (logs.length > 50) logs = logs.slice(0, 50); // Increased log limit a bit
         chrome.storage.local.set({ activityLogs: logs });
     });
+}
+
+function isAdPlaying() {
+    return DecisionUtils.isAdPlaying(document, CONFIG.SELECTORS.adIndicator);
 }
 
 function isMetadataReady(currentVideoId) {

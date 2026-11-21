@@ -34,7 +34,8 @@ function initApp() {
             checkShowNeutral: document.getElementById('checkShowNeutral'),
             checkDebug: document.getElementById('checkDebug'),
             checkHistory: document.getElementById('checkHistory'),
-            checkHighlightChannels: document.getElementById('checkHighlightChannels')
+            checkHighlightChannels: document.getElementById('checkHighlightChannels'),
+            checkNotifications: document.getElementById('checkNotifications')
         },
         lists: {
             addWhitelistBtn: document.getElementById('addWhitelistBtn'),
@@ -99,7 +100,8 @@ function setupEventListeners() {
         UI.settings.checkShowNeutral,
         UI.settings.checkDebug,
         UI.settings.checkHistory,
-        UI.settings.checkHighlightChannels
+        UI.settings.checkHighlightChannels,
+        UI.settings.checkNotifications
     ];
     settingInputs.forEach(el => {
         if (el) el.addEventListener('change', saveSettings);
@@ -206,6 +208,7 @@ function updateResetButtonState() {
     const debug = UI.settings.checkDebug ? UI.settings.checkDebug.checked : false;
     const history = UI.settings.checkHistory ? UI.settings.checkHistory.checked : true;
     const highlightChannels = UI.settings.checkHighlightChannels ? UI.settings.checkHighlightChannels.checked : true;
+    const notifications = UI.settings.checkNotifications ? UI.settings.checkNotifications.checked : true;
     const triggerType = UI.settings.selectTriggerType ? UI.settings.selectTriggerType.value : 'instant';
     const triggerSeconds = UI.settings.inputSeconds ? (Number.parseInt(UI.settings.inputSeconds.value, 10) || CONFIG.DEFAULTS.triggerSeconds) : CONFIG.DEFAULTS.triggerSeconds;
     const triggerPercent = UI.settings.inputPercent ? (Number.parseInt(UI.settings.inputPercent.value, 10) || CONFIG.DEFAULTS.triggerPercent) : CONFIG.DEFAULTS.triggerPercent;
@@ -219,6 +222,7 @@ function updateResetButtonState() {
         debug === false &&
         history === true &&
         highlightChannels === true &&
+        notifications === true &&
         triggerType === 'instant' &&
         triggerSeconds === CONFIG.DEFAULTS.triggerSeconds &&
         triggerPercent === CONFIG.DEFAULTS.triggerPercent;
@@ -297,6 +301,7 @@ function mapStorageToSettings(res) {
         debug: res.enableDebug ?? false,
         history: res.enableHistory ?? true,
         highlightChannels: res.highlightChannels ?? true,
+        notifications: res.enableNotifications ?? CONFIG.DEFAULTS.enableNotifications ?? true,
         trigger: {
             type: res.triggerType || 'instant',
             seconds: res.triggerSeconds || 10,
@@ -315,6 +320,7 @@ function applySettingsToUI(s) {
     if (UI.settings.checkDebug) UI.settings.checkDebug.checked = s.debug;
     if (UI.settings.checkHistory) UI.settings.checkHistory.checked = s.history;
     if (UI.settings.checkHighlightChannels) UI.settings.checkHighlightChannels.checked = s.highlightChannels;
+    if (UI.settings.checkNotifications) UI.settings.checkNotifications.checked = s.notifications;
 
     if (UI.settings.selectTriggerType) {
         UI.settings.selectTriggerType.value = s.trigger.type;
@@ -353,6 +359,7 @@ function saveSettings() {
         enableDebug: UI.settings.checkDebug ? UI.settings.checkDebug.checked : false,
         enableHistory: UI.settings.checkHistory ? UI.settings.checkHistory.checked : true,
         highlightChannels: UI.settings.checkHighlightChannels ? UI.settings.checkHighlightChannels.checked : true,
+        enableNotifications: UI.settings.checkNotifications ? UI.settings.checkNotifications.checked : true,
         triggerType: triggerType,
         triggerSeconds: UI.settings.inputSeconds ? (Number.parseInt(UI.settings.inputSeconds.value, 10) || CONFIG.DEFAULTS.triggerSeconds) : CONFIG.DEFAULTS.triggerSeconds,
         triggerPercent: UI.settings.inputPercent ? (Number.parseInt(UI.settings.inputPercent.value, 10) || CONFIG.DEFAULTS.triggerPercent) : CONFIG.DEFAULTS.triggerPercent
@@ -712,6 +719,7 @@ async function handleResetSettings() {
         enableDebug: CONFIG.DEFAULTS.enableDebug ?? false,
         enableHistory: CONFIG.DEFAULTS.enableHistory ?? true,
         highlightChannels: CONFIG.DEFAULTS.highlightChannels ?? true,
+        enableNotifications: CONFIG.DEFAULTS.enableNotifications ?? true,
         triggerType: CONFIG.DEFAULTS.triggerType ?? 'instant',
         triggerSeconds: CONFIG.DEFAULTS.triggerSeconds ?? 10,
         triggerPercent: CONFIG.DEFAULTS.triggerPercent ?? 50,

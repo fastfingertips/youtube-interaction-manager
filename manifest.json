@@ -48,5 +48,19 @@
     "options_ui": {
         "page": "src/options/options.html",
         "open_in_tab": true
+    },
+    "commands": {
+        "toggle-whitelist": {
+            "suggested_key": {
+                "default": "Alt+W"
+            },
+            "description": "Add or remove current channel to/from Whitelist"
+        },
+        "toggle-blacklist": {
+            "suggested_key": {
+                "default": "Alt+B"
+            },
+            "description": "Add or remove current channel to/from Blacklist"
+        }
     }
 }
