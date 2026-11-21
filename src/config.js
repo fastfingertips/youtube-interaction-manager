@@ -25,7 +25,8 @@ const CONFIG = {
         enableDebug: false,
         enableExtension: true,
         enableHistory: true,
-        highlightChannels: true
+        highlightChannels: true,
+        enableNotifications: true
     },
 
     // ─────────────────────────────────────────
@@ -68,6 +69,10 @@ const CONFIG = {
     // YOUTUBE DOM SELECTORS
     // ─────────────────────────────────────────
     SELECTORS: {
+        adIndicator: [
+            '.ad-showing',
+            '.ad-interrupting'
+        ],
         channelName: [
             'ytd-watch-metadata yt-page-header-view-model h1 span', // Modern Video Page Header
             'ytd-watch-metadata #attributed-channel-name',        // Collaborative Videos
@@ -113,6 +118,7 @@ const CONFIG = {
         'triggerSeconds',
         'triggerPercent',
         'highlightChannels',
+        'enableNotifications',
         // Data (arrays)
         'whitelist',
         'blacklist',

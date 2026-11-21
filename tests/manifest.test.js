@@ -75,4 +75,12 @@ describe('manifest.json - MV3 Spec & Asset Existence', () => {
         const hostPermissions = manifest.host_permissions || [];
         assert.ok(hostPermissions.includes('https://*.youtube.com/*'));
     });
+
+    it('should define keyboard shortcuts (commands)', () => {
+        const commands = manifest.commands || {};
+        assert.ok(commands['toggle-whitelist'], 'Missing toggle-whitelist command');
+        assert.ok(commands['toggle-blacklist'], 'Missing toggle-blacklist command');
+        assert.equal(commands['toggle-whitelist'].suggested_key.default, 'Alt+W');
+        assert.equal(commands['toggle-blacklist'].suggested_key.default, 'Alt+B');
+    });
 });
